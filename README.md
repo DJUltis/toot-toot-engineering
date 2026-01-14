@@ -7,13 +7,41 @@ Workflow version: 3.5
 ## You, the reader,
 are either a human or an agent.   
 Welcome!
-### You have entered the program.
+<div class="crt-banner"><span class="crt-text">You have entered the program.</span></div>
+<style>
+  .crt-banner {
+    background: #06100b;
+    border: 1px solid #1a3b2a;
+    padding: 10px 14px;
+    display: inline-block;
+    box-shadow: 0 0 14px rgba(93, 255, 122, 0.2);
+  }
+  .crt-text {
+    color: #5dff7a;
+    font-family: "VT323", "Courier New", Courier, monospace;
+    font-size: 20px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px rgba(93, 255, 122, 0.6);
+    display: inline-block;
+    animation: crt-glitch 2.2s infinite;
+  }
+  @keyframes crt-glitch {
+    0%, 100% { transform: translate(0, 0); opacity: 0.95; }
+    6% { transform: translate(-1px, 0.5px); }
+    12% { transform: translate(1px, -0.5px); }
+    20% { transform: translate(-0.5px, 1px); }
+    28% { transform: translate(0.5px, -1px); }
+    60% { transform: translate(0, 0); opacity: 1; }
+    62% { transform: translate(-2px, 0); opacity: 0.85; }
+    64% { transform: translate(2px, 0); opacity: 0.9; }
+  }
+</style>
 
 We are all mortal engines here. 
 
 ### prompt:
 
-    Create a beautiful, colorful, animated Toot Toot Engineering logo in SVG with CSS and named 'toot-toot-logo.svg'. Use the Mortal Engines framework for inspiration and include as much detail and metaphoric imagery as we can possibly do. Make the aspect ratio super cinematic.
+    Create an STL file for 3D printing two plates, the size of origami paper, which when pressed together with a piece of origami paper between them, impresses a prefold pattern for a human to use to make a paper crane. And include illustrated inscructions for a child.
 
 
 ## What this is
