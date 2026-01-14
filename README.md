@@ -13,7 +13,8 @@ are either a human or an agent. Welcome! We are all mortal engines here. You hav
 
 
 ## What this is
-A structured, role-based workflow for turning creative prompts into finished deliverables, with clear step handoffs, logging, and cycle tracking.
+Like a factory that makes a factory to produce the desired product. There is production logging and monitoring and all the factory tools and assets as well as the final product in a local deliverables directory.
+Literally a structured, role-based workflow for turning creative prompts into finished deliverables, with clear step handoffs, logging, and cycle tracking.
 
 ## Main features
 - Critical-path plan in `PLAN.md` with step-by-step role handoff.
