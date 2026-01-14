@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 700" role="img" aria-labelledby="title desc">
+  <title id="title">Concept Factory: Imagination Forge</title>
+  <desc id="desc">An airy, luminous concept factory with orbiting ideas, constellation conveyors, and a glowing forge core.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8efe1"/>
+      <stop offset="45%" stop-color="#f2d7b5"/>
+      <stop offset="100%" stop-color="#e7b788"/>
+    </linearGradient>
+    <radialGradient id="forge" cx="50%" cy="45%" r="42%">
+      <stop offset="0%" stop-color="#fff7da"/>
+      <stop offset="45%" stop-color="#f3c96f"/>
+      <stop offset="100%" stop-color="#c67932"/>
+    </radialGradient>
+    <linearGradient id="aura" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#b7e5ff"/>
+      <stop offset="100%" stop-color="#d2b4ff"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fbff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#cfd9e8" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .grid line { stroke: #fff4e2; stroke-width: 1; opacity: 0.35; }
+    .orbital { fill: none; stroke: #fff6e8; stroke-width: 2; opacity: 0.7; }
+    .node { fill: #fff4db; stroke: #f2c56b; stroke-width: 2; }
+    .idea { fill: url(#aura); stroke: #7993d3; stroke-width: 2; opacity: 0.9; }
+    .forge-core { fill: url(#forge); }
+    .forge-ring { fill: none; stroke: #f0d2a0; stroke-width: 6; opacity: 0.8; }
+    .glass { fill: url(#glass); stroke: #dbe5f2; stroke-width: 2; }
+    .constellation { fill: #fff7e8; opacity: 0.85; }
+    .orbit-1 { transform-origin: 700px 350px; animation: orbit 18s linear infinite; }
+    .orbit-2 { transform-origin: 700px 350px; animation: orbitReverse 24s linear infinite; }
+    .orbit-3 { transform-origin: 700px 350px; animation: orbit 30s linear infinite; }
+
+    @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes orbitReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+  </style>
+
+  <rect width="1400" height="700" fill="url(#sky)"/>
+
+  <g class="grid">
+    <line x1="120" y1="120" x2="1280" y2="120"/>
+    <line x1="120" y1="220" x2="1280" y2="220"/>
+    <line x1="120" y1="320" x2="1280" y2="320"/>
+    <line x1="120" y1="420" x2="1280" y2="420"/>
+    <line x1="120" y1="520" x2="1280" y2="520"/>
+    <line x1="120" y1="620" x2="1280" y2="620"/>
+    <line x1="200" y1="80" x2="200" y2="660"/>
+    <line x1="400" y1="80" x2="400" y2="660"/>
+    <line x1="600" y1="80" x2="600" y2="660"/>
+    <line x1="800" y1="80" x2="800" y2="660"/>
+    <line x1="1000" y1="80" x2="1000" y2="660"/>
+    <line x1="1200" y1="80" x2="1200" y2="660"/>
+  </g>
+
+  <g opacity="0.7">
+    <circle cx="210" cy="170" r="4" class="constellation"/>
+    <circle cx="320" cy="90" r="3" class="constellation"/>
+    <circle cx="540" cy="140" r="5" class="constellation"/>
+    <circle cx="1180" cy="160" r="4" class="constellation"/>
+    <circle cx="1020" cy="250" r="3" class="constellation"/>
+    <circle cx="1240" cy="320" r="4" class="constellation"/>
+    <circle cx="260" cy="520" r="3" class="constellation"/>
+    <circle cx="460" cy="610" r="4" class="constellation"/>
+    <circle cx="1080" cy="560" r="5" class="constellation"/>
+  </g>
+
+  <g>
+    <ellipse cx="700" cy="350" rx="280" ry="160" class="orbital"/>
+    <ellipse cx="700" cy="350" rx="380" ry="220" class="orbital" opacity="0.5"/>
+    <ellipse cx="700" cy="350" rx="460" ry="280" class="orbital" opacity="0.3"/>
+  </g>
+
+  <g class="orbit-1">
+    <circle cx="980" cy="350" r="18" class="node"/>
+    <path d="M980 350 L1030 320 L1048 360 Z" class="idea"/>
+  </g>
+  <g class="orbit-2">
+    <circle cx="320" cy="350" r="16" class="node"/>
+    <rect x="280" y="330" width="70" height="36" rx="8" class="idea"/>
+  </g>
+  <g class="orbit-3">
+    <circle cx="700" cy="120" r="14" class="node"/>
+    <path d="M700 120 C730 90 760 120 700 150 C640 120 670 90 700 120 Z" class="idea"/>
+  </g>
+
+  <g>
+    <circle cx="700" cy="350" r="160" class="forge-core"/>
+    <circle cx="700" cy="350" r="210" class="forge-ring"/>
+    <circle cx="700" cy="350" r="260" class="forge-ring" opacity="0.4"/>
+  </g>
+
+  <g>
+    <rect x="520" y="240" width="120" height="80" rx="16" class="glass"/>
+    <rect x="760" y="240" width="120" height="80" rx="16" class="glass"/>
+    <rect x="520" y="430" width="120" height="80" rx="16" class="glass"/>
+    <rect x="760" y="430" width="120" height="80" rx="16" class="glass"/>
+  </g>
+
+  <g opacity="0.8">
+    <path d="M200 260 C300 220 420 250 520 210" stroke="#f9efe1" stroke-width="4" fill="none"/>
+    <path d="M880 210 C980 260 1120 230 1200 260" stroke="#f9efe1" stroke-width="4" fill="none"/>
+  </g>
+</svg>

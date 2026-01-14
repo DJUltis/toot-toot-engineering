@@ -1,3 +1,153 @@
 # LOG
 
 ## Entries
+- Step: 1 (cycle-01)
+- Role: Bootstrap
+- Summary: Drafted `deliverables/cycle-01/BOOTSTRAP.md` with objectives, team, and next-cycle prompt options.
+- Decisions: Proceed with the existing critical path; reuse current logo assets if they meet prompt requirements.
+- Open questions: None.
+- Next step: Storyteller
+- Step: 2 (cycle-01)
+- Role: Storyteller
+- Summary: Crafted narrative, visual metaphors, and motion guidance in `deliverables/cycle-01/STORYTELLER.md`.
+- Decisions: Emphasize warm cinematic mechanics and steady motion cues.
+- Open questions: None.
+- Next step: Orchestrator
+- Step: 3 (cycle-01)
+- Role: Orchestrator
+- Summary: Updated `PLAN.md` to reflect step progression and output paths for core deliverables.
+- Decisions: Core worker will deliver a solution writeup plus asset outputs under `deliverables/cycle-01/assets/`.
+- Open questions: None.
+- Next step: Core worker
+- Step: 4 (cycle-01)
+- Role: Core worker
+- Summary: Produced solution writeup and delivered SVG assets in `deliverables/cycle-01/assets/`.
+- Decisions: Ship a small companion SVG as the media-appropriate logo variant.
+- Open questions: None.
+- Next step: Reviewer
+- Step: 5 (cycle-01)
+- Role: Reviewer
+- Summary: Reviewed assets and documentation; no issues found.
+- Decisions: None.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 6 (cycle-01)
+- Role: Delivery packager
+- Summary: Assembled delivery notes and updated release tracking with delivered assets.
+- Decisions: Marked the small SVG as the preferred logo for small placements.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 7 (cycle-01)
+- Role: Retrospective
+- Summary: Updated bootstrap with retrospective recommendations, offered to reset the plan for the next cycle, and marked cycle status complete in `RELEASES.md`.
+- Decisions: Capture logo-bug packaging as a repeatable requirement for future cycles.
+- Open questions: None.
+- Next step: Human feedback
+- Step: 1 (cycle-02)
+- Role: Bootstrap
+- Summary: Defined the cycle-02 prompt and objectives in `deliverables/cycle-02/BOOTSTRAP.md`.
+- Decisions: Keep the standard role lineup; add image production only if extra motion assets are required.
+- Open questions: None.
+- Next step: Storyteller
+- Step: 2 (cycle-02)
+- Role: Storyteller
+- Summary: Authored intro narrative beats and caption timing in `deliverables/cycle-02/STORYTELLER.md`.
+- Decisions: Use three short captions aligned to motion beats and full logo reveal.
+- Open questions: None.
+- Next step: Orchestrator
+- Step: 3 (cycle-02)
+- Role: Orchestrator
+- Summary: Updated `PLAN.md` for cycle-02 step progression and core deliverable paths.
+- Decisions: Core worker will deliver an intro sequence spec and assets under `deliverables/cycle-02/assets/`.
+- Open questions: None.
+- Next step: Core worker
+- Step: 4 (cycle-02)
+- Role: Core worker
+- Summary: Delivered the intro sequence HTML and logo assets with caption timing in `deliverables/cycle-02/`.
+- Decisions: Use a simple HTML wrapper with staggered caption animations and an embedded logo bug.
+- Open questions: None.
+- Next step: Reviewer
+- Step: 5 (cycle-02)
+- Role: Reviewer
+- Summary: Reviewed the intro sequence package; no issues found.
+- Decisions: None.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 6 (cycle-02)
+- Role: Delivery packager
+- Summary: Assembled delivery notes and updated release tracking with the intro sequence assets.
+- Decisions: Include the small logo bug in the sequence and as a standalone asset.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 7 (cycle-02)
+- Role: Retrospective
+- Summary: Updated cycle-02 bootstrap with retrospective recommendations and marked cycle status complete in `RELEASES.md`.
+- Decisions: Keep captions short and add export path guidance for HTML-based deliverables.
+- Open questions: None.
+- Next step: Human feedback
+- Step: 1 (cycle-03)
+- Role: Bootstrap
+- Summary: Defined the cycle-03 prompt to reimagine the concept factory imagery in `deliverables/cycle-03/BOOTSTRAP.md`.
+- Decisions: Add the image producer role to support concept exploration if needed.
+- Open questions: None.
+- Next step: Storyteller
+- Step: 2 (cycle-03)
+- Role: Storyteller
+- Summary: Crafted the imagination-first narrative and visual metaphors in `deliverables/cycle-03/STORYTELLER.md`.
+- Decisions: Emphasize luminous, orbital, and alchemical motifs over heavy industrial cues.
+- Open questions: None.
+- Next step: Orchestrator
+- Step: 3 (cycle-03)
+- Role: Orchestrator
+- Summary: Updated `PLAN.md` to insert the image producer step and set cycle-03 output paths.
+- Decisions: Sequence imagery generation before the core solution writeup.
+- Open questions: None.
+- Next step: Image producer
+- Step: 4 (cycle-03)
+- Role: Image producer
+- Summary: Generated the concept factory imagery in `deliverables/cycle-03/assets/concept-factory-imagery.svg` and documented it in `deliverables/cycle-03/IMAGE_ASSETS.md`.
+- Decisions: Use luminous gradients, orbital motifs, and blueprint grids for a more imaginative tone.
+- Open questions: None.
+- Next step: Core worker
+- Step: 5 (cycle-03)
+- Role: Core worker
+- Summary: Authored the solution writeup and delivered the small logo bug in `deliverables/cycle-03/assets/toot-toot-logo-small.svg`.
+- Decisions: Use a simplified gear + wordmark bug derived from the main logo palette.
+- Open questions: None.
+- Next step: Reviewer
+- Step: 6 (cycle-03)
+- Role: Reviewer
+- Summary: Reviewed the reimagined concept factory package; no issues found.
+- Decisions: None.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 7 (cycle-03)
+- Role: Delivery packager
+- Summary: Packaged the cycle-03 assets and updated release tracking.
+- Decisions: Include imagery asset list explicitly in `RELEASES.md`.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 8 (cycle-03)
+- Role: Retrospective
+- Summary: Added retrospective notes to `deliverables/cycle-03/BOOTSTRAP.md` and marked cycle status complete in `RELEASES.md`.
+- Decisions: Capture palette/motif shifts and keep a minimal logo bug each cycle.
+- Open questions: None.
+- Next step: Human feedback
+- Step: 1 (cycle-04)
+- Role: Bootstrap
+- Summary: Defined the cycle-04 prompt for the concept factory process map in `deliverables/cycle-04/BOOTSTRAP.md`.
+- Decisions: Keep the image producer step for illustrated mapping assets.
+- Open questions: None.
+- Next step: Storyteller
+- Step: 2 (cycle-04)
+- Role: Storyteller
+- Summary: Authored the narrative beats and mapping metaphors in `deliverables/cycle-04/STORYTELLER.md`.
+- Decisions: Present the pipeline as a guided factory tour with clear stages.
+- Open questions: None.
+- Next step: Orchestrator
+- Step: 3 (cycle-04)
+- Role: Orchestrator
+- Summary: Updated `PLAN.md` to reflect the image producer step and deliverable paths.
+- Decisions: Sequence imagery assets before the solution writeup.
+- Open questions: None.
+- Next step: Image producer

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toot Toot Engineering Intro</title>
+    <style>
+      :root {
+        color-scheme: only light;
+      }
+
+      body {
+        margin: 0;
+        background: #f2b07a;
+        font-family: "Garamond", "Palatino Linotype", serif;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+      }
+
+      .stage {
+        width: min(960px, 92vw);
+        aspect-ratio: 2 / 1;
+        background: #1f2329;
+        border-radius: 28px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .caption {
+        position: absolute;
+        left: 6%;
+        bottom: 14%;
+        font-size: clamp(18px, 2.2vw, 28px);
+        letter-spacing: 0.04em;
+        color: #f7efe3;
+        opacity: 0;
+        animation: caption 5s infinite;
+      }
+
+      .caption:nth-child(2) {
+        animation-delay: 0.8s;
+      }
+
+      .caption:nth-child(3) {
+        animation-delay: 2s;
+      }
+
+      .caption:nth-child(4) {
+        animation-delay: 3.4s;
+      }
+
+      .logo-bug {
+        position: absolute;
+        right: 4%;
+        top: 6%;
+        width: 120px;
+        opacity: 0.9;
+      }
+
+      @keyframes caption {
+        0%,
+        10% {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        20%,
+        40% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        55%,
+        100% {
+          opacity: 0;
+          transform: translateY(-6px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .caption {
+          animation: none;
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="stage">
+      <img class="logo" src="toot-toot-logo.svg" alt="Toot Toot Engineering logo" />
+      <div class="caption">Ignition.</div>
+      <div class="caption">Craft in motion.</div>
+      <div class="caption">Toot Toot Engineering.</div>
+      <img class="logo-bug" src="toot-toot-logo-small.svg" alt="Toot Toot Engineering logo bug" />
+    </section>
+  </body>
+</html>
