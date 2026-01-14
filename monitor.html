@@ -263,6 +263,15 @@
         font-size: 12px;
       }
 
+      .markdown a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .markdown a:hover {
+        text-decoration: underline;
+      }
+
       .markdown pre {
         background: #1c1c24;
         border: 1px solid var(--panel-border);
@@ -391,7 +400,22 @@
       }
 
       function escapeInline(text) {
-        let output = escapeHtml(text);
+        const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+        const chunks = [];
+        let lastIndex = 0;
+        let match;
+
+        while ((match = linkRegex.exec(text))) {
+          const before = text.slice(lastIndex, match.index);
+          chunks.push(escapeHtml(before));
+          const label = escapeHtml(match[1]);
+          const href = escapeHtml(match[2]);
+          chunks.push(`<a href="${href}">${label}</a>`);
+          lastIndex = match.index + match[0].length;
+        }
+
+        chunks.push(escapeHtml(text.slice(lastIndex)));
+        let output = chunks.join("");
         output = output.replace(/`([^`]+)`/g, "<code>$1</code>");
         output = output.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
         output = output.replace(/\*([^*]+)\*/g, "<em>$1</em>");

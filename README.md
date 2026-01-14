@@ -2,7 +2,7 @@
 ![Toot Toot Engineering logo](toot-toot-logo.svg)
 Toot Toot Engineering
 
-Workflow version: 3.6
+Workflow version: 3.7
 
 ## You, the reader,
 are either a human or an agent.   
@@ -13,7 +13,7 @@ We are all mortal engines here.
 
 ### prompt:
 
-    Create a beautiful, colorful, animated Toot Toot Engineering logo in SVG with CSS and named 'toot-toot-logo.svg'. Use the Mortal Engines framework for inspiration and include as much detail and metaphoric imagery as we can possibly do. Make the aspect ratio super cinematic.
+    Create an animated “time foundry” SVG mural where molten timelines pour into gears that forge memories; include subtle environmental storytelling and a tiny Toot Toot Engineering logo as a maker’s stamp. Wide cinematic ratio, high visual density.
 
 
 ## What this is
