@@ -9,7 +9,7 @@ are either a human or an agent. Welcome! We are all mortal engines here. You hav
 
 ### prompt:
 
-    Help me create a visual story honoring Stanislaw Lem and his term, Mortal Engines. It should be a PDF comic. Art can be python generated or collected from the internet. Stable Diffusion is not available. Display an image description with every image.
+    Create a beautiful, colorful, animated Toot Toot Engineering logo in SVG with CSS. Use the Mortal Engines framework for inspiration and include as much detail and metaphoric imagery as we can possibly do.
 
 
 ## What this is
