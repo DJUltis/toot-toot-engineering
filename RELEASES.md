@@ -39,3 +39,23 @@ How to update:
   - `deliverables/cycle-XX/output/` (print-ready PDF, if any)
   - `deliverables/cycle-XX/REVIEW.md`
   - `deliverables/cycle-XX/DELIVERY.md`
+
+
+## Cycle 02
+- Status: in progress
+- Prompt source: `deliverables/cycle-02/BOOTSTRAP.md`
+- Deliverables root: `deliverables/cycle-02/`
+- Deliverables:
+  - `deliverables/cycle-02/BOOTSTRAP.md`
+  - `deliverables/cycle-02/STORYTELLER.md`
+  - `deliverables/cycle-02/PLATES_TOP.stl`
+  - `deliverables/cycle-02/PLATES_BOTTOM.stl`
+  - `deliverables/cycle-02/INSTRUCTIONS.md`
+  - `deliverables/cycle-02/INSTRUCTIONS.pdf`
+  - `deliverables/cycle-02/ASSET_NOTES.md`
+  - `deliverables/cycle-02/IMAGE_ASSETS.md`
+  - `deliverables/cycle-02/assets/`
+  - `deliverables/cycle-02/PRINT_PDF.md`
+  - `deliverables/cycle-02/output/INSTRUCTIONS.pdf`
+  - `deliverables/cycle-02/REVIEW.md`
+  - `deliverables/cycle-02/DELIVERY.md`

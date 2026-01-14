@@ -64,3 +64,73 @@
 - Decisions: Proposed parametric CAD, groove plate, and expanded PDF for next cycle.
 - Open questions: Which next-cycle prompt should we pursue.
 - Next step: Human feedback
+
+- Step: 1
+- Role: Bootstrap
+- Summary: Started cycle-02 with a tulip variant prompt and defined objectives, risks, and deliverables.
+- Decisions: Selected tulip model for simpler folds; proposed two-page instructions.
+- Open questions: Confirm preferred tulip crease map and alignment method.
+- Next step: Storyteller
+
+- Step: 2
+- Role: Storyteller
+- Summary: Defined tulip-focused narrative tone and illustration guidance for kid-friendly instructions.
+- Decisions: Introduced "Tula" mascot and garden-map metaphor.
+- Open questions: Confirm preferred illustration style and panel count.
+- Next step: Orchestrator
+
+- Step: 3
+- Role: Orchestrator
+- Summary: Confirmed cycle-02 plan structure and advanced to core work.
+- Decisions: Kept the image and PDF steps in the critical path.
+- Open questions: None.
+- Next step: Core worker
+
+- Step: 4
+- Role: Core worker
+- Summary: Generated tulip STL plates and drafted instructions and asset notes.
+- Decisions: Added simple petal guide lines to the crease map.
+- Open questions: Confirm whether to add a groove plate or alignment frame.
+- Next step: Image producer
+
+- Step: 5
+- Role: Image producer
+- Summary: Created six tulip instruction SVGs with step titles and fold indicators.
+- Decisions: Kept line art simple for clarity and easy printing.
+- Open questions: Confirm if a mascot or color accents should be added.
+- Next step: PDF assembler
+
+- Step: 6
+- Role: PDF assembler
+- Summary: Built a two-page tulip instruction PDF with larger panels.
+- Decisions: Expanded to two pages for readability.
+- Open questions: None.
+- Next step: Reviewer
+
+- Step: 7
+- Role: Reviewer
+- Summary: Reviewed tulip STL and instruction outputs; noted optional improvements.
+- Decisions: Marked review as pass with notes.
+- Open questions: Whether to add grooves or more detailed creases before delivery.
+- Next step: Delivery packager
+
+- Step: 8
+- Role: Delivery packager
+- Summary: Assembled delivery notes and updated releases with cycle-02 outputs.
+- Decisions: Added a new cycle-02 section in releases.
+- Open questions: None.
+- Next step: Retrospective
+
+- Step: 9
+- Role: Retrospective
+- Summary: Added post-cycle recommendations and marked cycle-02 complete.
+- Decisions: Proposed parametric CAD, groove plate, and mascot enhancements.
+- Open questions: Which next-cycle prompt should we pursue.
+- Next step: Human feedback
+
+- Step: 1
+- Role: Bootstrap
+- Summary: Started cycle-03 to design a snap-fit frame and storage case for tulip plates.
+- Decisions: Added fit test strip and optional label plate to plan adjustments.
+- Open questions: Confirm desired case capacity and label text.
+- Next step: Storyteller

@@ -1,18 +1,20 @@
 # PLAN
 
 ## Current cycle
-- cycle-01
+- cycle-03
 
 ## Current step
-- [x] Step 9 (cycle-01): Retrospective recommends role/plan changes to prevent issues or improve outcomes; Bootstrap offers to implement the recommendations and reset the plan with a new prompt that builds on the latest deliveries (cycle-01).
+- [ ] Step 2 (cycle-03): Storyteller refines the central story or creative thread and elevates narrative excellence. (`deliverables/cycle-03/STORYTELLER.md`)
 
 ## Inputs for this cycle
-- `README.md` (cycle-01 prompt source)
+- `deliverables/cycle-03/BOOTSTRAP.md`
+- `README.md`
 - `WHAT.md`
 - `AGENTS.md`
 - `CHECKLIST.md`
 - `RELEASES.md`
 - `MORTAL-ENGINES-FRAMEWORK-RELEASES.md`
+
 
 ## Critical path
 - [x] 1. Bootstrap interprets the prompt, proposes team composition, and recommends plan adjustments. (`deliverables/cycle-01/BOOTSTRAP.md`)
