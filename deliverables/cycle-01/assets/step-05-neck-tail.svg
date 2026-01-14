@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+<rect x="80" y="80" width="440" height="440" fill="none" stroke="#222" stroke-width="4"/>
+<text x="300" y="50" font-family="Courier New" font-size="28" text-anchor="middle">Step 5: Pull up neck and tail</text>
+<polygon points="300,140 420,300 300,460 180,300" fill="none" stroke="#999" stroke-width="3" stroke-dasharray="8 6"/>
+<line x1="300" y1="140" x2="300" y2="60" stroke="#d20000" stroke-width="6"/>
+<line x1="300" y1="460" x2="300" y2="540" stroke="#d20000" stroke-width="6"/>
+</svg>

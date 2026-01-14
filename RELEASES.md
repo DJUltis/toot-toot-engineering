@@ -13,10 +13,15 @@ How to update:
 - Deliverables:
   - `deliverables/cycle-01/BOOTSTRAP.md`
   - `deliverables/cycle-01/STORYTELLER.md`
-  - `deliverables/cycle-01/SOLUTION.md` (or primary artifact)
-  - `deliverables/cycle-01/assets/` (if any)
-  - `deliverables/cycle-01/PRINT_PDF.md` (if any)
-  - `deliverables/cycle-01/output/` (print-ready PDF, if any)
+  - `deliverables/cycle-01/PLATES_TOP.stl`
+  - `deliverables/cycle-01/PLATES_BOTTOM.stl`
+  - `deliverables/cycle-01/INSTRUCTIONS.md`
+  - `deliverables/cycle-01/INSTRUCTIONS.pdf`
+  - `deliverables/cycle-01/ASSET_NOTES.md`
+  - `deliverables/cycle-01/IMAGE_ASSETS.md`
+  - `deliverables/cycle-01/assets/`
+  - `deliverables/cycle-01/PRINT_PDF.md`
+  - `deliverables/cycle-01/output/INSTRUCTIONS.pdf`
   - `deliverables/cycle-01/REVIEW.md`
   - `deliverables/cycle-01/DELIVERY.md`
 
