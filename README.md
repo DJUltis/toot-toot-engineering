@@ -7,6 +7,8 @@ Workflow version: 3.5
 ## You, the reader,
 are either a human or an agent.   
 Welcome!
+
+
 <div class="crt-banner"><span class="crt-text">You have entered the program.</span></div>
 <style>
   .crt-banner {
@@ -36,6 +38,7 @@ Welcome!
     64% { transform: translate(2px, 0); opacity: 0.9; }
   }
 </style>
+
 
 We are all mortal engines here. 
 
