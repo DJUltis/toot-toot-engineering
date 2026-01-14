@@ -2,6 +2,7 @@
 
 ## Step completion
 - Required role assets are created/updated with no placeholders.
+- When the Storyteller role is in the plan, `deliverables/cycle-XX/STORYTELLER.md` exists and reflects narrative refinements.
 - Deliverable outputs are in `deliverables/cycle-XX/` and the cycle number matches the current plan.
 - Promote any reusable artifacts into `library/` or `standards/` and ensure cycle-only files stay in `deliverables/cycle-XX/`.
 - `PLAN.md` marks the current step complete and sets the next step.

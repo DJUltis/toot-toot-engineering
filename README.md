@@ -66,12 +66,13 @@ This is a fork-able app. It is shared and propagated by forking. To create a var
 ## How it works
 1. Provide a prompt (cycle 01 uses the prompt in this README; later cycles define the prompt in their `BOOTSTRAP.md`).
 2. The bootstrap role creates `deliverables/cycle-XX/BOOTSTRAP.md` with team, objectives, recommended plan adjustments, and 3 suggested next-cycle prompts grounded in the latest deliveries (human chooses one).
-3. The orchestrator creates (or modifies) [`PLAN.md`](PLAN.md), [`AGENTS.md`](AGENTS.md), and [`LOG.md`](LOG.md), and optimizes the plan.
-4. The core worker produces the primary solution assets.
-5. The reviewer checks for correctness and gaps, producing `deliverables/cycle-XX/REVIEW.md`.
-6. The delivery packager assembles final assets and export notes in `deliverables/cycle-XX/DELIVERY.md`.
-7. The retrospective suggests role/plan changes to prevent issues or improve outcomes, and updates `deliverables/cycle-XX/BOOTSTRAP.md`.
-8. The human co-producer approves guardrail pop-ups and commits changes, if desired after each step. Agents proceed automatically between steps unless feedback is required, and request feedback after the final step.
+3. The storyteller refines and elevates the central story or creative thread, producing `deliverables/cycle-XX/STORYTELLER.md`.
+4. The orchestrator creates (or modifies) [`PLAN.md`](PLAN.md), [`AGENTS.md`](AGENTS.md), and [`LOG.md`](LOG.md), and optimizes the plan.
+5. The core worker produces the primary solution assets.
+6. The reviewer checks for correctness and gaps, producing `deliverables/cycle-XX/REVIEW.md`.
+7. The delivery packager assembles final assets and export notes in `deliverables/cycle-XX/DELIVERY.md`.
+8. The retrospective suggests role/plan changes to prevent issues or improve outcomes, and updates `deliverables/cycle-XX/BOOTSTRAP.md`.
+9. The human co-producer approves guardrail pop-ups and commits changes, if desired after each step. Agents proceed automatically between steps unless feedback is required, and request feedback after the final step.
 
 ## Execution rule
 Planning cycles are capped at 1. Once a production pipeline exists (e.g., image generation + PDF assembly), the next cycle must execute it unless a blocking issue is logged.

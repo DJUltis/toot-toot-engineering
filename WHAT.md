@@ -4,6 +4,8 @@ This solves getting from point A to point B while making something EXCELLENT fro
 
 It is the job of the Bootstrapper to estimate the complexity and all the roles needed to complete the job with excellence.
 
+When a story, artistic, or creative thread exists, the Storyteller refines and elevates it early to ensure narrative excellence and highlight where the magic happens.
+
 The central plan file (`PLAN.md`) documents the critical path in markdown form and serves as a table of contents for assets generated at each step. Steps are sized to be what a single AI agent, acting in a single role, can complete with EXCELLENCE!
 
 The current step is tracked in `PLAN.md`. When the current agent completes a step, they update `PLAN.md` to start the next step. The plan file is an easy to read table of contents of all the major parts from the beginning to the end result.
