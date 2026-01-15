@@ -7,7 +7,7 @@ How to update:
 - Mark status as in progress or complete, and keep the deliverables list accurate.
 
 ## Cycle 01
-- Status: in progress
+- Status: complete
 - Prompt source: `README.md`
 - Deliverables root: `deliverables/cycle-01/`
 - Primary artifacts: none yet.
