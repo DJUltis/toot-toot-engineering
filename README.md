@@ -1,5 +1,5 @@
 ﻿# Mortal Engines
-![Toot Toot Engineering logo](toot-toot-logo.svg)
+![Toot Toot Engineering](time-foundry.svg)
 Toot Toot Engineering
 
 Workflow version: 3.8
@@ -17,7 +17,7 @@ We are all mortal engines here.
 
 
 ## What this is
-Like a factory that makes a factory to produce the desired product. We have an excellent team of agents performing the work with logging and monitoring. The factory tools and shared assets live in this repo, and final products land in the local `deliverables/` directories.
+Like a factory that makes a factory to produce the desired product. We have an excellent team of agents performing the work with logging and ['monitoring'](README.md#human-monitor). The factory tools and shared assets live in this repo, and final products land in the local `deliverables/` directories.
 This is a roles-based process engine for turning creative prompts into finished deliverables, with clear step handoffs and end-of-cycle self-learning through a reflective retrospective to improve the team and the process with every iteration.
 
 ## Main features
@@ -97,6 +97,7 @@ Planning cycles are capped at 1. Once a production pipeline exists (e.g., image 
 6. Append the entry in [`LOG.md`](LOG.md) (create it if missing, using the template in [`AGENTS.md`](AGENTS.md)) and hand off for commit.
 
 ## Human Monitor
+(for humans only)
 1. Run `./serve-monitor.sh` in your terminal
 2. open [`http://localhost:8000/monitor.html`](http://localhost:8000/monitor.html) to watch `PLAN.md` and `LOG.md` live.
 
