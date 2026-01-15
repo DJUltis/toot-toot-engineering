@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bonsai Banner 16x9</title>
+  <link rel="stylesheet" href="banner.css" />
+</head>
+<body>
+  <div class="banner banner-16x9">
+    <canvas id="banner" aria-label="Bonsai banner animation"></canvas>
+    <img class="logo-bug" src="assets/toot-toot-logo.png" alt="Toot Toot Engineering logo" />
+  </div>
+  <script>
+    window.BANNER_CONFIG = {turnSeconds: 14, tilt: -0.35, camDist: 220, zOffset: 30, sample: 5};
+  </script>
+  <script src="banner-data.js"></script>
+  <script src="banner.js"></script>
+</body>
+</html>

@@ -73,3 +73,27 @@
 - Decisions: Set HTML/CSS/JS deliverables plus ANIMATION.md for notes.
 - Open questions: None.
 - Next step: Core worker
+- Step: 5 (cycle-02)
+- Role: Core worker
+- Summary: Built HTML/CSS/JS banner animation, embedded STL data, generated hero stills, and documented usage.
+- Decisions: Used a lightweight canvas renderer with triangle sampling to keep playback smooth.
+- Open questions: None.
+- Next step: Reviewer
+- Step: 6 (cycle-02)
+- Role: Reviewer
+- Summary: Reviewed banner assets and confirmed runtime animation output with no blockers.
+- Decisions: Flagged missing MP4/GIF as a tooling gap; suggested capture workflow.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 7 (cycle-02)
+- Role: Delivery packager
+- Summary: Packaged banner assets, documented outputs, and updated releases.
+- Decisions: Included the logo as a companion asset.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 8 (cycle-02)
+- Role: Retrospective
+- Summary: Added retrospective notes to BOOTSTRAP and marked cycle-02 complete.
+- Decisions: Recommended adding a capture/export step and optional decimation for future cycles.
+- Open questions: Awaiting human selection of the next-cycle prompt.
+- Next step: Human feedback

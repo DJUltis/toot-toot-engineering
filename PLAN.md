@@ -4,7 +4,7 @@
 - cycle-02
 
 ## Current step
-- [ ] Step 5 (cycle-02): Core worker produces primary solution assets (cycle-02). (`deliverables/cycle-02/banner-16x9.html`, `deliverables/cycle-02/banner-3x1.html`, `deliverables/cycle-02/banner.css`, `deliverables/cycle-02/banner.js`, `deliverables/cycle-02/banner-data.js`, `deliverables/cycle-02/ANIMATION.md`)
+- [x] Step 8 (cycle-02): Retrospective recommends role/plan changes to prevent issues or improve outcomes; Bootstrap offers to implement the recommendations and reset the plan with a new prompt that builds on the latest deliveries (cycle-02). (`deliverables/cycle-02/BOOTSTRAP.md`)
 
 ## Inputs for this cycle
 - `deliverables/cycle-02/BOOTSTRAP.md` (cycle-02 prompt source)

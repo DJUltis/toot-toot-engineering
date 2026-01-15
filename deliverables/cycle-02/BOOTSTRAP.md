@@ -31,3 +31,10 @@ We need a cinematic, rotating banner animation based on the existing bonsai STL.
 1) Produce a print-style poster layout that pairs the bonsai render with a short creative caption and logo badge.
 2) Build a small interactive web viewer that lets users rotate and zoom the bonsai STL with lighting presets.
 3) Generate a monochrome, laser-engraving-ready 2D relief derived from the bonsai silhouette.
+
+
+## Retrospective update (post-delivery)
+- Add a dedicated capture/export step if MP4/GIF outputs are required in future cycles.
+- Consider a lightweight triangle decimation pass for smoother playback on low-end machines.
+- Provide a PNG conversion helper for the PPM stills to reduce friction.
+- I can implement these plan updates and reset the plan once you choose one of the next-cycle prompts.
