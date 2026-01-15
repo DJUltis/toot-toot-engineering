@@ -1,14 +1,16 @@
 # PLAN
 
 ## Current cycle
-- cycle-02
+- cycle-03
 
 ## Current step
-- [x] Step 8 (cycle-02): Retrospective recommends role/plan changes to prevent issues or improve outcomes; Bootstrap offers to implement the recommendations and reset the plan with a new prompt that builds on the latest deliveries (cycle-02). (`deliverables/cycle-02/BOOTSTRAP.md`)
+- [x] Step 8 (cycle-03): Retrospective recommends role/plan changes to prevent issues or improve outcomes; Bootstrap offers to implement the recommendations and reset the plan with a new prompt that builds on the latest deliveries (cycle-03). (`deliverables/cycle-03/BOOTSTRAP.md`)
 
 ## Inputs for this cycle
-- `deliverables/cycle-02/BOOTSTRAP.md` (cycle-02 prompt source)
+- `deliverables/cycle-03/BOOTSTRAP.md` (cycle-03 prompt source)
 - `deliverables/cycle-01/bonsai-marioland.stl`
+- `deliverables/cycle-01/SOLUTION.md`
+- `deliverables/cycle-01/REVIEW.md`
 - `WHAT.md`
 - `AGENTS.md`
 - `CHECKLIST.md`
@@ -32,3 +34,14 @@
 - `RELEASES.md`
 - `MORTAL-ENGINES-FRAMEWORK-RELEASES.md`
 - `deliverables/cycle-XX/`
+
+
+## Critical path (cycle-03)
+- [x] 1. Bootstrap interprets the prompt, proposes team composition, and recommends plan adjustments. (`deliverables/cycle-03/BOOTSTRAP.md`)
+- [x] 2. Storyteller refines the central story or creative thread and elevates narrative excellence. (`deliverables/cycle-03/STORYTELLER.md`)
+- [x] 3. (Optional) SVG engineer documents SVG constraints and coordinates with Storyteller when the prompt centers on SVG output. (`deliverables/cycle-03/SVG_ENGINEER.md`)
+- [x] 4. Orchestrator bootstraps the repo and sets the plan (cycle-03).
+- [x] 5. Core worker produces primary solution assets (cycle-03). (`deliverables/cycle-03/bonsai-marioland.stl`, `deliverables/cycle-03/SOLUTION.md`, `deliverables/cycle-03/QA_REPORT.md`, `deliverables/cycle-03/qa-check.py`)
+- [x] 6. Reviewer checks for correctness and gaps (cycle-03). (`deliverables/cycle-03/REVIEW.md`)
+- [x] 7. Delivery packager assembles final assets and export notes (cycle-03). (`deliverables/cycle-03/DELIVERY.md`)
+- [x] 8. Retrospective recommends role/plan changes to prevent issues or improve outcomes; Bootstrap offers to implement the recommendations and reset the plan with a new prompt that builds on the latest deliveries (cycle-03). (`deliverables/cycle-03/BOOTSTRAP.md`)

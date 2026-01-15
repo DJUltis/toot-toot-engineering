@@ -57,3 +57,18 @@ How to update:
   - `deliverables/cycle-02/DELIVERY.md`
   - `deliverables/cycle-02/assets/toot-toot-logo.png`
   - Small Toot Toot Engineering logo included in final deliverables (companion asset).
+
+## Cycle 03
+- Status: complete
+- Prompt source: `deliverables/cycle-03/BOOTSTRAP.md`
+- Deliverables root: `deliverables/cycle-03/`
+- Primary artifacts:
+  - `deliverables/cycle-03/bonsai-marioland.stl`
+  - `deliverables/cycle-03/QA_REPORT.md`
+- Other deliverables:
+  - `deliverables/cycle-03/SOLUTION.md`
+  - `deliverables/cycle-03/qa-check.py`
+  - `deliverables/cycle-03/REVIEW.md`
+  - `deliverables/cycle-03/DELIVERY.md`
+  - `deliverables/cycle-03/assets/toot-toot-logo.png`
+  - Small Toot Toot Engineering logo included in final deliverables (companion asset).
