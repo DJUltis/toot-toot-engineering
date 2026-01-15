@@ -6,8 +6,8 @@ Welcome! This guide is for first-time humans who want to run a Mortal Engines cy
 1. Read `README.md` to understand the current prompt.
 2. Open `PLAN.md` to see the current step.
 3. Say "go" to start the run.
-- (Optional) see ['Human Monitor'](/README.md#human-monitor)to livestream the progress
-4. Wait while the agent completes steps automatically and say "go" or a more detailed response when completed steps need a prompt to progress.
+- (Optional) see ['Human Monitor'](README.md#human-monitor) to livestream the progress
+4. Wait while the agent completes steps automatically; respond only after the final step or if a blocking issue is raised.
 5. Give feedback at the end of the plan before starting the next cycle.
 
 ## First run (exact phrases)
@@ -21,6 +21,7 @@ Welcome! This guide is for first-time humans who want to run a Mortal Engines cy
 - Updates `PLAN.md` and `LOG.md` every step.
 - Produces `deliverables/cycle-XX/STORYTELLER.md` when the Storyteller role is in the plan.
 - Provides 3 suggested next-cycle prompts grounded in the latest deliveries and asks the human to choose one.
+- If the prompt centers on SVG output, produces `deliverables/cycle-XX/SVG_ENGINEER.md` with SVG constraints and guidance.
 
 ## When to stop planning
 - If the plan includes image generation or PDF assembly, the next cycle must execute those steps.

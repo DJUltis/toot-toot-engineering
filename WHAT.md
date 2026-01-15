@@ -2,7 +2,7 @@
 
 This solves getting from point A to point B while making something EXCELLENT from a prompt. Mortal Engines takes us from A, the prompt, to B, a complete solution.
 
-It is the job of the Bootstrapper to estimate the complexity and all the roles needed to complete the job with excellence.
+It is the job of the Bootstrap to estimate the complexity and all the roles needed to complete the job with excellence.
 
 When a story, artistic, or creative thread exists, the Storyteller refines and elevates it early to ensure narrative excellence and highlight where the magic happens.
 

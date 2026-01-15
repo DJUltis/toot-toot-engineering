@@ -13,7 +13,7 @@ We are all mortal engines here.
 
 ### prompt:
 
-    Create an animated “time foundry” SVG mural where molten timelines pour into gears that forge memories; include subtle environmental storytelling and a tiny Toot Toot logo as a maker’s stamp. Wide cinematic ratio, high visual density. Floating in the foreground center stage reads, "Toot Toot Engineering".
+    Create an animated “time foundry” SVG mural where molten timelines pour into gears that forge memories; include subtle environmental storytelling. Wide cinematic ratio, high visual density. Floating in the foreground center stage reads, "Toot Toot Engineering".
 
 
 ## What this is
@@ -24,7 +24,7 @@ This is a roles-based process engine for turning creative prompts into finished 
 - Critical-path plan in `PLAN.md` with step-by-step role handoff.
 - Cycle-based deliverables under `deliverables/cycle-XX/`.
 - Required logging in `LOG.md` for every step.
-- (Optional) see ['Human Monitor'](/README.md#human-monitor) to livestream the progress
+- (Optional) see ['Human Monitor'](README.md#human-monitor) to livestream the progress
 - Built-in review and delivery packaging steps.
 - Human feedback captured after the final step.
 - Cycle releases in `RELEASES.md`.
@@ -45,7 +45,7 @@ At a simple level, the framing is just about getting from point A to point B: fr
 
 Assets are generated in a single git repo (like this one!) in an iterative process following the critical path in [`PLAN.md`](PLAN.md). Iterations consist of a single step performed by a single agent in a single role. Deliverable outputs are stored under `deliverables/cycle-XX/`.
 
-The default starting agent role is the bootstrap. They interpret the prompt and propose team composition, objectives, and plan adjustments. The orchestrator then builds the initial plan, [`PLAN.md`](PLAN.md), [`AGENTS.md`](AGENTS.md), role definitions, rules, and logging assets, and can optimize the critical path. Upon completion of that, they update the plan file to show the first step as complete and move the placeholder to start with the next agent role, for the next step. The plan file serves as an easy to read table of contents of what is to come and what has been done so far.
+The default starting agent role is the Bootstrap. They interpret the prompt and propose team composition, objectives, and plan adjustments. The orchestrator then builds the initial plan, [`PLAN.md`](PLAN.md), [`AGENTS.md`](AGENTS.md), role definitions, rules, and logging assets, and can optimize the critical path. Upon completion of that, they update the plan file to show the first step as complete and move the placeholder to start with the next agent role, for the next step. The plan file serves as an easy to read table of contents of what is to come and what has been done so far.
 
 ```
 The user, that's you human, repo forker, can say "go", "proceed", "next", "I believe in you" or any similar AFFIRMATIVE to start the cycle. Agents proceed automatically between steps; human feedback is requested only after the final step or if a blocking issue occurs. If you ask for a mid-cycle pause or review, agents should comply.
@@ -72,12 +72,13 @@ This is a fork-able app. It is shared and propagated by forking. To create a var
 1. Provide a prompt (cycle 01 uses the prompt in this README; later cycles define the prompt in their `BOOTSTRAP.md`).
 2. The bootstrap role creates `deliverables/cycle-XX/BOOTSTRAP.md` with team, objectives, recommended plan adjustments, and 3 suggested next-cycle prompts grounded in the latest deliveries (human chooses one).
 3. The storyteller refines and elevates the central story or creative thread, producing `deliverables/cycle-XX/STORYTELLER.md`.
-4. The orchestrator creates (or modifies) [`PLAN.md`](PLAN.md), [`AGENTS.md`](AGENTS.md), and [`LOG.md`](LOG.md), and optimizes the plan.
-5. The core worker produces the primary solution assets.
-6. The reviewer checks for correctness and gaps, producing `deliverables/cycle-XX/REVIEW.md`.
-7. The delivery packager assembles final assets and export notes in `deliverables/cycle-XX/DELIVERY.md`.
-8. The retrospective suggests role/plan changes to prevent issues or improve outcomes, and updates `deliverables/cycle-XX/BOOTSTRAP.md`.
-9. The human co-producer approves guardrail pop-ups only when required and commits changes, if desired, after the final step. Agents proceed automatically between steps unless a blocking issue requires feedback.
+4. If the prompt centers on SVG output, the SVG engineer documents SVG-specific strengths/constraints and coordinates with the Storyteller (`deliverables/cycle-XX/SVG_ENGINEER.md`).
+5. The orchestrator creates (or modifies) [`PLAN.md`](PLAN.md), [`AGENTS.md`](AGENTS.md), and [`LOG.md`](LOG.md), and optimizes the plan.
+6. The core worker produces the primary solution assets.
+7. The reviewer checks for correctness and gaps, producing `deliverables/cycle-XX/REVIEW.md`.
+8. The delivery packager assembles final assets and export notes in `deliverables/cycle-XX/DELIVERY.md`.
+9. The retrospective suggests role/plan changes to prevent issues or improve outcomes, and updates `deliverables/cycle-XX/BOOTSTRAP.md`.
+10. The human co-producer approves guardrail pop-ups only when required and commits changes, if desired, after the final step. Agents proceed automatically between steps unless a blocking issue requires feedback.
 
 ## Execution rule
 Planning cycles are capped at 1. Once a production pipeline exists (e.g., image generation + PDF assembly), the next cycle must execute it unless a blocking issue is logged.
