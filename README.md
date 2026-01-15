@@ -13,7 +13,7 @@ We are all mortal engines here.
 
 ### prompt:
 
-    Create an animated “time foundry” SVG mural where molten timelines pour into gears that forge memories; include dramatic environmental storytelling, multiple layers of depth and movement and glows and flows. Wide cinematic ratio, high visual density. Floating in the foreground center stage, dark and large reads, "Toot Toot Engineering".
+    Create an STL file suitable for 3D printing which depicts a lovely bonsai tree, grown in 3 dimensions, in the style of Marioland with surface texturing.
 
 
 ## What this is
