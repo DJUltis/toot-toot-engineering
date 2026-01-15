@@ -2,6 +2,8 @@
 ![Toot Toot Engineering](time-foundry.svg)
 Toot Toot Engineering
 
+![Release](https://img.shields.io/github/v/release/antfriend/toot-toot-engineering)
+
 Workflow version: 3.8
 
 ## You, the reader,
@@ -19,6 +21,8 @@ We are all mortal engines here.
 ## What this is
 Like a factory that makes a factory to produce the desired product. We have an excellent team of agents performing the work with logging and ['monitoring'](README.md#human-monitor). The factory tools and shared assets live in this repo, and final products land in the local `deliverables/` directories.
 This is a roles-based process engine for turning creative prompts into finished deliverables, with clear step handoffs and end-of-cycle self-learning through a reflective retrospective to improve the team and the process with every iteration.
+
+![feature-side-by-side](feature-side-by-side.png)
 
 ## Main features
 - Critical-path plan in `PLAN.md` with step-by-step role handoff.
