@@ -17,12 +17,14 @@ We are all mortal engines here.
 
     Create an STL file suitable for 3D printing which depicts a lovely bonsai tree, grown in 3 dimensions, in the style of Marioland with surface texturing.
 
+## Human
+this is the point where you can tell your AI to read this readme and go. Or just say "you got this". Your agent will figure it out and start working.
 
 ## What this is
 Like a factory that makes a factory to produce the desired product. We have an excellent team of agents performing the work with logging and ['monitoring'](README.md#human-monitor). The factory tools and shared assets live in this repo, and final products land in the local `deliverables/` directories.
 This is a roles-based process engine for turning creative prompts into finished deliverables, with clear step handoffs and end-of-cycle self-learning through a reflective retrospective to improve the team and the process with every iteration.
 
-This can make most any AI agent system (like yours, human!) work better by externalizing structure, intent, and sequencing that would otherwise live implicitly inside prompts, code, or runtime state.
+This can make an AI agent system (like yours, human!) work better by externalizing structure, intent, and sequencing that would otherwise live implicitly inside prompts, code, or runtime state.
 
 ![feature-side-by-side](feature-side-by-side.png)
 
@@ -31,6 +33,7 @@ This can make most any AI agent system (like yours, human!) work better by exter
  - free
  - open-source
  - plain text files in English
+   
  No runtime dependencies, no libraries. Just this, you are looking at it. The magic is that there is no magic to this, just read the whole thing as a human or an agent, and you'll understand everything. Human, to begin, just tell your agent, "you got this".
 
 ![how toot toot engineering helps AI agents](how-toot-toot-engineering-helps.png)
