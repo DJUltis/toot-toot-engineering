@@ -26,6 +26,13 @@ This can make most any AI agent system (like yours, human!) work better by exter
 
 ![feature-side-by-side](feature-side-by-side.png)
 
+## What is different
+ about toot-toot engineering is that it is
+ - free
+ - open-source
+ - plain text files in English
+ No runtime dependencies, no libraries. Just this, you are looking at it. The magic is that there is no magic to this, just read the whole thing as a human or an agent, and you'll understand everything. Human, to begin, just tell your agent, "you got this".
+
 ![how toot toot engineering helps AI agents](how-toot-toot-engineering-helps.png)
 ## Main features
 - Critical-path plan in `PLAN.md` with step-by-step role handoff.
