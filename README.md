@@ -28,6 +28,15 @@ This can make an AI agent system (like yours, human!) work better by externalizi
 
 ![feature-side-by-side](feature-side-by-side.png)
 
+## People who want this
+- Engineers who want clarity over abstraction
+
+- Teams experimenting with AI-assisted development
+
+- Projects that value reviewability and auditability
+
+- Anyone tired of workflows that only make sense at runtime
+
 ## What is different
  about toot-toot engineering is that it is
  - free
@@ -35,6 +44,21 @@ This can make an AI agent system (like yours, human!) work better by externalizi
  - plain text files in English
    
  No runtime dependencies, no libraries. Just this, you are looking at it. The magic is that there is no magic to this, just read the whole thing as a human or an agent, and you'll understand everything. Human, to begin, just tell your agent, "you got this".
+
+## What’s also novel is not the components.
+It’s the placement.
+
+Most AI tooling tries to improve things:
+
+inside the model
+
+inside prompts
+
+inside agents
+
+inside orchestration layers
+
+Toot Toot Engineering moves improvement outside all of that.   
 
 ![how toot toot engineering helps AI agents](how-toot-toot-engineering-helps.png)
 ## Main features
