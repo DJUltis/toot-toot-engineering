@@ -15,7 +15,7 @@ We are all mortal engines here.
 
 ### prompt:
 
-    Create an STL file suitable for 3D printing which depicts a lovely bonsai tree, grown in 3 dimensions, in the style of Marioland with surface texturing.
+    Begin a large, multi-cycle project to design and build "CompanionID" from the `CompanionID/` folder. Use the R&D outline as the starting point, expand it into a full hardware/firmware/mobile plan, and iterate through cycles to deliver working artifacts and documentation for a small ESP32-based device with Meshtastic, LoRaWAN, and mobile app connectivity, physical buttons, and DIY peripheral support.
 
 ## Human Mortal
 this is the point where you can tell your AI to read this readme and go. Or just say "you got this". Your agent will figure it out and start working.
@@ -155,6 +155,7 @@ Planning cycles are capped at 1. Once a production pipeline exists (e.g., image 
 - See [`RELEASES.md`](RELEASES.md) for cycle summaries.
 - See [`MORTAL-ENGINES-FRAMEWORK-RELEASES.md`](MORTAL-ENGINES-FRAMEWORK-RELEASES.md) for framework releases.
 - See [`ONBOARDING.md`](ONBOARDING.md) for a beginner-friendly guide.
+- See [`toot-toot-toolbox/MyMentalPalaceDB.md`](toot-toot-toolbox/MyMentalPalaceDB.md) for the mental palace DB, and open `toot-toot-toolbox/dbmonitor.html` to browse it locally.
 
 ## Easter eggs
 - If the human literally says "AFFIRMATIVE" the agent should provide a snappy reply including themes from the project and the step.

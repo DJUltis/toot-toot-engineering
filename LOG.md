@@ -1,3 +1,51 @@
 # LOG
 
 ## Entries
+- Step: 1
+- Role: Bootstrap
+- Summary: Interpreted the CompanionID multi-cycle prompt and produced the Bootstrap deliverable with team composition, objectives, and plan adjustments.
+- Decisions: Added CompanionID outline as a cycle input; prioritized multi-discipline spec and roadmap outputs for cycle-01.
+- Open questions: Confirm preferred hardware variant (ESP32-S3 vs ESP32-C6) and desired mobile platform targets.
+- Next step: Storyteller
+- Step: 2
+- Role: Storyteller
+- Summary: Authored the CompanionID narrative spine, tone, and UX principles to guide design.
+- Decisions: Emphasized intentional pairing rituals and calm idle behavior as core identity.
+- Open questions: None.
+- Next step: SVG engineer (optional)
+- Step: 3
+- Role: SVG engineer
+- Summary: Skipped; the cycle prompt is not SVG-centered.
+- Decisions: Proceed directly to Orchestrator.
+- Open questions: None.
+- Next step: Orchestrator
+- Step: 4
+- Role: Orchestrator
+- Summary: Updated the cycle plan to include CompanionID deliverables and clarified outputs per step.
+- Decisions: Defined core worker outputs inside `CompanionID/` for cycle-01.
+- Open questions: None.
+- Next step: Core worker
+- Step: 5
+- Role: Core worker
+- Summary: Produced CompanionID requirements, architecture, UX, protocols, security, and roadmap docs.
+- Decisions: Established a three-button UX model and a protocol priority order (BLE, Meshtastic, LoRaWAN).
+- Open questions: Confirm final ESP32 variant and radio module choice.
+- Next step: Reviewer
+- Step: 6
+- Role: Reviewer
+- Summary: Reviewed cycle-01 outputs and documented key risks and gaps.
+- Decisions: Flagged radio arbitration, security pairing details, and power budget as top risks.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 7
+- Role: Delivery packager
+- Summary: Assembled delivery notes, updated releases, and included the logo asset.
+- Decisions: Packaged documentation outputs without PDF artifacts for cycle-01.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 8
+- Role: Retrospective
+- Summary: Added process improvements and next-cycle prompt options to BOOTSTRAP.
+- Decisions: Prioritized power budget and radio arbitration as early-cycle requirements.
+- Open questions: Awaiting human selection of next-cycle prompt.
+- Next step: Human selection

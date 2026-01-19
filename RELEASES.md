@@ -7,10 +7,18 @@ How to update:
 - Mark status as in progress or complete, and keep the deliverables list accurate.
 
 ## Cycle 01
-- Status: in progress
+- Status: complete
 - Prompt source: `README.md`
 - Deliverables root: `deliverables/cycle-01/`
-- Primary artifacts: none yet.
+- Primary artifacts:
+  - `CompanionID/README.md`
+  - `CompanionID/docs/requirements.md`
+  - `CompanionID/docs/architecture.md`
+  - `CompanionID/docs/ux-buttons.md`
+  - `CompanionID/docs/protocols.md`
+  - `CompanionID/docs/security.md`
+  - `CompanionID/roadmap.md`
+  - `deliverables/cycle-01/assets/toot-toot-logo.svg`
 - Other deliverables:
   - `deliverables/cycle-01/BOOTSTRAP.md`
   - `deliverables/cycle-01/STORYTELLER.md`
