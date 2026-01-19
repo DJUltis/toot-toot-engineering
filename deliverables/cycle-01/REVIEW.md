@@ -1,10 +1,10 @@
 # REVIEW (cycle-01)
 
 ## Findings (ordered by severity)
-1) **Protocol concurrency risk**: Shared LoRa radio for Meshtastic and LoRaWAN lacks a concrete arbitration algorithm and timing model. This is a major integration risk. A scheduling policy and test plan are required. (See `CompanionID/docs/protocols.md`)
-2) **Security detail gap**: Pairing flow does not yet define nonce/sequence formats, key exchange method, or replay protection specifics. This is required for implementation. (See `CompanionID/docs/security.md`)
-3) **Power budget missing**: Battery life targets are stated, but no power budget or sleep strategy exists. This can derail feasibility. (See `CompanionID/docs/requirements.md`)
-4) **UX confirmation**: The three-button mapping is proposed but not validated against two-button hardware fallback or an OLED-less variant. Needs a fallback matrix. (See `CompanionID/docs/ux-buttons.md`)
+1) **Protocol concurrency risk**: Shared LoRa radio for Meshtastic and LoRaWAN now has a policy, but still lacks concrete timing parameters and a conflict test plan. (See `CompanionID/docs/protocols.md`)
+2) **Power budget gap**: Targets are defined, but no per-mode power budget or estimated duty cycle exists. (See `CompanionID/docs/requirements.md`)
+3) **Security detail gap**: Pairing and replay protections are outlined, but key exchange format and nonce/sequence encoding need specification. (See `CompanionID/docs/security.md`)
+4) **UX validation**: Two-button fallback is defined, but needs confirmation against hardware constraints and LED-only UX. (See `CompanionID/docs/ux-buttons.md`)
 
 ## Tests and validation gaps
 - No integration test plan for mesh pairing + whitelist sync.

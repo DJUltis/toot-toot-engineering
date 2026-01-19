@@ -80,6 +80,7 @@ Core functions:
 - LoRaWAN: separate network join credentials, optional cloud integration.
 - Mobile app: BLE GATT for provisioning, whitelist management, prompts.
 - Conflict model: priority and fallback (BLE > LoRaWAN > Meshtastic).
+- Arbitration: fixed time-slice scheduler with Meet-mode preemption.
 
 ### 3) "Meet" and whitelist flow
 - Meet mode: button combo enters pairing; exchange device IDs + capabilities.
@@ -118,6 +119,7 @@ Core functions:
 - Pairing: ephemeral challenge during meet mode.
 - Message signing: signed updates for whitelist members.
 - Factory reset: physical button sequence.
+- Replay protection: nonce + per-peer sequence counters.
 
 ### 10) Power, reliability, and test
 - Power budget targets per mode.

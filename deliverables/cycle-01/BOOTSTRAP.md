@@ -47,6 +47,6 @@ We are starting a multi-cycle project to design and build "CompanionID" from the
 I can apply these recommendations and reset `PLAN.md` with the next-cycle prompt once you choose one of the options below.
 
 ### Next-cycle prompt options (choose one)
-1) "Cycle-02: Produce the firmware architecture skeleton, Meet/Whitelist message spec, and test vectors based on the current CompanionID docs."
-2) "Cycle-02: Produce the hardware schematic, BOM draft, and a power budget analysis based on the current CompanionID docs."
-3) "Cycle-02: Produce the mobile app UX flows, BLE provisioning spec, and prompt input validation based on the current CompanionID docs."
+1) "Cycle-02: Specify radio arbitration timing (slots, guard times, backoff), finalize Meet/Whitelist message formats, and draft test vectors."
+2) "Cycle-02: Build a per-mode power budget with duty-cycle assumptions, then draft the hardware schematic and BOM to meet it."
+3) "Cycle-02: Define the pairing key exchange format and BLE provisioning flow, plus error recovery and safe-mode UX."

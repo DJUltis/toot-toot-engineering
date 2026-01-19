@@ -16,4 +16,5 @@
 
 ## Notes
 - Cycle-01 focused on documentation and planning. No PDF outputs were required.
-- Review findings highlight radio arbitration, security details, and power budget as next-cycle priorities.
+- Review findings highlight radio arbitration details, security specifics, and power budget as next-cycle priorities.
+- Cycle-01 docs were refined with protocol fields, two-button fallback UX, and safe-mode notes.

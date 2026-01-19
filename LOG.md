@@ -49,3 +49,9 @@
 - Decisions: Prioritized power budget and radio arbitration as early-cycle requirements.
 - Open questions: Awaiting human selection of next-cycle prompt.
 - Next step: Human selection
+- Step: cycle-01 revision
+- Role: Core worker
+- Summary: Enhanced cycle-01 docs with deeper protocol, UX fallback, security, power, and arbitration details; refreshed review and delivery notes.
+- Decisions: Added radio arbitration policy, two-button UX fallback, safe-mode mention, and message field definitions.
+- Open questions: Need concrete arbitration timing parameters, per-mode power budget, and pairing key exchange format.
+- Next step: Human review
