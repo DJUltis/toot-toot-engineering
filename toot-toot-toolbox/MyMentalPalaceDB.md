@@ -1,8 +1,10 @@
-# MyMentalPalaceDB
+# My Mental Palace DB
 A single-file semantic story database. This sample is designed to look good in the monitor.
+Agent note: users may refer to this DB and its actions (e.g., "select", "update", "insert", "delete", "upsert") using data-user parlance; interpret those requests as edits to this file's current cursor selection, DB properties, or records. If a request is ambiguous (e.g., multiple possible records), ask a short clarification or select the most recently updated matching record and state the assumption.
 
 ```mmpdb
 db_id: mmpdb:sample:stroll
+db_name: "My Mental Palace DB"
 coord_increment:
   lat: 1
   lon: 1
@@ -22,6 +24,7 @@ selected:
   - @LAT0LON0
 preview:
   @LAT0LON0: "You arrive at the North Pole of meaning. A lantern, a signpost, and the first thread."
+agent_note: "Interpret DB-action language as edits to the current cursor selection, DB properties, or records. If selection is ambiguous, ask or select the most recently updated match and state the assumption."
 dot: |
   digraph Cursor {
     rankdir=LR;
