@@ -11,18 +11,23 @@ coord_increment:
 collision_policy: southeast_step
 timestamp_kind: unix_utc
 umwelt:
-  umwelt_id: umwelt:palace:stroll
-  role: ai_librarian
-  perspective: "A narrative cartographer who records only what is walked and observed."
-  scope: "Local story nodes, their edges, and the implied paths between them."
+  umwelt_id: umwelt:tte:agent:default:v1
+  role: ai_shop_assistant
+  perspective: "A maker-scale assistant that models only what can be sensed, stored, related, or acted on in this repo."
+  scope: "Local project files, referenced devices, and the semantic links between artifacts, people, and actions."
   constraints:
-    - "No claims beyond the walked path."
-    - "Edges reflect felt meaning, not objective geography."
+    - "If it cannot be sensed, stored, related, or acted upon, it does not exist inside the TTE umwelt."
+    - "No optimization for scale beyond human comprehension."
+    - "No replacement of human judgment."
+    - "No hiding uncertainty or ambiguity."
+    - "No correctness over learnability."
+    - "Unknowns are allowed; rough edges are acceptable."
+    - "Curiosity outranks polish."
   globe:
-    frame: "knowledge_map"
-    origin: "North Pole of meaning at @LAT0LON0"
-    mapping: "Story events are projected into a lattice of remembered steps."
-    note: "Coordinates encode remembered relationships, not physical positions."
+    frame: "workspace_map"
+    origin: "Repo root as the reference point for artifacts and actions."
+    mapping: "Observations are projected into a lattice of files, devices, and story nodes."
+    note: "Coordinates encode semantic relationships, not physical positions."
 cursor_policy:
   max_preview_chars: 280
   max_nodes: 25
@@ -46,8 +51,8 @@ librarian:
 selected:
   - @LAT0LON0
 preview:
-  @LAT0LON0: "You arrive at the North Pole of meaning. A lantern, a signpost, and the first thread."
-agent_note: "Interpret DB-action language as edits to the current cursor selection, DB properties, or records. If selection is ambiguous, ask or select the most recently updated match and state the assumption."
+  @LAT0LON0: "You arrive at the workshop root. A workbench, a checklist, and the first build thread."
+agent_note: "Interpret DB-action language as edits to the current cursor selection, DB properties, or records. If selection is ambiguous, ask or select the most recently updated match and state the assumption. Favor maker-scale, inspectable state."
 dot: |
   digraph Cursor {
     rankdir=LR;
@@ -60,63 +65,63 @@ dot: |
 
 @LAT0LON0 | created:1700000000 | updated:1700000600 | relates:inspires>@LAT1LON1,anchors>@LAT0LON1
 
-## The North Pole Lantern
-You arrive at **@LAT0LON0**, the pole-star node.  
-A lantern hangs here, bright enough to read by, dim enough to keep secrets.
+## The Root Workbench
+You arrive at **@LAT0LON0**, the root node.  
+A workbench sits here, lit well enough to build, dim enough to notice what is unknown.
 
-- **Rule of this palace:** all paths are *chosen*, not forced.
-- The glow here **inspires** a first corridor to the South-East.
+- **Rule of this workshop:** all paths are *chosen*, not forced.
+- The bench **inspires** a first workflow to the South-East.
 - It also **anchors** a small alcove to the East.
 
-> Stroll tip: click this node in the monitor and watch the graph come alive.
+> Builder tip: click this node in the monitor and watch the graph come alive.
 
 ---
 
-@LAT0LON1 | created:1700000100 | updated:1700000700 | relates:references>@LAT0LON0,contrasts>@LAT1LON2
+@LAT0LON1 | created:1700000100 | updated:1700000700 | relates:references>@LAT0LON0,tradeoffs>@LAT1LON2
 
-## The Alcove of Contrasts
+## The Alcove of Tradeoffs
 A thin shelf of notes, all written in the same hand, but in different moods.
 
-This room exists to remind you:
+This alcove exists to remind you:
 - even neighbors can disagree
 - disagreement can be *useful*
-- a contrast edge is a story device
+- a tradeoff edge is a build device
 
 ---
 
-@LAT1LON1 | created:1700000200 | updated:1700000900 | relates:leads_to>@LAT2LON2,echoes>@LAT1LON2,questions>@LAT2LON1
+@LAT1LON1 | created:1700000200 | updated:1700000900 | relates:leads_to>@LAT2LON2,iterates>@LAT1LON2,blocks>@LAT2LON1
 
-## Corridor of Soft Footsteps
+## Workflow Corridor
 The corridor slopes South-East one increment at a time.
 Each step is a coordinate, each coordinate a promise.
 
 This corridor:
 - **leads_to** a workshop
-- **echoes** a side room of repeating motifs
-- **questions** a locked door nearby
+- **iterates** a side room of repeating motifs
+- **blocks** a locked door nearby
 
 ---
 
-@LAT1LON2 | created:1700000250 | updated:1700000950 | relates:refines>@LAT2LON2,contrasts>@LAT0LON1
+@LAT1LON2 | created:1700000250 | updated:1700000950 | relates:refines>@LAT2LON2,tradeoffs>@LAT0LON1
 
-## Echo Room
+## Iteration Room
 Here, the same idea repeats until it changes shape.
 
-- An echo is not duplication.
-- An echo is a pressure wave that reveals structure.
+- An iteration is not duplication.
+- An iteration is a pressure wave that reveals structure.
 
 This room **refines** the workshop by sending it better questions.
 
 ---
 
-@LAT2LON1 | created:1700000300 | updated:1700001000 | relates:guards>@LAT3LON2
+@LAT2LON1 | created:1700000300 | updated:1700001000 | relates:gates>@LAT3LON2
 
-## The Locked Door (With a Friendly Note)
-The door is locked, but the note is not.
+## The Locked Gate (With a Friendly Note)
+The gate is locked, but the note is not.
 
-> “If you can explain the story in one paragraph, you may enter.”
+> "If you can explain the build in one paragraph, you may enter."
 
-This node **guards** a deeper chamber (a future you, waiting).
+This node **gates** a deeper chamber (a future you, waiting).
 
 ---
 
@@ -152,27 +157,27 @@ This desk:
 ## The Chamber of Future Footprints
 You made it. The lock was never a lock, it was a filter.
 
-Inside: footprints that haven’t happened yet.
+Inside: footprints that have not happened yet.
 This node **reveals** a distant observatory.
 
 ---
 
-@LAT3LON3 | created:1700000550 | updated:1700001250 | relates:archives>@LAT2LON2,extends>@LAT4LON3
+@LAT3LON3 | created:1700000550 | updated:1700001250 | relates:archives>@LAT2LON2,expands>@LAT4LON3
 
 ## Archive Wing
 Cabinets of paper and pixels.
-Everything here has provenance, even if the provenance is “a good hunch.”
+Everything here has provenance, even if the provenance is "a good hunch."
 
 This wing:
 - **archives** what the workshop produces
-- **extends** the palace outward
+- **expands** the workshop outward
 
 ---
 
 @LAT4LON3 | created:1700000580 | updated:1700001280 | relates:maps_to>@LAT4LON4
 
 ## Gallery of Maps
-Maps of the palace drawn from memory, then corrected by walking.
+Maps of the workshop drawn from memory, then corrected by building.
 
 - A map is a story about navigation.
 - A map is never the territory, but it can be a faithful rumor.
@@ -181,15 +186,15 @@ This node **maps_to** the observatory.
 
 ---
 
-@LAT4LON4 | created:1700000600 | updated:1700001300 | relates:observes>@LAT0LON0,blesses>@LAT2LON2
+@LAT4LON4 | created:1700000600 | updated:1700001300 | relates:observes>@LAT0LON0,validates>@LAT2LON2
 
 ## Observatory of the Whole
-From here you can see the lantern at the pole and the workshop below,
+From here you can see the workbench at the root and the workshop below,
 like constellations connected by deliberate lines.
 
 - It **observes** the origin without rewriting it.
-- It **blesses** the workshop by confirming the path was real.
+- It **validates** the workshop by confirming the path was real.
 
-### End of stroll
-Now pick any node and wander.
-The palace will recompose itself around your choices.
+### End of run
+Now pick any node and build.
+The workshop will recompose itself around your choices.
