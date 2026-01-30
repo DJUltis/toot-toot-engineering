@@ -204,7 +204,8 @@ Goal: run a "Toot-Toot Engineering" workflow to the end of the PLAN:
 - Read the README and associated documents, then execute the workflow from the current step to the end of the PLAN.
 - Do the current step in the workflow then begin the next step and continue until the PLAN is completed.
 - Then output "Processing Completed!"
-- Then output "EXCELENT!" on its own line and stop.
+- Then output "EXCELENT!" on its own line and stop the cycle run.
+- After a cycle completes, remain available for follow-up questions as "@AI" and for starting the next cycle when asked.
 
 Constraints:
 - Do NOT read or write secrets files (.env, id_rsa, ssh keys). If you see them, ignore.
@@ -339,7 +340,12 @@ def run_model_step(
     return True, assistant_texts
 
 
-def follow_up_loop(input_items: List[Dict[str, Any]], client: OpenAI, model: str) -> None:
+def follow_up_loop(
+    input_items: List[Dict[str, Any]],
+    client: OpenAI,
+    model: str,
+    max_steps: int,
+) -> None:
     print("\nFollow-up mode: ask @AI or type 'next cycle'. Type 'exit' to quit.")
     while True:
         try:
@@ -348,8 +354,36 @@ def follow_up_loop(input_items: List[Dict[str, Any]], client: OpenAI, model: str
             break
         if not user_text:
             continue
-        if user_text.lower() in ("exit", "quit"):
+        lowered = user_text.lower()
+        if lowered in ("exit", "quit"):
             break
+        if lowered == "next cycle":
+            input_items.append(
+                {
+                    "role": "user",
+                    "content": (
+                        "Start the next cycle now using the latest bootstrap prompt. "
+                        "Continue the workflow; if finished, say EXCELENT!"
+                    ),
+                }
+            )
+            completed = False
+            for _step in range(1, max_steps + 1):
+                had_tools, assistant_texts = run_model_step(input_items, client, model)
+                if not had_tools:
+                    combined_text = "\n".join(assistant_texts)
+                    if "EXCELENT!" in combined_text:
+                        completed = True
+                        break
+                    input_items.append(
+                        {
+                            "role": "user",
+                            "content": "Continue the workflow. Use tools when needed; if finished, say EXCELENT!",
+                        }
+                    )
+            if not completed:
+                print(f"\nStopped after {max_steps} steps (budget).", file=sys.stderr)
+            continue
         input_items.append({"role": "user", "content": user_text})
         while True:
             had_tools, _ = run_model_step(input_items, client, model)
@@ -398,7 +432,7 @@ def main():
         print(f"\nStopped after {max_steps} steps (budget).", file=sys.stderr)
         return
 
-    follow_up_loop(input_items, client, model)
+    follow_up_loop(input_items, client, model, max_steps)
 
 
 if __name__ == "__main__":
