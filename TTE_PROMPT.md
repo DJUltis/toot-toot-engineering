@@ -1,6 +1,6 @@
-# TTN 3-Node Messaging Network 
+# TTN Autonomous-Node Messaging Network 
 
-Design a minimal, complete system that builds a **simple 3-node TTN** where devices can:
+Create a complete delivery package that builds a **complete  3-node TTN** where devices can:
 - Send direct messages to each other.
 - Broadcast to the whole group.
 - Use end-user configured **node name** and **IP address**.
