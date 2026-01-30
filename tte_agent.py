@@ -210,6 +210,32 @@ Constraints:
 - Do NOT read or write secrets files (.env, id_rsa, ssh keys). If you see them, ignore.
 """
 
+TTAI_SPEC_PATH = "standards/ttai/TTAI_SPEC.md"
+TTAI_DEFAULT_NETWORK_PATH = "standards/ttai/DEFAULT_NETWORK.md"
+TTAI_BEHAVIOR_SPEC_PATH = "standards/ttai/BEHAVIOR_SPEC.md"
+
+
+def _load_optional_spec(path: str, label: str) -> str:
+    p = WORKSPACE / path
+    if not p.exists() or not p.is_file():
+        return ""
+    try:
+        content = p.read_text(encoding="utf-8")
+    except Exception:
+        return ""
+    if not content.strip():
+        return ""
+    return f"\n\n{label}:\n" + content.strip()
+
+
+def load_ttai_specs() -> str:
+    parts = [
+        _load_optional_spec(TTAI_SPEC_PATH, "TTAI SPEC"),
+        _load_optional_spec(TTAI_DEFAULT_NETWORK_PATH, "TTAI DEFAULT NETWORK"),
+        _load_optional_spec(TTAI_BEHAVIOR_SPEC_PATH, "TTAI BEHAVIOR SPEC"),
+    ]
+    return "".join(p for p in parts if p)
+
 
 def find_readme() -> Optional[str]:
     for name in README_CANDIDATES:
@@ -222,6 +248,113 @@ def find_readme() -> Optional[str]:
 def needs_user_choice(text: str) -> bool:
     lowered = text.lower()
     return "next cycle" in lowered and "prompt" in lowered and ("choose" in lowered or "select" in lowered)
+
+
+def run_model_step(
+    input_items: List[Dict[str, Any]],
+    client: OpenAI,
+    model: str,
+) -> Tuple[bool, List[str]]:
+    resp = client.responses.create(
+        model=model,
+        input=input_items,
+        tools=TOOLS,
+    )
+
+    assistant_texts: List[str] = []
+    tool_calls: List[Tuple[str, str, Dict[str, Any]]] = []
+    output_items: List[Dict[str, Any]] = []
+
+    for item in resp.output:
+        if hasattr(item, "model_dump"):
+            item_dict = item.model_dump()
+        elif hasattr(item, "dict"):
+            item_dict = item.dict()
+        else:
+            item_dict = item
+        output_items.append(item_dict)
+
+        item_type = getattr(item, "type", None)
+        if item_type is None:
+            item_type = item.get("type")
+
+        if item_type == "message":
+            content = getattr(item, "content", None)
+            if content is None:
+                content = item.get("content", [])
+            for part in content:
+                part_type = getattr(part, "type", None)
+                if part_type is None:
+                    part_type = part.get("type")
+                if part_type == "output_text":
+                    text = getattr(part, "text", None)
+                    if text is None:
+                        text = part.get("text", "")
+                    assistant_texts.append(text)
+        elif item_type == "function_call":
+            call_id = getattr(item, "call_id", None)
+            if call_id is None:
+                call_id = item.get("call_id")
+            name = getattr(item, "name", None)
+            if name is None:
+                name = item.get("name")
+            arguments = getattr(item, "arguments", None)
+            if arguments is None:
+                arguments = item.get("arguments", "{}")
+            tool_calls.append((call_id, name, json.loads(arguments)))
+
+    if assistant_texts:
+        print("\n".join(t.strip() for t in assistant_texts if t.strip()))
+
+    if needs_user_choice("\n".join(assistant_texts)):
+        input_items.append(
+            {
+                "role": "user",
+                "content": (
+                    "No selection will be provided. "
+                    "List 3 possible next-cycle prompts and finish with EXCELENT!."
+                ),
+            }
+        )
+
+    input_items.extend(output_items)
+
+    if not tool_calls:
+        return False, assistant_texts
+
+    for call_id, name, args in tool_calls:
+        try:
+            result = TOOL_IMPL[name](args)
+        except Exception as e:
+            result = {"ok": False, "error": str(e)}
+
+        input_items.append(
+            {
+                "type": "function_call_output",
+                "call_id": call_id,
+                "output": json.dumps(result),
+            }
+        )
+
+    return True, assistant_texts
+
+
+def follow_up_loop(input_items: List[Dict[str, Any]], client: OpenAI, model: str) -> None:
+    print("\nFollow-up mode: ask @AI or type 'next cycle'. Type 'exit' to quit.")
+    while True:
+        try:
+            user_text = input("> ").strip()
+        except EOFError:
+            break
+        if not user_text:
+            continue
+        if user_text.lower() in ("exit", "quit"):
+            break
+        input_items.append({"role": "user", "content": user_text})
+        while True:
+            had_tools, _ = run_model_step(input_items, client, model)
+            if not had_tools:
+                break
 
 
 def main():
@@ -239,111 +372,33 @@ def main():
         print("Oh Toot! No README.md found.", file=sys.stderr)
         sys.exit(1)
 
-    # Conversation state: we’ll keep feeding prior tool outputs back to the model
+    system_prompt = SYSTEM_INSTRUCTIONS + load_ttai_specs()
     input_items: List[Dict[str, Any]] = [
-        {"role": "system", "content": SYSTEM_INSTRUCTIONS},
+        {"role": "system", "content": system_prompt},
         {"role": "user", "content": f"Start in workspace: {WORKSPACE.name}. The README file is {readme_name}."},
     ]
 
     max_steps = 100
-    for step in range(1, max_steps + 1):
-        resp = client.responses.create(
-            model=model,
-            input=input_items,
-            tools=TOOLS,
-        )
-
-        # Collect any assistant text
-        assistant_texts: List[str] = []
-        tool_calls: List[Tuple[str, str, Dict[str, Any]]] = []
-        output_items: List[Dict[str, Any]] = []
-
-        for item in resp.output:
-            # resp.output items may be dict-like or pydantic models.
-            if hasattr(item, "model_dump"):
-                item_dict = item.model_dump()
-            elif hasattr(item, "dict"):
-                item_dict = item.dict()
-            else:
-                item_dict = item
-            output_items.append(item_dict)
-
-            item_type = getattr(item, "type", None)
-            if item_type is None:
-                item_type = item.get("type")
-
-            if item_type == "message":
-                # message content can be an array of parts
-                content = getattr(item, "content", None)
-                if content is None:
-                    content = item.get("content", [])
-                for part in content:
-                    part_type = getattr(part, "type", None)
-                    if part_type is None:
-                        part_type = part.get("type")
-                    if part_type == "output_text":
-                        text = getattr(part, "text", None)
-                        if text is None:
-                            text = part.get("text", "")
-                        assistant_texts.append(text)
-            elif item_type == "function_call":
-                call_id = getattr(item, "call_id", None)
-                if call_id is None:
-                    call_id = item.get("call_id")
-                name = getattr(item, "name", None)
-                if name is None:
-                    name = item.get("name")
-                arguments = getattr(item, "arguments", None)
-                if arguments is None:
-                    arguments = item.get("arguments", "{}")
-                tool_calls.append((call_id, name, json.loads(arguments)))
-
-        if assistant_texts:
-            print("\n".join(t.strip() for t in assistant_texts if t.strip()))
-
-        if needs_user_choice("\n".join(assistant_texts)):
-            input_items.append(
-                {
-                    "role": "user",
-                    "content": (
-                        "No selection will be provided. "
-                        "List 3 possible next-cycle prompts and finish with EXCELENT!."
-                    ),
-                }
-            )
-
-        # Add assistant outputs (including tool calls) to the conversation state.
-        input_items.extend(output_items)
-
-        if not tool_calls:
-            # No tool calls requested: continue unless the model signaled completion.
+    completed = False
+    for _step in range(1, max_steps + 1):
+        had_tools, assistant_texts = run_model_step(input_items, client, model)
+        if not had_tools:
             combined_text = "\n".join(assistant_texts)
             if "EXCELENT!" in combined_text:
-                return
+                completed = True
+                break
             input_items.append(
                 {
                     "role": "user",
                     "content": "Continue the workflow. Use tools when needed; if finished, say EXCELENT!",
                 }
             )
-            continue
 
-        # Execute tool calls and append outputs as function_call_output items
-        for call_id, name, args in tool_calls:
-            try:
-                result = TOOL_IMPL[name](args)
-            except Exception as e:
-                result = {"ok": False, "error": str(e)}
+    if not completed:
+        print(f"\nStopped after {max_steps} steps (budget).", file=sys.stderr)
+        return
 
-            input_items.append(
-                {
-                    "type": "function_call_output",
-                    "call_id": call_id,
-                    "output": json.dumps(result),
-                }
-            )
-
-    print(f"\nStopped after {max_steps} steps (budget).", file=sys.stderr)
+    follow_up_loop(input_items, client, model)
 
 
 if __name__ == "__main__":

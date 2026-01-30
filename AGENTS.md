@@ -31,6 +31,12 @@ Workflow version: 3.8
 - Do not read or reference anything under `HUMANS/` unless the human explicitly requests it.
 - One step, one agent, one role.
 - Each step produces named assets and updates [`PLAN.md`](PLAN.md).
+- Treat TTAI specs as primary inputs for agent behavior and defaults:
+  - `standards/ttai/TTAI_SPEC.md`
+  - `standards/ttai/DEFAULT_NETWORK.md`
+  - `standards/ttai/BEHAVIOR_SPEC.md`
+  - `standards/umwelt/TTE_Agent_Umwelt_v1.yaml`
+- When producing protocol, file-format, or network behavior details, consult the relevant RFCs in `RFCs/` and align outputs to them (cite any deviations or open questions in `LOG.md`).
 - The Bootstrap role must propose 3 next-cycle prompts grounded in the previous cycle and require the human to select one.
 - Deliverable outputs are always written under `deliverables/cycle-XX/`, where `XX` is the cycle number.
 - Cycle folders track state; filenames remain stable within the cycle (e.g., `BOOTSTRAP.md`, `SOLUTION.md`).

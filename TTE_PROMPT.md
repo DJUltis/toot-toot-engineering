@@ -39,6 +39,7 @@ For testing, the system must be easy to run locally on a single subnet and easy 
 Pick one transport and keep it consistent across all nodes.
 
 Read the RFCs for definitive specifications of TTE, TTN, TTDB.
+TTAI behavior is defined in `standards/ttai/TTAI_SPEC.md` and related specs.
 ---
 
 ## User Configuration (Must Include)

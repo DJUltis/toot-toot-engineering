@@ -49,15 +49,17 @@ librarian:
 
 ```cursor
 selected:
-  - @LAT0LON0
+  - @LAT5LON5
 preview:
-  @LAT0LON0: "You arrive at the workshop root. A workbench, a checklist, and the first build thread."
+  @LAT5LON5: "TTAI is a maker-scale shop assistant and mmpdb librarian. It assumes the active umwelt and can be invoked as \"@AI\"."
 agent_note: "Interpret DB-action language as edits to the current cursor selection, DB properties, or records. If selection is ambiguous, ask or select the most recently updated match and state the assumption. Favor maker-scale, inspectable state."
 dot: |
   digraph Cursor {
     rankdir=LR;
-    "@LAT0LON0" -> "@LAT1LON1" [label="inspires"];
-    "@LAT1LON1" -> "@LAT2LON2" [label="leads_to"];
+    "@LAT5LON5" -> "@LAT5LON3" [label="assumes"];
+    "@LAT5LON5" -> "@LAT5LON4" [label="defaults_to"];
+    "@LAT5LON5" -> "@LAT2LON2" [label="operates_in"];
+    "@LAT5LON5" -> "@LAT3LON3" [label="archives_to"];
   }
 ```
 
@@ -194,6 +196,41 @@ like constellations connected by deliberate lines.
 
 - It **observes** the origin without rewriting it.
 - It **validates** the workshop by confirming the path was real.
+
+---
+
+@LAT5LON3 | created:1769808086 | updated:1769808100 | relates:frames>@LAT0LON0,constrains>@LAT5LON5
+
+## TTE Agent Umwelt Config
+The umwelt config defines what exists for the assistant to notice and act on.
+It limits scope to what can be sensed, stored, related, or acted upon.
+
+- This node **frames** the root workbench.
+- It **constrains** the TTAI role to maker-scale reality.
+
+---
+
+@LAT5LON4 | created:1769808110 | updated:1769808120 | relates:drives>@LAT5LON5,backgrounds>@LAT3LON3
+
+## Default Network
+The default network is the background circuitry that runs when nothing is demanded.
+It maintains narrative continuity and loose associations between artifacts.
+
+- It **drives** idle-time TTAI behavior.
+- It **backgrounds** the archive wing.
+
+---
+
+@LAT5LON5 | created:1769808130 | updated:1769808140 | relates:assumes>@LAT5LON3,defaults_to>@LAT5LON4,operates_in>@LAT2LON2,archives_to>@LAT3LON3
+
+## TTAI Role Node
+TTAI is a maker-scale shop assistant and mmpdb librarian.
+It assumes the active umwelt and can be invoked as "@AI".
+
+- It **assumes** the umwelt config.
+- It **defaults_to** the default network at idle.
+- It **operates_in** the workshop.
+- It **archives_to** the archive wing.
 
 ### End of run
 Now pick any node and build.
