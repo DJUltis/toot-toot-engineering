@@ -8,9 +8,9 @@ Create a complete delivery package that builds a **complete  3-node TTN** where 
 - For technical clarifications, refer to the RFCs in the `RFCs/` folder.
 
 This version targets a **3-node IP network** plus an optional Windows 11 host for tooling:
-- **Node A:** Unihiker K10
-- **Node B:** Lilygo T-Deck Plus
-- **Node C:** Windows 11 PC
+- **Node A Device:** Unihiker K10
+- **Node B Device:** Lilygo T-Deck Plus
+- **Node C Device:** Windows 11 PC
 - **Optional host:** Windows 11 PC for simulation, testing, or monitoring
 
 No Meshtastic, no LoRa, no radio-specific requirements.
@@ -22,7 +22,7 @@ Build a **simple TTN** where:
 
 **Node message** → **TTN message format** → **direct or broadcast delivery** → **group receipt**
 
-The system must be easy to run locally on a single subnet and easy to configure by non-experts.
+For testing, the system must be easy to run locally on a single subnet and easy to configure by non-experts.
 
 ---
 
@@ -38,6 +38,7 @@ The system must be easy to run locally on a single subnet and easy to configure 
 
 Pick one transport and keep it consistent across all nodes.
 
+Read the RFCs for definitive specifications of TTE, TTN, TTDB.
 ---
 
 ## User Configuration (Must Include)
@@ -58,8 +59,9 @@ Provide clear, step-by-step instructions that explain:
 ---
 
 ## Deliverables
-Produce a repo-style project with:
+Produce a repo-style project, packed in a zip with:
 1. `TTN_README.md` that includes:
+   - Device installation and configuration for each of the device types
    - Network setup requirements
    - Step-by-step configuration for each node
    - How to run the nodes
@@ -110,12 +112,15 @@ Demonstrate:
 
 ## Output Format Requested From the Agent
 Return:
-1. Design overview
-2. Folder/module layout
+1. Overview
+2. Folder/module layout and contents, including code
 3. TTN message schema
 4. Transport choice and rationale
 5. Configuration instructions for node name and IP address
-6. Minimal runnable demo steps
+6. Detailed runnable demo steps
+7. Device specific installation, configuration, and usage instructions.
+8. Anything else an end-user would need
+9. all of the above bundled in a zip
 
 ---
 
