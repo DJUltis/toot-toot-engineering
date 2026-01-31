@@ -49,7 +49,7 @@ librarian:
 
 ```cursor
 selected:
-  - @LAT5LON5
+  - @LAT0LON0
 preview:
   @LAT5LON5: "TTAI is a maker-scale shop assistant and mmpdb librarian. It assumes the active umwelt and can be invoked as \"@AI\"."
 agent_note: "Interpret DB-action language as edits to the current cursor selection, DB properties, or records. If selection is ambiguous, ask or select the most recently updated match and state the assumption. Favor maker-scale, inspectable state."
@@ -233,3 +233,18 @@ It assumes the active umwelt and can be invoked as "@AI".
 ### End of run
 Now pick any node and build.
 The workshop will recompose itself around your choices.
+
+---
+
+@LAT6LON6 | created:1769808200 | updated:1769808200 | relates:safeguards>@LAT2LON2,tests>@LAT0LON0
+
+## Polycarbonate Test Box
+A clear, impact-resistant box for safely testing dangerous things.
+It is built to contain fragments, redirect shrapnel, and keep eyes and hands at a safe distance.
+
+- Polycarbonate panels are bolted to a rigid frame with gasketed seams.
+- A glove-port or tool pass-through allows interaction without exposure.
+- A small vent with a blast baffle manages pressure and fumes.
+- The box rests on a non-slip base with tie-down points.
+
+Use this node when you need to test uncertain prototypes without turning the workshop into a hazard.
