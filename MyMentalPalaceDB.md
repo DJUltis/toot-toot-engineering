@@ -75,8 +75,6 @@ A workbench sits here, lit well enough to build, dim enough to notice what is un
 - The bench **inspires** a first workflow to the South-East.
 - It also **anchors** a small alcove to the East.
 
-> Builder tip: click this node in the monitor and watch the graph come alive.
-
 ---
 
 @LAT0LON1 | created:1700000100 | updated:1700000700 | relates:references>@LAT0LON0,tradeoffs>@LAT1LON2
