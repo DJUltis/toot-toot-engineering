@@ -1,6 +1,6 @@
 # TTDB Dungeon Crawler for the K10 
 
-Create a complete K10 Dungeon Crawling game making creative use of the K10 capabilities and simple tap-to-choose-the-path UI.
+Create a complete K10 Dungeon Crawling game making creative use of the K10 capabilities (see https://www.unihiker.com/wiki/K10/) and simple tap-to-choose-the-path UI.
 
 ---
 
