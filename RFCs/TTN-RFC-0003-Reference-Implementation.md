@@ -10,7 +10,8 @@ Status: Draft
 - Generate Node ID
 - Maintain Node Registry
 - Emit presence events
-- Store Semantic Events locally
+- Store Semantic Events locally in TTDB by default
+- Use TTAI join/welcome behavior for initial connectivity by default
 - Support compact mesh grammar
 
 ---

@@ -40,6 +40,9 @@ Pick one transport and keep it consistent across all nodes.
 
 Read the RFCs for definitive specifications of TTE, TTN, TTDB.
 TTAI behavior is defined in `standards/ttai/TTAI_SPEC.md` and related specs.
+Default behaviors for this build:
+- TTN logs use TTDB (MyMentalPalaceDB) by default.
+- Initial connectivity uses TTAI presence/handshake behavior unless explicitly overridden.
 ---
 
 ## User Configuration (Must Include)

@@ -22,11 +22,15 @@ This RFC defines the canonical behavior, concepts, and etiquette of the Toot Too
 - Semantic ID (location-anchored when available)
 - Semantic Event
 - Typed Edge
-- Local MyMentalPalaceDB variant
+- Local MyMentalPalaceDB variant (TTDB) for event logging by default
+
+## 3. Defaults
+- Logging backend: TTDB (MyMentalPalaceDB) unless explicitly overridden
+- Initial connectivity: TTAI presence/handshake behavior is the default path to first contact on new or unconfigured networks
 
 ---
 
-## 3. Compliance Levels
+## 4. Compliance Levels
 - TTN-Base
 - TTN-BBS
 - TTN-AI
@@ -34,7 +38,7 @@ This RFC defines the canonical behavior, concepts, and etiquette of the Toot Too
 
 ---
 
-## 4. Etiquette Rules
+## 5. Etiquette Rules
 - No autonomous AI speech on mesh
 - No full-content flood on low-bandwidth links
 - All assertions must include provenance
