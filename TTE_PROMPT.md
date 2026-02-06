@@ -9,7 +9,7 @@
 - a complete guide for humans to configure all devices and perform Acceptance Tests
 
 Each device runs a **local TTDB (MyMentalPalaceDB variant)** and participates in discovery, semantic storage, and gossip-style synchronization so that all nodes progressively know about each other.
-Refer to the documents in the "standards" folder and "RFCs" folder for specifications and guidance of the Toot Toot Network and Toot Toot Database (TTDB).
+Refer to the documents in the "standards" folder and "RFCs" folder for specifications and guidance on the Toot Toot Network and Toot Toot Database (TTDB).
 ---
 
 ## Devices (exactly six)
