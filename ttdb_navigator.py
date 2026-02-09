@@ -500,7 +500,7 @@ class NavigatorApp(tk.Tk):
         width = max(globe.winfo_width(), 200)
         height = max(globe.winfo_height(), 200)
         padding = 6
-        radius = min(width, height) / 2 - padding
+        radius = width / 2 - padding
         if radius <= 10:
             return
 
