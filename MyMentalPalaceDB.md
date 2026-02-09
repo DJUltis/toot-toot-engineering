@@ -682,11 +682,22 @@ The main TTE agent loop and tool bridge.
 @LAT40LON1 | created:1770646802 | updated:1770649832 | relates:
 
 ## tte_monitor.py
-The Tkinter UI that monitors PLAN, LOG, and TTDB.
+The Tkinter UI that monitors PLAN and LOG.
 
 - kind: file
 - aliases: TTE Monitor
-- notes: Renders a DB graph and markdown views.
+- notes: Renders markdown views for PLAN and LOG.
+
+---
+
+@LAT40LON2 | created:1770646802 | updated:1770649832 | relates:reads>@LAT30LON7,references>@LAT30LON13,references>@LAT30LON14,references>@LAT30LON15
+
+## ttdb_navigator.py
+The Tkinter UI that navigates TTDB records.
+
+- kind: file
+- aliases: TTDB Navigator
+- notes: Provides list navigation and a globe view for TTDB coordinates.
 
 ---
 

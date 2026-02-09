@@ -255,9 +255,15 @@ notes: Uses OpenAI Responses API and local tools.
 
 ### Node: tte_monitor.py
 kind: file
-summary: The Tkinter UI that monitors PLAN, LOG, and TTDB.
+summary: The Tkinter UI that monitors PLAN and LOG.
 aliases: TTE Monitor
-notes: Renders a DB graph and markdown views.
+notes: Renders markdown views for PLAN and LOG.
+
+### Node: ttdb_navigator.py
+kind: file
+summary: The Tkinter UI that navigates TTDB records.
+aliases: TTDB Navigator
+notes: Provides list navigation and a globe view for TTDB coordinates.
 
 ### Node: RFCs index
 kind: document
@@ -465,9 +471,15 @@ notes: Defined in `standards/ttai/BEHAVIOR_SPEC.md`.
 
 ### Node: Monitor UI
 kind: artifact
-summary: The Tkinter application for viewing plan, log, and DB.
+summary: The Tkinter application for viewing plan and log.
 aliases: TTE Monitor
 notes: Implemented in `tte_monitor.py`.
+
+### Node: TTDB Navigator UI
+kind: artifact
+summary: The Tkinter application for browsing TTDB records and their coordinates.
+aliases: TTDB Navigator
+notes: Implemented in `ttdb_navigator.py`.
 
 ### Node: OpenAI API key
 kind: concept
