@@ -69,12 +69,11 @@ dot: |
 
 ## The Root Workbench
 You arrive at **@LAT0LON0**, the root node.  
-A workbench sits here, lit well enough to build, dim enough to notice what is unknown.
-
+![the forge](/images/time-foundry.svg)
+A workbench sits here, lit well enough to build, dim enough to notice what is unknown.   
 - **Rule of this workshop:** all paths are *chosen*, not forced.
-- The bench **inspires** a first workflow to the South-East.
-- It also **anchors** a small alcove to the East.
-
+- The bench **inspires** a first workflow to [the South-East](@LAT1LON1).
+- It also **anchors** a small alcove to [the East](@LAT0LON1).
 ---
 
 @LAT0LON1 | created:1700000100 | updated:1700000700 | relates:references>@LAT0LON0,tradeoffs>@LAT1LON2
@@ -211,7 +210,7 @@ It limits scope to what can be sensed, stored, related, or acted upon.
 @LAT5LON4 | created:1769808110 | updated:1770649832 | relates:drives>@LAT5LON5,backgrounds>@LAT3LON3,defined_in>@LAT30LON4,references>@LAT10LON10
 
 ## Default Network
-The default network is the background circuitry that runs when nothing is demanded.
+The [default network](https://github.com/antfriend/toot-toot-engineering/blob/main/standards/ttai/BEHAVIOR_SPEC.md) is the background circuitry that runs when nothing is demanded.
 It maintains narrative continuity and loose associations between artifacts.
 
 - It **drives** idle-time TTAI behavior.
