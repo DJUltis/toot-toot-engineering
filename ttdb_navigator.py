@@ -426,8 +426,17 @@ class NavigatorApp(tk.Tk):
         if not coords:
             return
         lat, lon = coords
-        self._globe_target_lat = -math.radians(lat)
-        self._globe_target_lon = -math.radians(lon)
+        # Rotate so the selected point is centered on the front of the globe.
+        lat_r = math.radians(lat)
+        lon_r = math.radians(lon)
+        x = math.cos(lat_r) * math.sin(lon_r)
+        y = math.sin(lat_r)
+        z = math.cos(lat_r) * math.cos(lon_r)
+        rot_lon = -math.atan2(x, z)
+        z1 = math.hypot(x, z)
+        rot_lat = math.atan2(y, z1)
+        self._globe_target_lat = rot_lat
+        self._globe_target_lon = rot_lon
         if not self._globe_animating:
             self._globe_animating = True
             self.after(ANIMATION_MS, self._animate_globe)
@@ -533,9 +542,14 @@ class NavigatorApp(tk.Tk):
         selected = self._db_selected_id
         nodes_front = []
         nodes_back = []
+        selected_point = None
+        projections: dict[str, tuple[float, float, float]] = {}
         for record_id, (lat, lon) in self._db_coords.items():
             x, y, z = self._project_point(lat, lon)
-            if z > 0:
+            projections[record_id] = (x, y, z)
+            if record_id == selected:
+                selected_point = (record_id, x, y, z)
+            elif z > 0:
                 nodes_front.append((record_id, x, y, z))
             else:
                 nodes_back.append((record_id, x, y, z))
@@ -553,13 +567,42 @@ class NavigatorApp(tk.Tk):
                 outline="",
             )
 
+        # Draw typed edges for visible nodes.
+        for source_id, record in self._db_records.items():
+            edges = record.get("edges", [])
+            if not edges:
+                continue
+            source_proj = projections.get(source_id)
+            if not source_proj:
+                continue
+            sx, sy, sz = source_proj
+            if sz <= 0:
+                continue
+            sxp = cx + sx * radius
+            syp = cy - sy * radius
+            for edge in edges:
+                target_id = edge.get("target")
+                if not target_id:
+                    continue
+                target_proj = projections.get(target_id)
+                if not target_proj:
+                    continue
+                tx, ty, tz = target_proj
+                if tz <= 0:
+                    continue
+                txp = cx + tx * radius
+                typ = cy - ty * radius
+                is_selected_edge = source_id == selected or target_id == selected
+                color = "#2a3a4d" if not is_selected_edge else "#7cc7ff"
+                width = 1 if not is_selected_edge else 2
+                globe.create_line(sxp, syp, txp, typ, fill=color, width=width)
+
         for record_id, x, y, z in nodes_front:
             px = cx + x * radius
             py = cy - y * radius
-            is_selected = record_id == selected
-            size = 7 if is_selected else 5
-            fill = "#ffd166" if is_selected else "#7cc7ff"
-            outline = "#f4a261" if is_selected else "#0b0b10"
+            size = 5
+            fill = "#7cc7ff"
+            outline = "#0b0b10"
             item = globe.create_oval(
                 px - size,
                 py - size,
@@ -571,14 +614,30 @@ class NavigatorApp(tk.Tk):
                 tags=("node",),
             )
             self._globe_items[item] = record_id
-            if is_selected:
-                globe.create_text(
-                    px,
-                    py - 14,
-                    text=record_id,
-                    fill="#e9e9f0",
-                    font=("TkDefaultFont", 9, "bold"),
-                )
+
+        if selected_point:
+            record_id, x, y, z = selected_point
+            px = cx + x * radius
+            py = cy - y * radius
+            size = 7
+            item = globe.create_oval(
+                px - size,
+                py - size,
+                px + size,
+                py + size,
+                fill="#ffd166",
+                outline="#f4a261",
+                width=2,
+                tags=("node",),
+            )
+            self._globe_items[item] = record_id
+            globe.create_text(
+                px,
+                py - 14,
+                text=record_id,
+                fill="#e9e9f0",
+                font=("TkDefaultFont", 9, "bold"),
+            )
 
     def _draw_graticule(self, cx: float, cy: float, radius: float) -> None:
         for lon in range(-150, 180, 30):
