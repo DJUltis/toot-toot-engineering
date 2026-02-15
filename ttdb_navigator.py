@@ -674,7 +674,7 @@ class NavigatorApp(tk.Tk):
         if height <= 1:
             self.after(50, self._set_right_pane_split)
             return
-        self.right_pane.sashpos(0, height // 2)
+        self.right_pane.sashpos(0, (height * 2) // 3)
 
     def _on_globe_press(self, event: tk.Event) -> None:
         self._globe_drag_active = False
