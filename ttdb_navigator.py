@@ -4,9 +4,12 @@ import os
 import re
 import time
 from pathlib import Path
+from io import BytesIO
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font as tkfont
+from PIL import Image, ImageTk
+import cairosvg
 
 DB_PATH = Path("MyMentalPalaceDB.md")
 
@@ -15,6 +18,8 @@ ANIMATION_MS = 16
 DRAG_SENSITIVITY = 0.005
 DRAG_THRESHOLD = 6
 DRAG_LAT_LIMIT = math.pi / 2 - 0.08
+SVG_MAX_WIDTH = 800
+SVG_MAX_HEIGHT = 600
 
 
 class NavigatorApp(tk.Tk):
@@ -31,6 +36,9 @@ class NavigatorApp(tk.Tk):
         self._db_selected_id: str | None = None
         self._db_coords: dict[str, tuple[float, float]] = {}
         self._db_view_image: tk.PhotoImage | None = None
+        self._svg_cache: dict[str, bytes] = {}
+        self._image_original: Image.Image | None = None
+        self._image_canvas_id: int | None = None
 
         self._globe_rot_lat = 0.0
         self._globe_rot_lon = 0.0
@@ -137,12 +145,23 @@ class NavigatorApp(tk.Tk):
             insertbackground="#e9e9f0",
             relief="flat",
         )
+        self._db_view_padx = 12
+        self._db_view_pady = 12
         self.db_view.pack(side="left", fill="both", expand=True)
         text_scroll = ttk.Scrollbar(text_frame, orient="vertical", command=self.db_view.yview)
         text_scroll.pack(side="right", fill="y")
         self.db_view.configure(yscrollcommand=text_scroll.set)
         self._apply_text_tags(self.db_view)
         self.db_view.configure(state="disabled")
+        self._text_scroll = text_scroll
+
+        self.image_view = tk.Canvas(
+            text_frame,
+            background="#0f0f12",
+            highlightthickness=0,
+        )
+        self.image_view.bind("<Configure>", self._on_image_view_resize)
+        self._image_view_visible = False
 
         self.globe = tk.Canvas(
             globe_frame,
@@ -194,6 +213,7 @@ class NavigatorApp(tk.Tk):
         return path.read_text(encoding="utf-8")
 
     def _render_markdown(self, widget: tk.Text, content: str) -> None:
+        self._show_text_view()
         widget.configure(state="normal")
         widget.delete("1.0", "end")
         self._insert_markdown(widget, content)
@@ -388,9 +408,10 @@ class NavigatorApp(tk.Tk):
         widget.delete("1.0", "end")
 
         image_path = self._extract_markdown_image(record.get("body", ""))
-        if image_path and self._render_image_only(widget, image_path):
-            widget.configure(state="disabled")
+        if image_path and self._render_image_only(image_path):
             return
+        self._show_text_view()
+        widget.configure(padx=self._db_view_padx, pady=self._db_view_pady)
 
         widget.insert("end", f"{record_id}\n", ("h2",))
         widget.insert("end", record["header"] + "\n", ("muted",))
@@ -444,7 +465,7 @@ class NavigatorApp(tk.Tk):
                 return raw
         return None
 
-    def _render_image_only(self, widget: tk.Text, image_path: str) -> bool:
+    def _render_image_only(self, image_path: str) -> bool:
         if image_path.startswith(("http://", "https://")):
             return False
         if os.name == "posix":
@@ -465,14 +486,77 @@ class NavigatorApp(tk.Tk):
         path = next((p for p in candidates if p.exists()), None)
         if path is None:
             return False
-        try:
-            photo = tk.PhotoImage(file=str(path))
-        except tk.TclError:
+        image = None
+        if path.suffix.lower() == ".svg":
+            image = self._rasterize_svg(path)
+        else:
+            try:
+                image = Image.open(path)
+            except Exception:
+                return False
+        if image is None:
             return False
-        self._db_view_image = photo
-        widget.image_create("end", image=photo)
-        widget.insert("end", "\n")
+        self._image_original = image
+        self._show_image_view()
+        self._update_image_view()
         return True
+
+    def _rasterize_svg(self, path: Path) -> Image.Image | None:
+        cache_key = str(path.resolve())
+        png_bytes = self._svg_cache.get(cache_key)
+        if png_bytes is None:
+            try:
+                png_bytes = cairosvg.svg2png(
+                    url=str(path),
+                    output_width=SVG_MAX_WIDTH,
+                    output_height=SVG_MAX_HEIGHT,
+                )
+            except Exception:
+                return None
+            self._svg_cache[cache_key] = png_bytes
+        try:
+            image = Image.open(BytesIO(png_bytes))
+        except Exception:
+            return None
+        return image
+
+    def _show_image_view(self) -> None:
+        if self._image_view_visible:
+            return
+        self.db_view.pack_forget()
+        self._text_scroll.pack_forget()
+        self.image_view.pack(fill="both", expand=True)
+        self._image_view_visible = True
+
+    def _show_text_view(self) -> None:
+        if not self._image_view_visible:
+            return
+        self.image_view.pack_forget()
+        self.db_view.pack(side="left", fill="both", expand=True)
+        self._text_scroll.pack(side="right", fill="y")
+        self._image_view_visible = False
+
+    def _on_image_view_resize(self, _event: tk.Event) -> None:
+        self._update_image_view()
+
+    def _update_image_view(self) -> None:
+        if not self._image_original:
+            return
+        canvas_w = max(self.image_view.winfo_width(), 1)
+        canvas_h = max(self.image_view.winfo_height(), 1)
+        if canvas_w <= 1 or canvas_h <= 1:
+            return
+        img_w, img_h = self._image_original.size
+        if img_w <= 0 or img_h <= 0:
+            return
+        scale = min(canvas_w / img_w, canvas_h / img_h)
+        new_w = max(1, int(img_w * scale))
+        new_h = max(1, int(img_h * scale))
+        resized = self._image_original.resize((new_w, new_h), Image.LANCZOS)
+        photo = ImageTk.PhotoImage(resized)
+        self._db_view_image = photo
+        self.image_view.delete("all")
+        self.image_view.create_image(0, 0, image=photo, anchor="nw")
 
     def _update_header(self) -> None:
         if self._db_selected_id:
