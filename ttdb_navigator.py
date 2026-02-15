@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import math
 import re
+import time
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
@@ -10,14 +11,17 @@ DB_PATH = Path("MyMentalPalaceDB.md")
 
 REFRESH_MS = 1500
 ANIMATION_MS = 16
+DRAG_SENSITIVITY = 0.005
+DRAG_THRESHOLD = 6
+DRAG_LAT_LIMIT = math.pi / 2 - 0.08
 
 
 class NavigatorApp(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.title("TTDB Navigator")
-        self.geometry("1200x800")
-        self.minsize(900, 600)
+        self.geometry("900x700")
+        self.minsize(700, 700)
 
         self._file_mtimes = {}
         self._auto_refresh = tk.BooleanVar(value=True)
@@ -32,6 +36,10 @@ class NavigatorApp(tk.Tk):
         self._globe_target_lon = 0.0
         self._globe_animating = False
         self._globe_items: dict[int, str] = {}
+        self._globe_drag_active = False
+        self._globe_drag_start = (0, 0)
+        self._globe_drag_last = (0, 0)
+        self._globe_suppress_click_until = 0.0
 
         self._init_fonts()
         self._build_ui()
@@ -108,13 +116,13 @@ class NavigatorApp(tk.Tk):
         self.db_listbox.configure(yscrollcommand=list_scroll.set)
         self.db_listbox.bind("<<ListboxSelect>>", self._on_db_list_select)
 
-        right_pane = ttk.Panedwindow(right, orient="vertical")
-        right_pane.pack(fill="both", expand=True)
+        self.right_pane = ttk.Panedwindow(right, orient="vertical")
+        self.right_pane.pack(fill="both", expand=True)
 
-        text_frame = ttk.Frame(right_pane)
-        globe_frame = ttk.Frame(right_pane)
-        right_pane.add(text_frame, weight=3)
-        right_pane.add(globe_frame, weight=2)
+        text_frame = ttk.Frame(self.right_pane)
+        globe_frame = ttk.Frame(self.right_pane)
+        self.right_pane.add(text_frame, weight=1)
+        self.right_pane.add(globe_frame, weight=1)
 
         self.db_view = tk.Text(
             text_frame,
@@ -141,7 +149,11 @@ class NavigatorApp(tk.Tk):
         )
         self.globe.pack(fill="both", expand=True)
         self.globe.bind("<Configure>", self._on_globe_resize)
-        self.globe.bind("<Button-1>", self._on_globe_click)
+        self.globe.bind("<ButtonPress-1>", self._on_globe_press)
+        self.globe.bind("<B1-Motion>", self._on_globe_drag)
+        self.globe.bind("<ButtonRelease-1>", self._on_globe_release)
+
+        self.after(0, self._set_right_pane_split)
 
     def _apply_text_tags(self, text: tk.Text) -> None:
         text.tag_configure("h1", font=self.font_h1, foreground="#ffd166")
@@ -332,7 +344,7 @@ class NavigatorApp(tk.Tk):
         self.db_listbox.delete(0, "end")
         for record_id in self._db_order:
             title = self._db_records.get(record_id, {}).get("title")
-            label = f"{record_id} - {title}" if title else record_id
+            label = title if title else record_id
             self.db_listbox.insert("end", label)
 
         if self._db_selected_id in self._db_order:
@@ -471,13 +483,58 @@ class NavigatorApp(tk.Tk):
     def _on_globe_resize(self, event: tk.Event) -> None:
         self._render_globe()
 
+    def _set_right_pane_split(self) -> None:
+        height = self.right_pane.winfo_height()
+        if height <= 1:
+            self.after(50, self._set_right_pane_split)
+            return
+        self.right_pane.sashpos(0, height // 2)
+
+    def _on_globe_press(self, event: tk.Event) -> None:
+        self._globe_drag_active = False
+        self._globe_drag_start = (event.x, event.y)
+        self._globe_drag_last = (event.x, event.y)
+
+    def _on_globe_drag(self, event: tk.Event) -> None:
+        start_x, start_y = self._globe_drag_start
+        dx_total = event.x - start_x
+        dy_total = event.y - start_y
+        if not self._globe_drag_active:
+            if math.hypot(dx_total, dy_total) < DRAG_THRESHOLD:
+                return
+            self._globe_drag_active = True
+
+        last_x, last_y = self._globe_drag_last
+        dx = event.x - last_x
+        dy = event.y - last_y
+        self._globe_drag_last = (event.x, event.y)
+
+        self._globe_rot_lon += dx * DRAG_SENSITIVITY
+        self._globe_rot_lat = self._clamp_lat(self._globe_rot_lat + dy * DRAG_SENSITIVITY)
+        self._globe_target_lat = self._globe_rot_lat
+        self._globe_target_lon = self._globe_rot_lon
+        self._globe_animating = False
+        self._render_globe()
+
+    def _on_globe_release(self, event: tk.Event) -> None:
+        if self._globe_drag_active:
+            self._globe_suppress_click_until = time.time() + 0.25
+            self._globe_drag_active = False
+            return
+        self._on_globe_click(event)
+
     def _on_globe_click(self, event: tk.Event) -> None:
+        if time.time() < self._globe_suppress_click_until:
+            return
         item = self.globe.find_withtag("current")
         if not item:
             return
         record_id = self._globe_items.get(item[0])
         if record_id:
             self._select_db_record(record_id)
+
+    def _clamp_lat(self, lat: float) -> float:
+        return max(-DRAG_LAT_LIMIT, min(DRAG_LAT_LIMIT, lat))
 
     def _project_point(self, lat: float, lon: float) -> tuple[float, float, float]:
         lat_r = math.radians(lat)
@@ -631,10 +688,11 @@ class NavigatorApp(tk.Tk):
                 tags=("node",),
             )
             self._globe_items[item] = record_id
+            title = self._db_records.get(record_id, {}).get("title") or record_id
             globe.create_text(
                 px,
                 py - 14,
-                text=record_id,
+                text=title,
                 fill="#e9e9f0",
                 font=("TkDefaultFont", 9, "bold"),
             )
