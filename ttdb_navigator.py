@@ -21,6 +21,7 @@ DRAG_THRESHOLD = 6
 DRAG_LAT_LIMIT = math.pi / 2 - 0.08
 SVG_MAX_WIDTH = 800
 SVG_MAX_HEIGHT = 600
+TTDB_EXTENSIONS = {".md", ".tex", ".ttdb"}
 
 
 class NavigatorApp(tk.Tk):
@@ -32,6 +33,7 @@ class NavigatorApp(tk.Tk):
 
         self._file_mtimes = {}
         self._auto_refresh = tk.BooleanVar(value=True)
+        self._db_path: Path | None = None
         self._db_records: dict[str, dict] = {}
         self._db_order: list[str] = []
         self._db_selected_id: str | None = None
@@ -55,9 +57,10 @@ class NavigatorApp(tk.Tk):
         self._globe_suppress_click_until = 0.0
 
         self._init_fonts()
-        self._build_ui()
-        self._refresh_all(force=True)
-        self.after(REFRESH_MS, self._poll_files)
+        self._build_launcher_ui()
+        self._build_main_ui()
+        self._show_launcher()
+        self._polling_active = False
 
     def _init_fonts(self) -> None:
         base = tkfont.nametofont("TkDefaultFont")
@@ -78,8 +81,9 @@ class NavigatorApp(tk.Tk):
             size=10,
         )
 
-    def _build_ui(self) -> None:
-        top = ttk.Frame(self, padding=10)
+    def _build_main_ui(self) -> None:
+        self.main_frame = ttk.Frame(self)
+        top = ttk.Frame(self.main_frame, padding=10)
         top.pack(fill="x")
 
         self.current_selection_var = tk.StringVar(value="Selected: (loading)")
@@ -102,7 +106,7 @@ class NavigatorApp(tk.Tk):
         )
         auto_refresh.pack(side="right", padx=(0, 12))
 
-        pane = ttk.Panedwindow(self, orient="horizontal")
+        pane = ttk.Panedwindow(self.main_frame, orient="horizontal")
         pane.pack(fill="both", expand=True)
 
         left = ttk.Frame(pane, padding=(8, 8, 4, 8))
@@ -182,6 +186,319 @@ class NavigatorApp(tk.Tk):
 
         self.after(0, self._set_right_pane_split)
 
+    def _build_launcher_ui(self) -> None:
+        self.launcher_frame = ttk.Frame(self)
+        self.launcher_header = ttk.Label(
+            self.launcher_frame,
+            text="TTDB Globe Selector",
+            font=("TkDefaultFont", 14, "bold"),
+        )
+        self.launcher_header.pack(anchor="center", pady=(12, 6))
+        self.launcher_grid = ttk.Frame(self.launcher_frame)
+        self.launcher_grid.pack(fill="both", expand=True, padx=12, pady=12)
+        self.launcher_hint = ttk.Label(
+            self.launcher_frame,
+            text="Click a globe to open its TTDB navigator.",
+            foreground="#a7a7b3",
+        )
+        self.launcher_hint.pack(anchor="center", pady=(0, 12))
+        self._launcher_canvases: list[tk.Canvas] = []
+        self._launcher_data: list[dict] = []
+
+    def _show_launcher(self) -> None:
+        self.main_frame.pack_forget()
+        self.launcher_frame.pack(fill="both", expand=True)
+        self._enter_launcher_fullscreen()
+        self._load_launcher_globes()
+
+    def _enter_launcher_fullscreen(self) -> None:
+        try:
+            self.state("zoomed")
+        except tk.TclError:
+            try:
+                self.attributes("-fullscreen", True)
+            except tk.TclError:
+                pass
+
+    def _show_main(self) -> None:
+        self.launcher_frame.pack_forget()
+        self.main_frame.pack(fill="both", expand=True)
+        try:
+            self.attributes("-fullscreen", False)
+        except tk.TclError:
+            pass
+
+    def _load_launcher_globes(self) -> None:
+        for canvas in self._launcher_canvases:
+            canvas.destroy()
+        self._launcher_canvases = []
+        self._launcher_data = []
+
+        ttdb_files = self._find_ttdb_files()
+        if not ttdb_files and DB_PATH.exists():
+            ttdb_files = [DB_PATH]
+
+        for path in ttdb_files:
+            data = self._load_launcher_data(path)
+            self._launcher_data.append(data)
+
+        if not self._launcher_data:
+            self.launcher_hint.configure(text="No TTDB files found in this directory.")
+            return
+
+        self.launcher_hint.configure(text="Click a globe to open its TTDB navigator.")
+        count = len(self._launcher_data)
+        cols = 1 if count == 1 else (2 if count <= 4 else 3)
+        for c in range(cols):
+            self.launcher_grid.columnconfigure(c, weight=1, uniform="globe")
+        rows = (count + cols - 1) // cols
+        for r in range(rows):
+            self.launcher_grid.rowconfigure(r, weight=1, uniform="globe")
+
+        for idx, data in enumerate(self._launcher_data):
+            row = idx // cols
+            col = idx % cols
+            canvas = tk.Canvas(
+                self.launcher_grid,
+                background="#08090c",
+                highlightthickness=0,
+            )
+            canvas.grid(row=row, column=col, sticky="nsew", padx=8, pady=8)
+            canvas.bind(
+                "<Button-1>",
+                lambda _event, target=data["path"]: self._open_ttdb(target),
+            )
+            canvas.bind(
+                "<Configure>",
+                lambda _event, cvs=canvas, payload=data: self._render_launcher_globe(cvs, payload),
+            )
+            self._launcher_canvases.append(canvas)
+
+    def _find_ttdb_files(self) -> list[Path]:
+        candidates = []
+        for path in Path.cwd().iterdir():
+            if not path.is_file():
+                continue
+            if path.suffix.lower() not in TTDB_EXTENSIONS:
+                continue
+            if self._looks_like_ttdb(path):
+                candidates.append(path)
+        return sorted(candidates)
+
+    def _looks_like_ttdb(self, path: Path) -> bool:
+        try:
+            content = path.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            return False
+        if not re.search(r"^#\s+.+", content, flags=re.M):
+            return False
+        if "```mmpdb" not in content:
+            return False
+        if "```cursor" not in content:
+            return False
+        if not re.search(r"^@LAT-?\d+(?:\.\d+)?LON-?\d+(?:\.\d+)?", content, flags=re.M):
+            return False
+        return True
+
+    def _load_launcher_data(self, path: Path) -> dict:
+        try:
+            content = path.read_text(encoding="utf-8")
+        except Exception:
+            content = ""
+        db_name = self._extract_db_name(content) or path.stem
+        records, order, selected, coords = self._parse_db_records(content)
+        return {
+            "path": path,
+            "name": db_name,
+            "coords": coords,
+            "selected": selected if selected in coords else (order[0] if order else None),
+        }
+
+    def _extract_db_name(self, content: str) -> str | None:
+        match = re.search(r"```mmpdb(.*?)```", content, flags=re.S)
+        if not match:
+            return None
+        for line in match.group(1).splitlines():
+            name_match = re.match(r"\s*db_name:\s*(.+)", line)
+            if name_match:
+                return name_match.group(1).strip().strip('"').strip("'")
+        return None
+
+    def _render_launcher_globe(self, canvas: tk.Canvas, data: dict) -> None:
+        canvas.delete("all")
+        width = max(canvas.winfo_width(), 200)
+        height = max(canvas.winfo_height(), 200)
+        padding = 14
+        radius = min(width, height) / 2 - padding
+        if radius <= 10:
+            return
+        cx = width / 2
+        cy = height / 2
+
+        canvas.create_oval(
+            cx - radius,
+            cy - radius,
+            cx + radius,
+            cy + radius,
+            fill="#0e1117",
+            outline="#2a2f3a",
+            width=2,
+        )
+        canvas.create_oval(
+            cx - radius * 0.92,
+            cy - radius * 0.92,
+            cx + radius * 0.92,
+            cy + radius * 0.92,
+            outline="#141824",
+            width=1,
+        )
+
+        self._draw_graticule_static(canvas, cx, cy, radius)
+
+        coords: dict[str, tuple[float, float]] = data.get("coords", {})
+        selected = data.get("selected")
+        if coords:
+            nodes_front = []
+            nodes_back = []
+            selected_point = None
+            for record_id, (lat, lon) in coords.items():
+                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0)
+                if record_id == selected:
+                    selected_point = (record_id, x, y, z)
+                elif z > 0:
+                    nodes_front.append((record_id, x, y, z))
+                else:
+                    nodes_back.append((record_id, x, y, z))
+
+            for _record_id, x, y, _z in nodes_back:
+                px = cx + x * radius
+                py = cy - y * radius
+                size = 3
+                canvas.create_oval(
+                    px - size,
+                    py - size,
+                    px + size,
+                    py + size,
+                    fill="#2b303b",
+                    outline="",
+                )
+
+            for _record_id, x, y, _z in nodes_front:
+                px = cx + x * radius
+                py = cy - y * radius
+                size = 5
+                canvas.create_oval(
+                    px - size,
+                    py - size,
+                    px + size,
+                    py + size,
+                    fill="#7cc7ff",
+                    outline="#0b0b10",
+                    width=2,
+                )
+
+            if selected_point:
+                _record_id, x, y, _z = selected_point
+                px = cx + x * radius
+                py = cy - y * radius
+                size = 7
+                canvas.create_oval(
+                    px - size,
+                    py - size,
+                    px + size,
+                    py + size,
+                    fill="#ffd166",
+                    outline="#f4a261",
+                    width=2,
+                )
+        else:
+            canvas.create_text(
+                cx,
+                cy,
+                text="No TTDB coords",
+                fill="#6c7a89",
+                font=("TkDefaultFont", 10, "bold"),
+            )
+
+        canvas.create_text(
+            cx,
+            height - 16,
+            text=data.get("name") or "TTDB",
+            fill="#e9e9f0",
+            font=("TkDefaultFont", 10, "bold"),
+        )
+
+    def _project_point_static(
+        self, lat: float, lon: float, rot_lat: float, rot_lon: float
+    ) -> tuple[float, float, float]:
+        lat_r = math.radians(lat)
+        lon_r = math.radians(lon)
+
+        x = math.cos(lat_r) * math.sin(lon_r)
+        y = math.sin(lat_r)
+        z = math.cos(lat_r) * math.cos(lon_r)
+
+        cos_y = math.cos(rot_lon)
+        sin_y = math.sin(rot_lon)
+        x1 = x * cos_y + z * sin_y
+        z1 = -x * sin_y + z * cos_y
+
+        cos_x = math.cos(rot_lat)
+        sin_x = math.sin(rot_lat)
+        y1 = y * cos_x - z1 * sin_x
+        z2 = y * sin_x + z1 * cos_x
+
+        return x1, y1, z2
+
+    def _draw_graticule_static(self, canvas: tk.Canvas, cx: float, cy: float, radius: float) -> None:
+        for lon in range(-150, 180, 30):
+            points = []
+            for lat in range(-90, 91, 6):
+                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0)
+                visible = z > 0
+                if visible:
+                    px = cx + x * radius
+                    py = cy - y * radius
+                    points.append((px, py, visible))
+                else:
+                    points.append((0, 0, visible))
+            self._draw_visible_line_static(canvas, points)
+
+        for lat in range(-60, 90, 30):
+            points = []
+            for lon in range(-180, 181, 6):
+                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0)
+                visible = z > 0
+                if visible:
+                    px = cx + x * radius
+                    py = cy - y * radius
+                    points.append((px, py, visible))
+                else:
+                    points.append((0, 0, visible))
+            self._draw_visible_line_static(canvas, points)
+
+    def _draw_visible_line_static(
+        self, canvas: tk.Canvas, points: list[tuple[float, float, bool]]
+    ) -> None:
+        line = []
+        for px, py, visible in points:
+            if visible:
+                line.append((px, py))
+            elif line:
+                if len(line) >= 2:
+                    canvas.create_line(
+                        *self._flatten(line),
+                        fill="#1a1f2a",
+                        width=1,
+                    )
+                line = []
+        if len(line) >= 2:
+            canvas.create_line(
+                *self._flatten(line),
+                fill="#1a1f2a",
+                width=1,
+            )
+
     def _apply_text_tags(self, text: tk.Text) -> None:
         text.tag_configure("h1", font=self.font_h1, foreground="#ffd166")
         text.tag_configure("h2", font=self.font_h2, foreground="#f4a261")
@@ -196,12 +513,17 @@ class NavigatorApp(tk.Tk):
         text.tag_configure("link", foreground="#7cc7ff", underline=True)
 
     def _poll_files(self) -> None:
+        if not self._db_path:
+            self._polling_active = False
+            return
         if self._auto_refresh.get():
             self._refresh_all()
         self.after(REFRESH_MS, self._poll_files)
 
     def _refresh_all(self, force: bool = False) -> None:
-        db_text = self._read_if_changed(DB_PATH, force=force)
+        if not self._db_path:
+            return
+        db_text = self._read_if_changed(self._db_path, force=force)
         if db_text is not None:
             self._update_db_data(db_text)
 
@@ -217,6 +539,18 @@ class NavigatorApp(tk.Tk):
 
         self._file_mtimes[path] = stat.st_mtime
         return path.read_text(encoding="utf-8")
+
+    def _start_polling(self) -> None:
+        if self._polling_active:
+            return
+        self._polling_active = True
+        self.after(REFRESH_MS, self._poll_files)
+
+    def _open_ttdb(self, path: Path) -> None:
+        self._db_path = path
+        self._show_main()
+        self._refresh_all(force=True)
+        self._start_polling()
 
     def _render_markdown(self, widget: tk.Text, content: str) -> None:
         self._show_text_view()
@@ -524,7 +858,7 @@ class NavigatorApp(tk.Tk):
                 drive = win_drive.group(1).lower()
                 rest = win_drive.group(2).replace("\\", "/")
                 image_path = f"/mnt/{drive}/{rest}"
-        base_dir = DB_PATH.resolve().parent
+        base_dir = (self._db_path or DB_PATH).resolve().parent
         candidates: list[Path] = []
         raw_path = Path(image_path)
         candidates.append(raw_path)
