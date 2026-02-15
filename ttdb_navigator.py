@@ -8,6 +8,7 @@ from io import BytesIO
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font as tkfont
+import webbrowser
 from PIL import Image, ImageTk
 import cairosvg
 
@@ -39,6 +40,8 @@ class NavigatorApp(tk.Tk):
         self._svg_cache: dict[str, bytes] = {}
         self._image_original: Image.Image | None = None
         self._image_canvas_id: int | None = None
+        self._image_text_mode = False
+        self._link_counter = 0
 
         self._globe_rot_lat = 0.0
         self._globe_rot_lon = 0.0
@@ -134,8 +137,11 @@ class NavigatorApp(tk.Tk):
         self.right_pane.add(text_frame, weight=1)
         self.right_pane.add(globe_frame, weight=1)
 
+        self.text_container = ttk.Frame(text_frame)
+        self.text_container.pack(side="top", fill="both", expand=True)
+
         self.db_view = tk.Text(
-            text_frame,
+            self.text_container,
             wrap="word",
             font=self.font_body,
             padx=12,
@@ -148,7 +154,7 @@ class NavigatorApp(tk.Tk):
         self._db_view_padx = 12
         self._db_view_pady = 12
         self.db_view.pack(side="left", fill="both", expand=True)
-        text_scroll = ttk.Scrollbar(text_frame, orient="vertical", command=self.db_view.yview)
+        text_scroll = ttk.Scrollbar(self.text_container, orient="vertical", command=self.db_view.yview)
         text_scroll.pack(side="right", fill="y")
         self.db_view.configure(yscrollcommand=text_scroll.set)
         self._apply_text_tags(self.db_view)
@@ -241,18 +247,83 @@ class NavigatorApp(tk.Tk):
                 continue
 
             if re.match(r"^\s*(-|\*|\d+\.)\s+", line):
-                widget.insert("end", line + "\n", ("bullet",))
+                self._insert_markdown_line(widget, line, ("bullet",))
+                widget.insert("end", "\n")
                 continue
 
             if re.match(r"^\s*>\s+", line):
-                widget.insert("end", line + "\n", ("quote",))
+                self._insert_markdown_line(widget, line, ("quote",))
+                widget.insert("end", "\n")
                 continue
 
             if re.match(r"^\s*---+\s*$", line):
                 widget.insert("end", line + "\n", ("rule",))
                 continue
 
-            widget.insert("end", line + "\n")
+            self._insert_markdown_line(widget, line)
+            widget.insert("end", "\n")
+
+    def _insert_markdown_line(
+        self, widget: tk.Text, line: str, extra_tags: tuple[str, ...] = ()
+    ) -> None:
+        cursor = 0
+        for match in re.finditer(r"\[([^\]]+)\]\(([^)]+)\)", line):
+            start, end = match.span()
+            if start > cursor:
+                widget.insert("end", line[cursor:start], extra_tags)
+            label = match.group(1)
+            url = match.group(2).strip()
+            if url:
+                tag = f"link_{self._link_counter}"
+                self._link_counter += 1
+                widget.tag_configure(tag, foreground="#7cc7ff", underline=True)
+                internal_target = self._resolve_internal_target(url)
+                if internal_target:
+                    widget.tag_bind(
+                        tag,
+                        "<Button-1>",
+                        lambda _event, rid=internal_target: self._select_db_record(rid),
+                    )
+                else:
+                    widget.tag_bind(
+                        tag,
+                        "<Button-1>",
+                        lambda _event, target=url: webbrowser.open(target),
+                    )
+                widget.tag_bind(
+                    tag,
+                    "<Enter>",
+                    lambda _event: widget.configure(cursor="hand2"),
+                )
+                widget.tag_bind(
+                    tag,
+                    "<Leave>",
+                    lambda _event: widget.configure(cursor=""),
+                )
+                widget.insert("end", label, (tag, *extra_tags))
+            else:
+                widget.insert("end", label, extra_tags)
+            cursor = end
+        if cursor < len(line):
+            widget.insert("end", line[cursor:], extra_tags)
+
+    def _resolve_internal_target(self, target: str) -> str | None:
+        cleaned = target.strip()
+        if cleaned.startswith("<") and cleaned.endswith(">"):
+            cleaned = cleaned[1:-1].strip()
+        if "#" in cleaned:
+            cleaned = cleaned.rsplit("#", 1)[-1].strip()
+        if cleaned.startswith("ttdb://"):
+            cleaned = cleaned[7:].strip()
+        elif cleaned.startswith("ttdb:"):
+            cleaned = cleaned[5:].strip()
+        if cleaned.startswith("/"):
+            cleaned = cleaned.lstrip("/").strip()
+        if not cleaned:
+            return None
+        if cleaned in self._db_records:
+            return cleaned
+        return None
 
     def _update_db_data(self, content: str) -> None:
         if content.startswith("File not found:"):
@@ -407,50 +478,29 @@ class NavigatorApp(tk.Tk):
         widget.configure(state="normal")
         widget.delete("1.0", "end")
 
-        image_path = self._extract_markdown_image(record.get("body", ""))
-        if image_path and self._render_image_only(image_path):
-            return
-        self._show_text_view()
+        body = record.get("body", "")
+        image_path = self._extract_markdown_image(body)
+        image_rendered = bool(image_path and self._render_image_with_text(image_path))
+        if image_rendered:
+            body = self._strip_markdown_images(body)
+        else:
+            self._show_text_view()
         widget.configure(padx=self._db_view_padx, pady=self._db_view_pady)
 
-        widget.insert("end", f"{record_id}\n", ("h2",))
-        widget.insert("end", record["header"] + "\n", ("muted",))
-
-        edges = record.get("edges", [])
-        if edges:
-            widget.insert("end", "\nRelated records\n", ("h3",))
-            for idx, edge in enumerate(edges):
-                edge_type = edge.get("type") or "relates"
-                target = edge.get("target") or ""
-                tag = f"link_{record_id}_{idx}"
-                widget.tag_configure(tag, foreground="#7cc7ff", underline=True)
-                widget.tag_bind(
-                    tag,
-                    "<Button-1>",
-                    lambda _event, rid=target: self._select_db_record(rid),
-                )
-                widget.tag_bind(
-                    tag,
-                    "<Enter>",
-                    lambda _event: widget.configure(cursor="hand2"),
-                )
-                widget.tag_bind(
-                    tag,
-                    "<Leave>",
-                    lambda _event: widget.configure(cursor=""),
-                )
-                widget.insert("end", f"- {edge_type} -> ", ("bullet",))
-                if target in self._db_records:
-                    widget.insert("end", target + "\n", ("bullet", tag))
-                else:
-                    widget.insert("end", target + "\n", ("bullet", "muted"))
-
-        body = record.get("body", "")
         if body:
             widget.insert("end", "\n")
             self._insert_markdown(widget, body)
 
         widget.configure(state="disabled")
+
+    def _strip_markdown_images(self, content: str) -> str:
+        if not content:
+            return content
+        cleaned_lines = []
+        for line in content.splitlines():
+            cleaned_lines.append(re.sub(r"!\[[^\]]*\]\([^)]+\)", "", line))
+        cleaned = "\n".join(cleaned_lines).strip()
+        return cleaned
 
     def _extract_markdown_image(self, content: str) -> str | None:
         for match in re.finditer(r"!\[[^\]]*\]\(([^)]+)\)", content):
@@ -465,7 +515,7 @@ class NavigatorApp(tk.Tk):
                 return raw
         return None
 
-    def _render_image_only(self, image_path: str) -> bool:
+    def _render_image_with_text(self, image_path: str) -> bool:
         if image_path.startswith(("http://", "https://")):
             return False
         if os.name == "posix":
@@ -497,7 +547,7 @@ class NavigatorApp(tk.Tk):
         if image is None:
             return False
         self._image_original = image
-        self._show_image_view()
+        self._show_image_with_text()
         self._update_image_view()
         return True
 
@@ -520,21 +570,23 @@ class NavigatorApp(tk.Tk):
             return None
         return image
 
-    def _show_image_view(self) -> None:
-        if self._image_view_visible:
+    def _show_image_with_text(self) -> None:
+        if self._image_view_visible and self._image_text_mode:
             return
-        self.db_view.pack_forget()
-        self._text_scroll.pack_forget()
-        self.image_view.pack(fill="both", expand=True)
+        self.image_view.pack_forget()
+        self.text_container.pack_forget()
+        self.image_view.pack(side="top", fill="x")
+        self.text_container.pack(side="top", fill="both", expand=True)
         self._image_view_visible = True
+        self._image_text_mode = True
 
     def _show_text_view(self) -> None:
         if not self._image_view_visible:
             return
         self.image_view.pack_forget()
-        self.db_view.pack(side="left", fill="both", expand=True)
-        self._text_scroll.pack(side="right", fill="y")
+        self.text_container.pack(side="top", fill="both", expand=True)
         self._image_view_visible = False
+        self._image_text_mode = False
 
     def _on_image_view_resize(self, _event: tk.Event) -> None:
         self._update_image_view()
@@ -543,13 +595,12 @@ class NavigatorApp(tk.Tk):
         if not self._image_original:
             return
         canvas_w = max(self.image_view.winfo_width(), 1)
-        canvas_h = max(self.image_view.winfo_height(), 1)
-        if canvas_w <= 1 or canvas_h <= 1:
+        if canvas_w <= 1:
             return
         img_w, img_h = self._image_original.size
         if img_w <= 0 or img_h <= 0:
             return
-        scale = min(canvas_w / img_w, canvas_h / img_h)
+        scale = canvas_w / img_w
         new_w = max(1, int(img_w * scale))
         new_h = max(1, int(img_h * scale))
         resized = self._image_original.resize((new_w, new_h), Image.LANCZOS)
@@ -557,6 +608,7 @@ class NavigatorApp(tk.Tk):
         self._db_view_image = photo
         self.image_view.delete("all")
         self.image_view.create_image(0, 0, image=photo, anchor="nw")
+        self.image_view.configure(height=new_h)
 
     def _update_header(self) -> None:
         if self._db_selected_id:
