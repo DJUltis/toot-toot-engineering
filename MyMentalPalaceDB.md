@@ -69,7 +69,7 @@ dot: |
 
 ## The Root Workbench
 You arrive at **@LAT-81.6LON0.0**, the root node.  
-![the forge](/images/time-foundry.svg)
+![the forge](/images/toot-toot-logo.png)
 A workbench sits here, lit well enough to build, dim enough to notice what is unknown.   
 - **Rule of this workshop:** all paths are *chosen*, not forced.
 - The bench **inspires** a first workflow to [the South-East](@LAT-71.1LON-84.2).

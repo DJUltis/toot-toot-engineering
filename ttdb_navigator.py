@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+import os
 import re
 import time
 from pathlib import Path
@@ -29,6 +30,7 @@ class NavigatorApp(tk.Tk):
         self._db_order: list[str] = []
         self._db_selected_id: str | None = None
         self._db_coords: dict[str, tuple[float, float]] = {}
+        self._db_view_image: tk.PhotoImage | None = None
 
         self._globe_rot_lat = 0.0
         self._globe_rot_lon = 0.0
@@ -385,6 +387,11 @@ class NavigatorApp(tk.Tk):
         widget.configure(state="normal")
         widget.delete("1.0", "end")
 
+        image_path = self._extract_markdown_image(record.get("body", ""))
+        if image_path and self._render_image_only(widget, image_path):
+            widget.configure(state="disabled")
+            return
+
         widget.insert("end", f"{record_id}\n", ("h2",))
         widget.insert("end", record["header"] + "\n", ("muted",))
 
@@ -423,6 +430,49 @@ class NavigatorApp(tk.Tk):
             self._insert_markdown(widget, body)
 
         widget.configure(state="disabled")
+
+    def _extract_markdown_image(self, content: str) -> str | None:
+        for match in re.finditer(r"!\[[^\]]*\]\(([^)]+)\)", content):
+            raw = match.group(1).strip()
+            if not raw:
+                continue
+            if raw.startswith("<") and raw.endswith(">"):
+                raw = raw[1:-1].strip()
+            if " " in raw:
+                raw = raw.split()[0]
+            if raw:
+                return raw
+        return None
+
+    def _render_image_only(self, widget: tk.Text, image_path: str) -> bool:
+        if image_path.startswith(("http://", "https://")):
+            return False
+        if os.name == "posix":
+            win_drive = re.match(r"^([A-Za-z]):[\\/](.*)$", image_path)
+            if win_drive:
+                drive = win_drive.group(1).lower()
+                rest = win_drive.group(2).replace("\\", "/")
+                image_path = f"/mnt/{drive}/{rest}"
+        base_dir = DB_PATH.resolve().parent
+        candidates: list[Path] = []
+        raw_path = Path(image_path)
+        candidates.append(raw_path)
+        if image_path.startswith(("/", "\\")):
+            candidates.append(base_dir / image_path.lstrip("/\\"))
+            if base_dir.drive:
+                candidates.append(Path(f"{base_dir.drive}{image_path}"))
+        candidates.append(base_dir / raw_path)
+        path = next((p for p in candidates if p.exists()), None)
+        if path is None:
+            return False
+        try:
+            photo = tk.PhotoImage(file=str(path))
+        except tk.TclError:
+            return False
+        self._db_view_image = photo
+        widget.image_create("end", image=photo)
+        widget.insert("end", "\n")
+        return True
 
     def _update_header(self) -> None:
         if self._db_selected_id:
