@@ -50,6 +50,7 @@ class NavigatorApp(tk.Tk):
         self._globe_target_lat = 0.0
         self._globe_target_lon = 0.0
         self._globe_animating = False
+        self._globe_zoom = 1.0
         self._globe_items: dict[int, str] = {}
         self._globe_drag_active = False
         self._globe_drag_start = (0, 0)
@@ -183,6 +184,9 @@ class NavigatorApp(tk.Tk):
         self.globe.bind("<ButtonPress-1>", self._on_globe_press)
         self.globe.bind("<B1-Motion>", self._on_globe_drag)
         self.globe.bind("<ButtonRelease-1>", self._on_globe_release)
+        self.globe.bind("<MouseWheel>", self._on_globe_zoom)
+        self.globe.bind("<Button-4>", self._on_globe_zoom)
+        self.globe.bind("<Button-5>", self._on_globe_zoom)
 
         self.after(0, self._set_right_pane_split)
 
@@ -1053,6 +1057,17 @@ class NavigatorApp(tk.Tk):
         if record_id:
             self._select_db_record(record_id)
 
+    def _on_globe_zoom(self, event: tk.Event) -> None:
+        if getattr(event, "delta", 0):
+            direction = 1 if event.delta > 0 else -1
+        else:
+            direction = 1 if event.num == 4 else -1
+        if direction > 0:
+            self._globe_zoom = min(self._globe_zoom * 1.1, 2.5)
+        else:
+            self._globe_zoom = max(self._globe_zoom / 1.1, 0.6)
+        self._render_globe()
+
     def _clamp_lat(self, lat: float) -> float:
         return max(-DRAG_LAT_LIMIT, min(DRAG_LAT_LIMIT, lat))
 
@@ -1086,7 +1101,7 @@ class NavigatorApp(tk.Tk):
         width = max(globe.winfo_width(), 200)
         height = max(globe.winfo_height(), 200)
         padding = 6
-        radius = width / 2 - padding
+        radius = (width / 2 - padding) * self._globe_zoom
         if radius <= 10:
             return
 
