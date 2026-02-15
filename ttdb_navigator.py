@@ -22,6 +22,9 @@ DRAG_LAT_LIMIT = math.pi / 2 - 0.08
 SVG_MAX_WIDTH = 800
 SVG_MAX_HEIGHT = 600
 TTDB_EXTENSIONS = {".md", ".tex", ".ttdb"}
+Z_SCALE = 0.1
+Z_MIN_SCALE = 0.5
+Z_MAX_SCALE = 1.5
 
 
 class NavigatorApp(tk.Tk):
@@ -37,7 +40,7 @@ class NavigatorApp(tk.Tk):
         self._db_records: dict[str, dict] = {}
         self._db_order: list[str] = []
         self._db_selected_id: str | None = None
-        self._db_coords: dict[str, tuple[float, float]] = {}
+        self._db_coords: dict[str, tuple[float, float, float]] = {}
         self._db_view_image: tk.PhotoImage | None = None
         self._svg_cache: dict[str, bytes] = {}
         self._image_original: Image.Image | None = None
@@ -359,14 +362,14 @@ class NavigatorApp(tk.Tk):
 
         self._draw_graticule_static(canvas, cx, cy, radius)
 
-        coords: dict[str, tuple[float, float]] = data.get("coords", {})
+        coords: dict[str, tuple[float, float, float]] = data.get("coords", {})
         selected = data.get("selected")
         if coords:
             nodes_front = []
             nodes_back = []
             selected_point = None
-            for record_id, (lat, lon) in coords.items():
-                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0)
+            for record_id, (lat, lon, depth) in coords.items():
+                x, y, z = self._project_point_static(lat, lon, depth, 0.0, 0.0)
                 if record_id == selected:
                     selected_point = (record_id, x, y, z)
                 elif z > 0:
@@ -433,7 +436,7 @@ class NavigatorApp(tk.Tk):
         )
 
     def _project_point_static(
-        self, lat: float, lon: float, rot_lat: float, rot_lon: float
+        self, lat: float, lon: float, depth: float, rot_lat: float, rot_lon: float
     ) -> tuple[float, float, float]:
         lat_r = math.radians(lat)
         lon_r = math.radians(lon)
@@ -441,6 +444,10 @@ class NavigatorApp(tk.Tk):
         x = math.cos(lat_r) * math.sin(lon_r)
         y = math.sin(lat_r)
         z = math.cos(lat_r) * math.cos(lon_r)
+        scale = self._clamp_z_scale(1.0 + depth * Z_SCALE)
+        x *= scale
+        y *= scale
+        z *= scale
 
         cos_y = math.cos(rot_lon)
         sin_y = math.sin(rot_lon)
@@ -458,7 +465,7 @@ class NavigatorApp(tk.Tk):
         for lon in range(-150, 180, 30):
             points = []
             for lat in range(-90, 91, 6):
-                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0)
+                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0, 0.0)
                 visible = z > 0
                 if visible:
                     px = cx + x * radius
@@ -471,7 +478,7 @@ class NavigatorApp(tk.Tk):
         for lat in range(-60, 90, 30):
             points = []
             for lon in range(-180, 181, 6):
-                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0)
+                x, y, z = self._project_point_static(lat, lon, 0.0, 0.0, 0.0)
                 visible = z > 0
                 if visible:
                     px = cx + x * radius
@@ -691,7 +698,7 @@ class NavigatorApp(tk.Tk):
 
     def _parse_db_records(
         self, content: str
-    ) -> tuple[dict, list[str], str | None, dict[str, tuple[float, float]]]:
+    ) -> tuple[dict, list[str], str | None, dict[str, tuple[float, float, float]]]:
         selected = None
         cursor_match = re.search(r"```cursor(.*?)```", content, re.S)
         if cursor_match:
@@ -711,7 +718,7 @@ class NavigatorApp(tk.Tk):
 
         records: dict[str, dict] = {}
         order: list[str] = []
-        coords: dict[str, tuple[float, float]] = {}
+        coords: dict[str, tuple[float, float, float]] = {}
         for block in re.split(r"^\s*---+\s*$", content, flags=re.M):
             lines = [line.rstrip("\n") for line in block.splitlines()]
             header_index = None
@@ -749,7 +756,7 @@ class NavigatorApp(tk.Tk):
                         }
                     )
 
-            record_coords = self._parse_coords(record_id)
+            record_coords = self._parse_coords(record_id, header_line)
             if record_coords:
                 coords[record_id] = record_coords
 
@@ -763,13 +770,15 @@ class NavigatorApp(tk.Tk):
 
         return records, order, selected, coords
 
-    def _parse_coords(self, record_id: str) -> tuple[float, float] | None:
+    def _parse_coords(self, record_id: str, header_line: str) -> tuple[float, float, float] | None:
         match = re.match(r"@LAT(-?\d+(?:\.\d+)?)LON(-?\d+(?:\.\d+)?)", record_id)
         if not match:
             return None
         lat = float(match.group(1))
         lon = float(match.group(2))
-        return lat, lon
+        z_match = re.search(r"\bz:\s*(-?\d+(?:\.\d+)?)", header_line)
+        z = float(z_match.group(1)) if z_match else 0.0
+        return lat, lon, z
 
     def _populate_db_list(self) -> None:
         self.db_listbox.delete(0, "end")
@@ -961,7 +970,7 @@ class NavigatorApp(tk.Tk):
         coords = self._db_coords.get(record_id)
         if not coords:
             return
-        lat, lon = coords
+        lat, lon, _depth = coords
         # Rotate so the selected point is centered on the front of the globe.
         lat_r = math.radians(lat)
         lon_r = math.radians(lon)
@@ -1071,13 +1080,17 @@ class NavigatorApp(tk.Tk):
     def _clamp_lat(self, lat: float) -> float:
         return max(-DRAG_LAT_LIMIT, min(DRAG_LAT_LIMIT, lat))
 
-    def _project_point(self, lat: float, lon: float) -> tuple[float, float, float]:
+    def _project_point(self, lat: float, lon: float, depth: float) -> tuple[float, float, float]:
         lat_r = math.radians(lat)
         lon_r = math.radians(lon)
 
         x = math.cos(lat_r) * math.sin(lon_r)
         y = math.sin(lat_r)
         z = math.cos(lat_r) * math.cos(lon_r)
+        scale = self._clamp_z_scale(1.0 + depth * Z_SCALE)
+        x *= scale
+        y *= scale
+        z *= scale
 
         rot_y = self._globe_rot_lon
         cos_y = math.cos(rot_y)
@@ -1136,8 +1149,8 @@ class NavigatorApp(tk.Tk):
         nodes_back = []
         selected_point = None
         projections: dict[str, tuple[float, float, float]] = {}
-        for record_id, (lat, lon) in self._db_coords.items():
-            x, y, z = self._project_point(lat, lon)
+        for record_id, (lat, lon, depth) in self._db_coords.items():
+            x, y, z = self._project_point(lat, lon, depth)
             projections[record_id] = (x, y, z)
             if record_id == selected:
                 selected_point = (record_id, x, y, z)
@@ -1236,7 +1249,7 @@ class NavigatorApp(tk.Tk):
         for lon in range(-150, 180, 30):
             points = []
             for lat in range(-90, 91, 6):
-                x, y, z = self._project_point(lat, lon)
+                x, y, z = self._project_point(lat, lon, 0.0)
                 visible = z > 0
                 if visible:
                     px = cx + x * radius
@@ -1249,7 +1262,7 @@ class NavigatorApp(tk.Tk):
         for lat in range(-60, 90, 30):
             points = []
             for lon in range(-180, 181, 6):
-                x, y, z = self._project_point(lat, lon)
+                x, y, z = self._project_point(lat, lon, 0.0)
                 visible = z > 0
                 if visible:
                     px = cx + x * radius
@@ -1284,6 +1297,9 @@ class NavigatorApp(tk.Tk):
         for x, y in points:
             flat.extend([x, y])
         return flat
+
+    def _clamp_z_scale(self, scale: float) -> float:
+        return max(Z_MIN_SCALE, min(Z_MAX_SCALE, scale))
 
 
 def main() -> None:
