@@ -20,3 +20,17 @@ How to update:
   - `deliverables/cycle-XX/output/` (print-ready PDF, if any)
   - `deliverables/cycle-XX/REVIEW.md`
   - `deliverables/cycle-XX/DELIVERY.md`
+
+## Cycle 01
+- Status: complete
+- Prompt source: `deliverables/cycle-01/BOOTSTRAP.md`
+- Deliverables root: `deliverables/cycle-01/`
+- Primary artifacts:
+  - `deliverables/cycle-01/k10_ttdb_navigator.ino`
+  - `deliverables/cycle-01/assets/ttdb_dice_k10.md`
+- Other deliverables:
+  - `deliverables/cycle-01/BOOTSTRAP.md`
+  - `deliverables/cycle-01/STORYTELLER.md`
+  - `deliverables/cycle-01/SOLUTION.md`
+  - `deliverables/cycle-01/REVIEW.md`
+  - `deliverables/cycle-01/DELIVERY.md`
