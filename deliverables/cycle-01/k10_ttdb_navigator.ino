@@ -253,7 +253,7 @@ void renderList() {
   }
 
   int start = max(0, currentIndex - 5);
-  int end = min(recordCount, start + 10);
+  int end = min<int>(recordCount, start + 10);
   int row = 2;
   for (int i = start; i < end; i++) {
     String label = records[i].title;
