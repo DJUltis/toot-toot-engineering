@@ -34,3 +34,17 @@ How to update:
   - `deliverables/cycle-01/SOLUTION.md`
   - `deliverables/cycle-01/REVIEW.md`
   - `deliverables/cycle-01/DELIVERY.md`
+
+## Cycle 02
+- Status: complete
+- Prompt source: `deliverables/cycle-02/BOOTSTRAP.md`
+- Deliverables root: `deliverables/cycle-02/`
+- Primary artifacts:
+  - `deliverables/cycle-02/k10_ttdb_configurator.py`
+  - `deliverables/cycle-02/assets/k10_nav_config.json`
+- Other deliverables:
+  - `deliverables/cycle-02/BOOTSTRAP.md`
+  - `deliverables/cycle-02/STORYTELLER.md`
+  - `deliverables/cycle-02/SOLUTION.md`
+  - `deliverables/cycle-02/REVIEW.md`
+  - `deliverables/cycle-02/DELIVERY.md`
