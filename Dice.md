@@ -105,147 +105,147 @@ South hemisphere vertex at lon -135.
 South hemisphere vertex at lon -45.
 ---
 
-@LAT0.0LON0.0 | created:1760000100 | updated:1760000100 | z:-3
+@LAT0.0LON0.0 | created:1760000100 | updated:1760000100 | z:11
 
 ## Pip: Face 1 Center (Front)
 Die face 1 center pip on the front face.
 
 ---
 
-@LAT20.0LON130.0 | created:1760000101 | updated:1760000101 | z:-3
+@LAT20.0LON130.0 | created:1760000101 | updated:1760000101 | z:22
 
 ## Pip: Face 2 Top-Left (Back)
 Die face 2 pip.
 
 ---
 
-@LAT-20.0LON170.0 | created:1760000102 | updated:1760000102 | z:-3
+@LAT-20.0LON170.0 | created:1760000102 | updated:1760000102 | z:22
 
 ## Pip: Face 2 Bottom-Right (Back)
 Die face 2 pip.
 
 ---
 
-@LAT20.0LON70.0 | created:1760000103 | updated:1760000103 | z:-3
+@LAT20.0LON70.0 | created:1760000103 | updated:1760000103 | z:33
 
 ## Pip: Face 3 Top-Left (East)
 Die face 3 pip.
 
 ---
 
-@LAT0.0LON90.0 | created:1760000104 | updated:1760000104 | z:-3
+@LAT0.0LON90.0 | created:1760000104 | updated:1760000104 | z:33
 
 ## Pip: Face 3 Center (East)
 Die face 3 pip.
 
 ---
 
-@LAT-20.0LON110.0 | created:1760000105 | updated:1760000105 | z:-3
+@LAT-20.0LON110.0 | created:1760000105 | updated:1760000105 | z:33
 
 ## Pip: Face 3 Bottom-Right (East)
 Die face 3 pip.
 
 ---
 
-@LAT20.0LON-110.0 | created:1760000106 | updated:1760000106 | z:-3
+@LAT20.0LON-110.0 | created:1760000106 | updated:1760000106 | z:44
 
 ## Pip: Face 4 Top-Left (West)
 Die face 4 pip.
 
 ---
 
-@LAT20.0LON-70.0 | created:1760000107 | updated:1760000107 | z:-3
+@LAT20.0LON-70.0 | created:1760000107 | updated:1760000107 | z:44
 
 ## Pip: Face 4 Top-Right (West)
 Die face 4 pip.
 
 ---
 
-@LAT-20.0LON-110.0 | created:1760000108 | updated:1760000108 | z:-3
+@LAT-20.0LON-110.0 | created:1760000108 | updated:1760000108 | z:44
 
 ## Pip: Face 4 Bottom-Left (West)
 Die face 4 pip.
 
 ---
 
-@LAT-20.0LON-70.0 | created:1760000109 | updated:1760000109 | z:-3
+@LAT-20.0LON-70.0 | created:1760000109 | updated:1760000109 | z:44
 
 ## Pip: Face 4 Bottom-Right (West)
 Die face 4 pip.
 
 ---
 
-@LAT80.0LON-20.0 | created:1760000110 | updated:1760000110 | z:-3
+@LAT80.0LON-20.0 | created:1760000110 | updated:1760000110 | z:55
 
 ## Pip: Face 5 Top-Left (North)
 Die face 5 pip.
 
 ---
 
-@LAT80.0LON20.0 | created:1760000111 | updated:1760000111 | z:-3
+@LAT80.0LON20.0 | created:1760000111 | updated:1760000111 | z:55
 
 ## Pip: Face 5 Top-Right (North)
 Die face 5 pip.
 
 ---
 
-@LAT60.0LON0.0 | created:1760000112 | updated:1760000112 | z:-3
+@LAT60.0LON0.0 | created:1760000112 | updated:1760000112 | z:55
 
 ## Pip: Face 5 Center (North)
 Die face 5 pip.
 
 ---
 
-@LAT40.0LON-20.0 | created:1760000113 | updated:1760000113 | z:-3
+@LAT40.0LON-20.0 | created:1760000113 | updated:1760000113 | z:55
 
 ## Pip: Face 5 Bottom-Left (North)
 Die face 5 pip.
 
 ---
 
-@LAT40.0LON20.0 | created:1760000114 | updated:1760000114 | z:-3
+@LAT40.0LON20.0 | created:1760000114 | updated:1760000114 | z:55
 
 ## Pip: Face 5 Bottom-Right (North)
 Die face 5 pip.
 
 ---
 
-@LAT-40.0LON-20.0 | created:1760000115 | updated:1760000115 | z:-3
+@LAT-40.0LON-20.0 | created:1760000115 | updated:1760000115 | z:66
 
 ## Pip: Face 6 Top-Left (South)
 Die face 6 pip.
 
 ---
 
-@LAT-60.0LON-20.0 | created:1760000116 | updated:1760000116 | z:-3
+@LAT-60.0LON-20.0 | created:1760000116 | updated:1760000116 | z:66
 
 ## Pip: Face 6 Mid-Left (South)
 Die face 6 pip.
 
 ---
 
-@LAT-80.0LON-20.0 | created:1760000117 | updated:1760000117 | z:-3
+@LAT-80.0LON-20.0 | created:1760000117 | updated:1760000117 | z:66
 
 ## Pip: Face 6 Bottom-Left (South)
 Die face 6 pip.
 
 ---
 
-@LAT-40.0LON20.0 | created:1760000118 | updated:1760000118 | z:-3
+@LAT-40.0LON20.0 | created:1760000118 | updated:1760000118 | z:66
 
 ## Pip: Face 6 Top-Right (South)
 Die face 6 pip.
 
 ---
 
-@LAT-60.0LON20.0 | created:1760000119 | updated:1760000119 | z:-3
+@LAT-60.0LON20.0 | created:1760000119 | updated:1760000119 | z:66
 
 ## Pip: Face 6 Mid-Right (South)
 Die face 6 pip.
 
 ---
 
-@LAT-80.0LON20.0 | created:1760000120 | updated:1760000120 | z:-3
+@LAT-80.0LON20.0 | created:1760000120 | updated:1760000120 | z:66
 
 ## Pip: Face 6 Bottom-Right (South)
 Die face 6 pip.
