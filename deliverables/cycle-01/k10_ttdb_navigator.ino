@@ -17,6 +17,7 @@ const uint32_t COLOR_SELECT = 0x7CC7FF;
 const uint8_t MAX_RECORDS = 24;
 const uint16_t MAX_BODY_CHARS = 260;
 const uint8_t WRAP_COLS = 26;
+const bool TEST_PATTERN = true;
 
 struct Record {
   String id;
@@ -235,6 +236,12 @@ void addFallbackRecord() {
 
 void render() {
   k10.canvas->canvasClear(COLOR_BG);
+  if (TEST_PATTERN) {
+    k10.canvas->canvasClear(0xFFFFFF);
+    k10.canvas->canvasText("TEST", 2, 0x000000);
+    k10.canvas->updateCanvas();
+    return;
+  }
   if (detailView) {
     renderDetail();
   } else {
