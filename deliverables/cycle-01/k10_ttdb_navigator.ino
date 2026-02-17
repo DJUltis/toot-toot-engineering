@@ -31,6 +31,10 @@ uint8_t recordCount = 0;
 int currentIndex = 0;
 String dbName = "TTDB";
 bool sdOk = false;
+bool ttdbOk = false;
+uint32_t ttdbSize = 0;
+String sdStatus = "";
+String fileStatus = "";
 
 unsigned long lastInputMs = 0;
 unsigned long lastTiltMs = 0;
@@ -46,13 +50,15 @@ void setup() {
 
   k10.canvas->canvasClear(COLOR_BG);
   k10.canvas->canvasCircle(120, 120, 30, COLOR_LINE, COLOR_LINE, true);
-  k10.canvas->canvasText("TTDB Boot", 0, COLOR_TEXT);
+  k10.canvas->canvasText("TTDB Boot", 2, COLOR_TEXT);
+  k10.canvas->canvasText("initSDFile", 3, COLOR_TEXT);
   k10.canvas->updateCanvas();
-  // render();
+  render();
   delay(250);
-
+  
   k10.initSDFile();
-
+  
+  delay(250);
   sdOk = SD.begin();
   
   loadTTDB();
@@ -67,8 +73,8 @@ void loop() {
 
 void playStartupToot() {
   delay(50);
-  music.playTone(196, 4000);
-  music.playTone(262, 8000);
+  music.playTone(196, 2000);
+  music.playTone(262, 4000);
 }
 
 void handleButtons() {
@@ -126,6 +132,10 @@ void selectNext() {
 void loadTTDB() {
   recordCount = 0;
   dbName = "TTDB";
+  ttdbOk = false;
+  ttdbSize = 0;
+  sdStatus = sdOk ? "SD: OK" : "SD: FAIL";
+  fileStatus = "";
 
   if (!sdOk) {
     dbName = "SD init failed";
@@ -136,9 +146,13 @@ void loadTTDB() {
   File file = SD.open(TTDB_PATH);
   if (!file) {
     dbName = "TTDB (missing)";
+    fileStatus = "File: MISSING";
     addFallbackRecord();
     return;
   }
+  ttdbOk = true;
+  ttdbSize = file.size();
+  fileStatus = "File: OK " + String(ttdbSize) + "B";
 
   bool inMmpdb = false;
   int current = -1;
@@ -230,22 +244,23 @@ void addFallbackRecord() {
 
 void render() {
   k10.canvas->canvasClear(COLOR_BG);
+  renderDiagnostics();
   renderList();
   renderPreview();
   k10.canvas->updateCanvas();
 }
 
 void renderList() {
-  k10.canvas->canvasText(dbName, 0, COLOR_ACCENT);
+  k10.canvas->canvasText(dbName, 8, COLOR_ACCENT);
 
   if (recordCount == 0) {
-    k10.canvas->canvasText("No records found.", 2, COLOR_MUTED);
+    k10.canvas->canvasText("No records found.", 10, COLOR_MUTED);
     return;
   }
 
   int start = max(0, currentIndex - 3);
   int end = min<int>(recordCount, start + 7);
-  int row = 2;
+  int row = 10;
   for (int i = start; i < end; i++) {
     String label = records[i].title;
     if (i == currentIndex) {
@@ -263,11 +278,26 @@ void renderPreview() {
   }
 
   Record &rec = records[currentIndex];
-  k10.canvas->canvasText(rec.id, 10, COLOR_MUTED);
+  k10.canvas->canvasText(rec.id, 13, COLOR_MUTED);
   String preview = rec.body;
   if (preview.length() > 80) {
     preview = preview.substring(0, 80);
   }
-  k10.canvas->canvasText(preview, 12, COLOR_TEXT);
+  k10.canvas->canvasText(preview, 15, COLOR_TEXT);
   k10.canvas->canvasText("A/B: prev/next", 17, COLOR_MUTED);
+}
+
+void renderDiagnostics() {
+  const int16_t x = 6;
+  const int16_t y0 = 3;
+  const int16_t dy = 20;
+  k10.canvas->canvasText(sdStatus, x, y0, sdOk ? COLOR_TEXT : COLOR_SELECT, Canvas::eCNAndENFont16, 0, false);
+  if (sdOk) {
+    k10.canvas->canvasText(fileStatus, x, y0 + dy, ttdbOk ? COLOR_TEXT : COLOR_SELECT, Canvas::eCNAndENFont16, 0, false);
+  } else {
+    k10.canvas->canvasText("File: --", x, y0 + dy, COLOR_MUTED, Canvas::eCNAndENFont16, 0, false);
+  }
+  String parsed = ttdbOk ? "Parsed: " + String(recordCount) : "Parsed: --";
+  k10.canvas->canvasText(parsed, x, y0 + dy * 2, COLOR_MUTED, Canvas::eCNAndENFont16, 0, false);
+  k10.canvas->canvasText("Records: " + String(recordCount), x, 210, COLOR_MUTED, Canvas::eCNAndENFont16, 0, false);
 }
