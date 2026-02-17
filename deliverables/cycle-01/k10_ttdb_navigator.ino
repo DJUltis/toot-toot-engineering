@@ -33,7 +33,7 @@ String dbName = "TTDB";
 bool sdOk = false;
 bool ttdbOk = false;
 uint32_t ttdbSize = 0;
-String sdStatus = "";
+String sdStatus = "SD: --";
 String fileStatus = "";
 
 unsigned long lastInputMs = 0;
@@ -60,6 +60,7 @@ void setup() {
   
   delay(250);
   sdOk = SD.begin();
+  sdStatus = sdOk ? "SD: OK" : "SD: FAIL";
   
   loadTTDB();
   render();
@@ -244,23 +245,23 @@ void addFallbackRecord() {
 
 void render() {
   k10.canvas->canvasClear(COLOR_BG);
-  renderDiagnostics();
   renderList();
   renderPreview();
+  renderDiagnostics();
   k10.canvas->updateCanvas();
 }
 
 void renderList() {
-  k10.canvas->canvasText(dbName, 8, COLOR_ACCENT);
+  k10.canvas->canvasText(dbName, 7, COLOR_ACCENT);
 
   if (recordCount == 0) {
-    k10.canvas->canvasText("No records found.", 10, COLOR_MUTED);
+    k10.canvas->canvasText("No records found.", 9, COLOR_MUTED);
     return;
   }
 
   int start = max(0, currentIndex - 3);
   int end = min<int>(recordCount, start + 7);
-  int row = 10;
+  int row = 9;
   for (int i = start; i < end; i++) {
     String label = records[i].title;
     if (i == currentIndex) {
@@ -288,16 +289,16 @@ void renderPreview() {
 }
 
 void renderDiagnostics() {
-  const int16_t x = 6;
-  const int16_t y0 = 3;
-  const int16_t dy = 20;
-  k10.canvas->canvasText(sdStatus, x, y0, sdOk ? COLOR_TEXT : COLOR_SELECT, Canvas::eCNAndENFont16, 0, false);
+  if (sdStatus.length() == 0) {
+    sdStatus = "SD: --";
+  }
+  k10.canvas->canvasText(sdStatus, 2, sdOk ? COLOR_TEXT : COLOR_SELECT);
   if (sdOk) {
-    k10.canvas->canvasText(fileStatus, x, y0 + dy, ttdbOk ? COLOR_TEXT : COLOR_SELECT, Canvas::eCNAndENFont16, 0, false);
+    k10.canvas->canvasText(fileStatus, 3, ttdbOk ? COLOR_TEXT : COLOR_SELECT);
   } else {
-    k10.canvas->canvasText("File: --", x, y0 + dy, COLOR_MUTED, Canvas::eCNAndENFont16, 0, false);
+    k10.canvas->canvasText("File: --", 3, COLOR_MUTED);
   }
   String parsed = ttdbOk ? "Parsed: " + String(recordCount) : "Parsed: --";
-  k10.canvas->canvasText(parsed, x, y0 + dy * 2, COLOR_MUTED, Canvas::eCNAndENFont16, 0, false);
-  k10.canvas->canvasText("Records: " + String(recordCount), x, 210, COLOR_MUTED, Canvas::eCNAndENFont16, 0, false);
+  k10.canvas->canvasText(parsed, 4, COLOR_MUTED);
+  k10.canvas->canvasText("Records: " + String(recordCount), 5, COLOR_MUTED);
 }
