@@ -7,12 +7,12 @@ UNIHIKER_K10 k10;
 const uint8_t SCREEN_DIR = 2;
 const char *TTDB_PATH = "/ttdb_dice_k10.md";
 
-const uint32_t COLOR_BG = 0x0F0F12;
-const uint32_t COLOR_TEXT = 0xE9E9F0;
-const uint32_t COLOR_MUTED = 0x6C7A89;
-const uint32_t COLOR_ACCENT = 0xFFD166;
-const uint32_t COLOR_ACCENT2 = 0xF4A261;
-const uint32_t COLOR_SELECT = 0x7CC7FF;
+const uint16_t COLOR_BG = 0x0010;
+const uint16_t COLOR_TEXT = 0xFFFF;
+const uint16_t COLOR_MUTED = 0x7BEF;
+const uint16_t COLOR_ACCENT = 0xFD20;
+const uint16_t COLOR_ACCENT2 = 0xFBE0;
+const uint16_t COLOR_SELECT = 0x7DFF;
 
 const uint8_t MAX_RECORDS = 24;
 const uint16_t MAX_BODY_CHARS = 260;
