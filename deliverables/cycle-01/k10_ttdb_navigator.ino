@@ -8,13 +8,13 @@ Music music;
 const uint8_t SCREEN_DIR = 2;
 const char *TTDB_PATH = "/ttdb_dice_k10.md";
 
-const uint32_t COLOR_BG = 0x061006;
-const uint32_t COLOR_TEXT = 0x7CFF7C;
-const uint32_t COLOR_MUTED = 0x2E5C2E;
-const uint32_t COLOR_ACCENT = 0x00C853;
-const uint32_t COLOR_ACCENT2 = 0x00A845;
-const uint32_t COLOR_SELECT = 0xB2FF59;
-const uint32_t COLOR_LINE = 0x123312;
+const uint32_t COLOR_BG = 0x000000;
+const uint32_t COLOR_TEXT = 0x00FF66;
+const uint32_t COLOR_MUTED = 0x2E7D32;
+const uint32_t COLOR_ACCENT = 0x00E676;
+const uint32_t COLOR_ACCENT2 = 0x00C853;
+const uint32_t COLOR_SELECT = 0xCCFF90;
+const uint32_t COLOR_LINE = 0x00FF66;
 
 const uint8_t MAX_RECORDS = 24;
 const uint16_t MAX_BODY_CHARS = 260;
@@ -42,9 +42,19 @@ void setup() {
   playStartupToot();
   k10.initScreen(SCREEN_DIR);
   k10.creatCanvas();
+  
+
+  k10.canvas->canvasClear(COLOR_BG);
+  k10.canvas->canvasCircle(120, 120, 30, COLOR_LINE, COLOR_LINE, true);
+  k10.canvas->canvasText("TTDB Boot", 0, COLOR_TEXT);
+  k10.canvas->updateCanvas();
+  // render();
+  delay(250);
+
   k10.initSDFile();
 
   sdOk = SD.begin();
+  
   loadTTDB();
   render();
 }
