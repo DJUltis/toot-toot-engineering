@@ -7,17 +7,16 @@ UNIHIKER_K10 k10;
 const uint8_t SCREEN_DIR = 2;
 const char *TTDB_PATH = "/ttdb_dice_k10.md";
 
-const uint16_t COLOR_BG = 0x0010;
-const uint16_t COLOR_TEXT = 0xFFFF;
-const uint16_t COLOR_MUTED = 0x7BEF;
-const uint16_t COLOR_ACCENT = 0xFD20;
-const uint16_t COLOR_ACCENT2 = 0xFBE0;
-const uint16_t COLOR_SELECT = 0x7DFF;
+const uint32_t COLOR_BG = 0x000000;
+const uint32_t COLOR_TEXT = 0x5C5C66;
+const uint32_t COLOR_MUTED = 0x2F3238;
+const uint32_t COLOR_ACCENT = 0x5A3D00;
+const uint32_t COLOR_ACCENT2 = 0x4A2F00;
+const uint32_t COLOR_SELECT = 0x3B4C66;
 
 const uint8_t MAX_RECORDS = 24;
 const uint16_t MAX_BODY_CHARS = 260;
 const uint8_t WRAP_COLS = 26;
-const bool TEST_PATTERN = true;
 
 struct Record {
   String id;
@@ -236,12 +235,6 @@ void addFallbackRecord() {
 
 void render() {
   k10.canvas->canvasClear(COLOR_BG);
-  if (TEST_PATTERN) {
-    k10.canvas->canvasClear(0xFFFFFF);
-    k10.canvas->canvasText("TEST", 2, 0x000000);
-    k10.canvas->updateCanvas();
-    return;
-  }
   if (detailView) {
     renderDetail();
   } else {
