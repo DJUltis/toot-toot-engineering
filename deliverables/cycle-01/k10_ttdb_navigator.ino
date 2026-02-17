@@ -47,29 +47,31 @@ void setup() {
   k10.initScreen(SCREEN_DIR);
   k10.creatCanvas();
   
-
   k10.canvas->canvasClear(COLOR_BG);
   k10.canvas->canvasCircle(120, 120, 30, COLOR_LINE, COLOR_LINE, true);
   k10.canvas->canvasText("TTDB Boot", 2, COLOR_TEXT);
-  k10.canvas->canvasText("initSDFile", 3, COLOR_TEXT);
+
   k10.canvas->updateCanvas();
   render();
+
   delay(250);
   
   k10.initSDFile();
-  
-  delay(250);
+
   sdOk = SD.begin();
   sdStatus = sdOk ? "SD: OK" : "SD: FAIL";
   
   loadTTDB();
-  render();
+  
 }
 
 void loop() {
+
   handleButtons();
   handleTilt();
   delay(10);
+  k10.canvas->updateCanvas();
+  render();
 }
 
 void playStartupToot() {
@@ -132,7 +134,7 @@ void selectNext() {
 
 void loadTTDB() {
   recordCount = 0;
-  dbName = "TTDB";
+  dbName = "ttdb_dice_k10.md";
   ttdbOk = false;
   ttdbSize = 0;
   sdStatus = sdOk ? "SD: OK" : "SD: FAIL";
