@@ -3,16 +3,18 @@
 #include <SPI.h>
 
 UNIHIKER_K10 k10;
+Music music;
 
 const uint8_t SCREEN_DIR = 2;
 const char *TTDB_PATH = "/ttdb_dice_k10.md";
 
-const uint32_t COLOR_BG = 0x000000;
-const uint32_t COLOR_TEXT = 0x5C5C66;
-const uint32_t COLOR_MUTED = 0x2F3238;
-const uint32_t COLOR_ACCENT = 0x5A3D00;
-const uint32_t COLOR_ACCENT2 = 0x4A2F00;
-const uint32_t COLOR_SELECT = 0x3B4C66;
+const uint32_t COLOR_BG = 0x061006;
+const uint32_t COLOR_TEXT = 0x7CFF7C;
+const uint32_t COLOR_MUTED = 0x2E5C2E;
+const uint32_t COLOR_ACCENT = 0x00C853;
+const uint32_t COLOR_ACCENT2 = 0x00A845;
+const uint32_t COLOR_SELECT = 0xB2FF59;
+const uint32_t COLOR_LINE = 0x123312;
 
 const uint8_t MAX_RECORDS = 24;
 const uint16_t MAX_BODY_CHARS = 260;
@@ -27,9 +29,8 @@ struct Record {
 Record records[MAX_RECORDS];
 uint8_t recordCount = 0;
 int currentIndex = 0;
-int scrollLine = 0;
-bool detailView = false;
 String dbName = "TTDB";
+bool sdOk = false;
 
 unsigned long lastInputMs = 0;
 unsigned long lastTiltMs = 0;
@@ -38,11 +39,12 @@ const unsigned long TILT_DEBOUNCE_MS = 260;
 
 void setup() {
   k10.begin();
+  playStartupToot();
   k10.initScreen(SCREEN_DIR);
   k10.creatCanvas();
   k10.initSDFile();
 
-  SD.begin();
+  sdOk = SD.begin();
   loadTTDB();
   render();
 }
@@ -53,17 +55,15 @@ void loop() {
   delay(10);
 }
 
+void playStartupToot() {
+  delay(50);
+  music.playTone(196, 4000);
+  music.playTone(262, 8000);
+}
+
 void handleButtons() {
   unsigned long now = millis();
   if (now - lastInputMs < INPUT_DEBOUNCE_MS) {
-    return;
-  }
-
-  if (k10.buttonAB->isPressed()) {
-    detailView = !detailView;
-    scrollLine = 0;
-    lastInputMs = now;
-    render();
     return;
   }
 
@@ -91,10 +91,6 @@ void handleTilt() {
     selectPrev();
   } else if (k10.isGesture(TiltRight)) {
     selectNext();
-  } else if (k10.isGesture(TiltForward)) {
-    scrollDown();
-  } else if (k10.isGesture(TiltBack)) {
-    scrollUp();
   } else {
     return;
   }
@@ -108,7 +104,6 @@ void selectPrev() {
     return;
   }
   currentIndex = (currentIndex - 1 + recordCount) % recordCount;
-  scrollLine = 0;
 }
 
 void selectNext() {
@@ -116,27 +111,17 @@ void selectNext() {
     return;
   }
   currentIndex = (currentIndex + 1) % recordCount;
-  scrollLine = 0;
-}
-
-void scrollUp() {
-  if (!detailView) {
-    return;
-  }
-  scrollLine = max(0, scrollLine - 1);
-}
-
-void scrollDown() {
-  if (!detailView) {
-    return;
-  }
-  int maxScroll = max(0, getBodyLineCount() - 12);
-  scrollLine = min(maxScroll, scrollLine + 1);
 }
 
 void loadTTDB() {
   recordCount = 0;
   dbName = "TTDB";
+
+  if (!sdOk) {
+    dbName = "SD init failed";
+    addFallbackRecord();
+    return;
+  }
 
   File file = SD.open(TTDB_PATH);
   if (!file) {
@@ -235,12 +220,8 @@ void addFallbackRecord() {
 
 void render() {
   k10.canvas->canvasClear(COLOR_BG);
-  if (detailView) {
-    renderDetail();
-  } else {
-    renderList();
-  }
-  renderFooter();
+  renderList();
+  renderPreview();
   k10.canvas->updateCanvas();
 }
 
@@ -252,8 +233,8 @@ void renderList() {
     return;
   }
 
-  int start = max(0, currentIndex - 5);
-  int end = min<int>(recordCount, start + 10);
+  int start = max(0, currentIndex - 3);
+  int end = min<int>(recordCount, start + 7);
   int row = 2;
   for (int i = start; i < end; i++) {
     String label = records[i].title;
@@ -266,76 +247,17 @@ void renderList() {
   }
 }
 
-void renderDetail() {
+void renderPreview() {
   if (recordCount == 0) {
-    k10.canvas->canvasText("No record selected.", 2, COLOR_MUTED);
     return;
   }
 
   Record &rec = records[currentIndex];
-  k10.canvas->canvasText(rec.title, 0, COLOR_ACCENT2);
-  k10.canvas->canvasText(rec.id, 1, COLOR_MUTED);
-
-  String lines[40];
-  int lineCount = wrapText(rec.body, lines, 40, WRAP_COLS);
-  int row = 3;
-  for (int i = scrollLine; i < lineCount && row < 16; i++) {
-    k10.canvas->canvasText(lines[i], row, COLOR_TEXT);
-    row++;
+  k10.canvas->canvasText(rec.id, 10, COLOR_MUTED);
+  String preview = rec.body;
+  if (preview.length() > 80) {
+    preview = preview.substring(0, 80);
   }
-}
-
-void renderFooter() {
-  String hint = detailView ? "A/B: prev/next  AB: list" : "A/B: prev/next  AB: detail";
-  k10.canvas->canvasText(hint, 17, COLOR_MUTED);
-
-  float ax = k10.getAccelerometerX();
-  float ay = k10.getAccelerometerY();
-  int cx = 185;
-  int cy = 55;
-  int r = 18;
-  int dx = (int)(ax * 6);
-  int dy = (int)(ay * 6);
-  dx = max(-r + 4, min(r - 4, dx));
-  dy = max(-r + 4, min(r - 4, dy));
-  k10.canvas->canvasCircle(cx, cy, r, 0x141824, COLOR_MUTED, true);
-  k10.canvas->canvasCircle(cx + dx, cy - dy, 4, COLOR_SELECT, COLOR_SELECT, true);
-}
-
-int wrapText(const String &text, String lines[], int maxLines, int maxCols) {
-  int count = 0;
-  String word = "";
-  String line = "";
-  for (int i = 0; i <= (int)text.length(); i++) {
-    char c = i < (int)text.length() ? text[i] : ' ';
-    if (c == ' ' || i == (int)text.length()) {
-      if (word.length() == 0) {
-        continue;
-      }
-      if (line.length() + word.length() + 1 > maxCols) {
-        lines[count++] = line;
-        line = word;
-        if (count >= maxLines) {
-          return count;
-        }
-      } else {
-        if (line.length() > 0) {
-          line += " ";
-        }
-        line += word;
-      }
-      word = "";
-    } else {
-      word += c;
-    }
-  }
-  if (line.length() > 0 && count < maxLines) {
-    lines[count++] = line;
-  }
-  return count;
-}
-
-int getBodyLineCount() {
-  String lines[40];
-  return wrapText(records[currentIndex].body, lines, 40, WRAP_COLS);
+  k10.canvas->canvasText(preview, 12, COLOR_TEXT);
+  k10.canvas->canvasText("A/B: prev/next", 17, COLOR_MUTED);
 }
