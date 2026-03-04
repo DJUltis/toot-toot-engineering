@@ -68,12 +68,12 @@ Core functions:
 ## R&D outline
 
 ### 1) Hardware definition
-- MCU: ESP32-S3 or ESP32-C6 (evaluate BLE, Wi-Fi, RAM/flash needs).
-- Radios: Meshtastic (LoRa via SX1262), LoRaWAN stack (same radio), BLE for mobile app.
-- Power: LiPo + charger, deep sleep, wake-on-button, wake-on-radio.
-- Buttons: 2-4 physical buttons + optional long-press combos.
+- MCU: Seeed Studio XIAO ESP32-S3 Sense (pre-soldered).
+- Radio: SX1262 (shared for Meshtastic and LoRaWAN).
+- Power: USB-C LiPo charger, deep sleep, wake-on-button, wake-on-radio.
+- Buttons: 4 physical buttons with long-press combos.
 - I/O for DIY: I2C/GPIO header, 3.3V rail, simple expansion port.
-- UX: LED or small OLED for status; buzzer optional.
+- Display: 0.96" TFT color display, SPI, IC ST7735S.
 
 ### 2) Connectivity and protocol plan
 - Meshtastic: leverage existing protobuf messaging and node discovery.

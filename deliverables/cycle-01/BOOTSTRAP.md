@@ -50,3 +50,4 @@ I can apply these recommendations and reset `PLAN.md` with the next-cycle prompt
 1) "Cycle-02: Specify radio arbitration timing (slots, guard times, backoff), finalize Meet/Whitelist message formats, and draft test vectors."
 2) "Cycle-02: Build a per-mode power budget with duty-cycle assumptions, then draft the hardware schematic and BOM to meet it."
 3) "Cycle-02: Define the pairing key exchange format and BLE provisioning flow, plus error recovery and safe-mode UX."
+4) "Cycle-02: Formalize the prompt engine (toot-prompts) with validation rules, versioning, and rollback behavior."

@@ -21,6 +21,132 @@
 - Next step: Orchestrator
 - Step: 4
 - Role: Orchestrator
+- Summary: Confirmed cycle-04 plan deliverables and advanced the plan to core worker outputs.
+- Decisions: Set outputs for pin validation, PlatformIO config, arbiter test harness, and BLE prototype/tests.
+- Open questions: None.
+- Next step: Core worker
+- Step: 5
+- Role: Core worker
+- Summary: Added PlatformIO config, validation notes, arbiter test harness plan, and BLE prototype/disconnect test docs.
+- Decisions: Defined measurement targets for arbitration timing and a minimal BLE prototype data model.
+- Open questions: Confirm official XIAO ESP32-S3 Sense pinout source for full validation.
+- Next step: Reviewer
+- Step: 6
+- Role: Reviewer
+- Summary: Reviewed cycle-04 outputs and flagged pin validation and PlatformIO config assumptions.
+- Decisions: Marked pinout verification as the primary blocker.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 7
+- Role: Delivery packager
+- Summary: Assembled cycle-04 delivery notes, updated releases, and included the logo asset.
+- Decisions: Packaged cycle-04 documentation outputs without PDF artifacts.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 8
+- Role: Retrospective
+- Summary: Added cycle-04 process improvements and new next-cycle prompt options.
+- Decisions: Emphasized pinout evidence, build verification, and expanded BLE reconnect testing.
+- Open questions: Awaiting human selection of next-cycle prompt.
+- Next step: Human selection
+- Step: 4
+- Role: Orchestrator
+- Summary: Confirmed cycle-03 plan deliverables and advanced the plan to core worker outputs.
+- Decisions: Added firmware skeleton and validation/test docs as explicit outputs.
+- Open questions: None.
+- Next step: Core worker
+- Step: 5
+- Role: Core worker
+- Summary: Produced firmware skeleton, pin map, datasheet validation plan, schematic refinement notes, BLE provisioning tests, and prompt fuzz tests.
+- Decisions: Documented a draft pin map and provided installation notes where tool support is expected.
+- Open questions: Verify actual XIAO ESP32-S3 Sense pinout and update the pin map accordingly.
+- Next step: Reviewer
+- Step: 6
+- Role: Reviewer
+- Summary: Reviewed cycle-03 outputs and documented risks around pin map accuracy, firmware scaffolding, and pending datasheet values.
+- Decisions: Marked pinout verification as the primary blocker before hardware wiring.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 7
+- Role: Delivery packager
+- Summary: Assembled cycle-03 delivery notes, updated releases, and included the logo asset.
+- Decisions: Packaged cycle-03 documentation outputs without PDF artifacts.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 8
+- Role: Retrospective
+- Summary: Added cycle-03 process improvements and new next-cycle prompt options.
+- Decisions: Emphasized pin map validation, build config inclusion, and a standard test harness.
+- Open questions: Awaiting human selection of next-cycle prompt.
+- Next step: Human selection
+- Step: 1
+- Role: Bootstrap
+- Summary: Interpreted cycle-04 as executing all prompt areas and authored the Bootstrap deliverable.
+- Decisions: Planned validated pin map and PlatformIO config as explicit outputs.
+- Open questions: Confirm authoritative pinout reference for XIAO ESP32-S3 Sense.
+- Next step: Storyteller
+- Step: 2
+- Role: Storyteller
+- Summary: Framed cycle-04 around buildability, verification, and resilience.
+- Decisions: Emphasized explicit pin confirmation and observable timing tests.
+- Open questions: None.
+- Next step: SVG engineer (optional)
+- Step: 3
+- Role: SVG engineer
+- Summary: Skipped; the cycle prompt is not SVG-centered.
+- Decisions: Proceed directly to Orchestrator.
+- Open questions: None.
+- Next step: Orchestrator
+- Step: 4
+- Role: Orchestrator
+- Summary: Confirmed cycle-02 plan deliverables and advanced the plan to core worker outputs.
+- Decisions: Established cycle-02 deliverables for arbitration, message spec, power budget, hardware drafts, pairing/BLE, and prompt engine.
+- Open questions: None.
+- Next step: Core worker
+- Step: 5
+- Role: Core worker
+- Summary: Produced cycle-02 deliverables for radio arbitration, message spec, power budget, prompt engine, pairing key exchange, BLE provisioning, and hardware drafts.
+- Decisions: Chose a 60-second superframe arbitration model and Ed25519/X25519 pairing scheme.
+- Open questions: Validate current draw assumptions for display and radio modules against actual datasheets.
+- Next step: Reviewer
+- Step: 6
+- Role: Reviewer
+- Summary: Reviewed cycle-02 outputs and documented risks around power assumptions, arbitration timing, signature size, and schematic completeness.
+- Decisions: Highlighted areas needing validation before hardware build.
+- Open questions: None.
+- Next step: Delivery packager
+- Step: 7
+- Role: Delivery packager
+- Summary: Assembled cycle-02 delivery notes, updated releases, and included the logo asset.
+- Decisions: Packaged cycle-02 documentation outputs without PDF artifacts.
+- Open questions: None.
+- Next step: Retrospective
+- Step: 8
+- Role: Retrospective
+- Summary: Added cycle-02 process improvements and new next-cycle prompt options.
+- Decisions: Emphasized datasheet validation, pin mapping, and earlier test planning.
+- Open questions: Awaiting human selection of next-cycle prompt.
+- Next step: Human selection
+- Step: 1
+- Role: Bootstrap
+- Summary: Interpreted cycle-03 as executing all prompt areas and authored the Bootstrap deliverable.
+- Decisions: Included installation/setup notes in planned deliverables.
+- Open questions: Confirm preferred firmware toolchain (PlatformIO vs ESP-IDF).
+- Next step: Storyteller
+- Step: 2
+- Role: Storyteller
+- Summary: Defined cycle-03 narrative focus on clarity, integrity, and practical buildability.
+- Decisions: Anchored docs around explicit pin mapping and test-first stability.
+- Open questions: None.
+- Next step: SVG engineer (optional)
+- Step: 3
+- Role: SVG engineer
+- Summary: Skipped; the cycle prompt is not SVG-centered.
+- Decisions: Proceed directly to Orchestrator.
+- Open questions: None.
+- Next step: Orchestrator
+- Step: 4
+- Role: Orchestrator
 - Summary: Updated the cycle plan to include CompanionID deliverables and clarified outputs per step.
 - Decisions: Defined core worker outputs inside `CompanionID/` for cycle-01.
 - Open questions: None.
@@ -55,3 +181,21 @@
 - Decisions: Added radio arbitration policy, two-button UX fallback, safe-mode mention, and message field definitions.
 - Open questions: Need concrete arbitration timing parameters, per-mode power budget, and pairing key exchange format.
 - Next step: Human review
+- Step: 1
+- Role: Bootstrap
+- Summary: Interpreted cycle-02 as executing all prompt candidates and authored the Bootstrap deliverable.
+- Decisions: Added explicit deliverables for arbitration, message specs, power budget, hardware drafts, pairing/BLE, and prompt engine.
+- Open questions: Confirm display power profile and acceptable LoRa duty-cycle limits.
+- Next step: Storyteller
+- Step: 2
+- Role: Storyteller
+- Summary: Defined the narrative focus for cycle-02 around rhythm, ceremony, resilience, growth, and trust.
+- Decisions: Anchored technical choices to calm, legible behavior and reversible growth.
+- Open questions: None.
+- Next step: SVG engineer (optional)
+- Step: 3
+- Role: SVG engineer
+- Summary: Skipped; the cycle prompt is not SVG-centered.
+- Decisions: Proceed directly to Orchestrator.
+- Open questions: None.
+- Next step: Orchestrator

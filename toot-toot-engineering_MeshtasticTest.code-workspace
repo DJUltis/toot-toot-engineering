@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"claudeCode.useCtrlEnterToSend": true,
+		"claudeCode.preferredLocation": "sidebar",
+		"claudeCode.disableLoginPrompt": true
+	}
+}
