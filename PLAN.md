@@ -1,28 +1,34 @@
 # PLAN
 
 ## Current cycle
-- cycle-02
+- cycle-XX (not started)
 
 ## Current step
-- Cycle complete. Awaiting next-cycle prompt selection.
+- 1. Bootstrap (pending)
 
 ## Inputs for this cycle
-- `deliverables/cycle-01/BOOTSTRAP.md` (cycle-02 prompt source)
+- `TTE_PROMPT.md` (cycle-01 prompt source; later cycles use the prompt selected in the prior cycle bootstrap)
+- `WORKFLOW.md`
 - `WHAT.md`
 - `AGENTS.md`
 - `CHECKLIST.md`
 - `RELEASES.md`
 - `LOG.md`
+- `standards/ttai/TTAI_SPEC.md`
+- `standards/ttai/DEFAULT_NETWORK.md`
+- `standards/ttai/BEHAVIOR_SPEC.md`
+- `standards/umwelt/TTE_Agent_Umwelt_v1.yaml`
+- Relevant RFCs in `RFCs/` for protocol, file-format, and network behavior details
 
 ## Critical path
-- [x] 1. Bootstrap interprets the prompt, proposes team composition, and recommends plan adjustments. (`deliverables/cycle-02/BOOTSTRAP.md`)
-- [x] 2. Storyteller refines the central story or creative thread and elevates narrative excellence. (`deliverables/cycle-02/STORYTELLER.md`)
-- [x] 3. (Optional) SVG engineer documents SVG constraints and coordinates with Storyteller when the prompt centers on SVG output. (`deliverables/cycle-02/SVG_ENGINEER.md`) (not needed for this cycle)
-- [x] 4. Orchestrator bootstraps the repo and sets the plan (cycle-02).
-- [x] 5. Core worker produces primary solution assets (cycle-02): `deliverables/cycle-02/k10_ttdb_configurator.py`, `deliverables/cycle-02/assets/k10_nav_config.json`, `deliverables/cycle-02/SOLUTION.md`.
-- [x] 6. Reviewer checks for correctness and gaps (cycle-02).
-- [x] 7. Delivery packager assembles final assets and export notes (cycle-02).
-- [x] 8. Retrospective recommends role/plan changes to prevent issues or improve outcomes; Bootstrap offers to implement the recommendations and reset the plan with a new prompt that builds on the latest deliveries (cycle-02).
+- [ ] 1. Bootstrap interprets the prompt, proposes team composition, and recommends plan adjustments. (`deliverables/cycle-XX/BOOTSTRAP.md`)
+- [ ] 2. Storyteller refines the central story or creative thread and elevates narrative excellence. (`deliverables/cycle-XX/STORYTELLER.md`)
+- [ ] 3. (Optional) SVG engineer documents SVG constraints and coordinates with Storyteller when the prompt centers on SVG output. (`deliverables/cycle-XX/SVG_ENGINEER.md`)
+- [ ] 4. Orchestrator finalizes plan/rules/logging assets and advances the workflow. (`PLAN.md`, `AGENTS.md`, `LOG.md`)
+- [ ] 5. Core worker produces the primary solution artifacts. (`deliverables/cycle-XX/SOLUTION.md` and task-specific outputs)
+- [ ] 6. Reviewer checks correctness, gaps, and risks. (`deliverables/cycle-XX/REVIEW.md`)
+- [ ] 7. Delivery packager assembles final assets and export notes; updates release tracking. (`deliverables/cycle-XX/DELIVERY.md`, `RELEASES.md`)
+- [ ] 8. Retrospective captures improvements and next-cycle prompts. (update `deliverables/cycle-XX/BOOTSTRAP.md`)
 
 ## Assets index
 - `AGENTS.md`
