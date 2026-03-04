@@ -594,7 +594,7 @@ Cycle summaries and deliverable indexes.
 
 @LAT0.0LON-136.6 | created:1770646802 | updated:1770649832 | relates:
 
-## README.md
+## WORKFLOW.md
 Entry point describing workflow and rules.
 
 - kind: document
@@ -610,7 +610,7 @@ Conceptual overview of TTE.
 
 - kind: document
 - aliases: none
-- notes: Supplements `README.md`.
+- notes: Supplements `WORKFLOW.md`.
 
 ---
 

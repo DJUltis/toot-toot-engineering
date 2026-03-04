@@ -13,7 +13,7 @@ from openai import OpenAI
 
 WORKSPACE = Path(__file__).resolve().parent
 README_CANDIDATES = [
-    "README.md",
+    "WORKFLOW.md",
 ]
 
 
@@ -403,13 +403,13 @@ def main():
 
     readme_name = find_readme()
     if not readme_name:
-        print("Oh Toot! No README.md found.", file=sys.stderr)
+        print("Oh Toot! No WORKFLOW.md found.", file=sys.stderr)
         sys.exit(1)
 
     system_prompt = SYSTEM_INSTRUCTIONS + load_ttai_specs()
     input_items: List[Dict[str, Any]] = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": f"Start in workspace: {WORKSPACE.name}. The README file is {readme_name}."},
+        {"role": "user", "content": f"Start in workspace: {WORKSPACE.name}. The workflow file is {readme_name}."},
     ]
 
     max_steps = 100

@@ -3,7 +3,7 @@ This document is intended for humans and should be ignored by agents unless a hu
 # Token Usage Estimate (1 TTE Cycle)
 
 ## Baseline context included in estimate
-- `README.md` (1312 words)
+- `WORKFLOW.md` (1312 words)
 - `AGENTS.md` (764)
 - `CHECKLIST.md` (216)
 - `WHAT.md` (296)
