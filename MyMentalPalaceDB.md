@@ -65,12 +65,11 @@ dot: |
 
 ---
 
-@LAT-81.6LON0.0 | created:1700000000 | updated:1700000600 | z:-100
-relates:inspires>@LAT-71.1LON-84.2,anchors>@LAT-75.4LON137.9
+@LAT-81.6LON0.0 | created:1700000000 | updated:1700000600 | relates:inspires>@LAT-71.1LON-84.2,anchors>@LAT-75.4LON137.9
 
 ## The Root Workbench
 You arrive at **@LAT-81.6LON0.0**, the root node.  
-![the forge](/images/toot-toot-logo.png)
+![the forge](/images/time-foundry.svg)
 A workbench sits here, lit well enough to build, dim enough to notice what is unknown.   
 - **Rule of this workshop:** all paths are *chosen*, not forced.
 - The bench **inspires** a first workflow to [the South-East](@LAT-71.1LON-84.2).
@@ -189,6 +188,7 @@ This node **maps_to** the observatory.
 @LAT-50.7LON-61.0 | created:1700000600 | updated:1700001300 | relates:observes>@LAT-81.6LON0.0,validates>@LAT-61.9LON-30.5
 
 ## Observatory of the Whole
+![Umwelt](index.html?ttdb=TootTootTerminologyDB)   
 From here you can see the workbench at the root and the workshop below,
 like constellations connected by deliberate lines.
 
@@ -320,7 +320,9 @@ The perceived world that bounds what exists for the system.
 @LAT-32.5LON15.9 | created:1770646802 | updated:1770649832 | relates:
 
 ## TTE Umwelt
+![Umwelt scope](images/eyeball-highway-sunrise.svg)
 Narrative description of the TTE umwelt and its domains.
+relates to [Umwelt](@LAT1.1LON1.2 TootTootTerminologyDB.md)
 
 - kind: document
 - aliases: TTE_Umwelt.md
