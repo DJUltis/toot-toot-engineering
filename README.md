@@ -7,7 +7,7 @@ Workflow version: 3.8
 
 # How to use
 1. Include these files at the root of a repo:   
-- AGENTS.md
+- AGENTS.md (If the target repo already has this file, they can probably be merged)
 - CHECKLIST.md
 - LOG.md
 - PLAN.md
