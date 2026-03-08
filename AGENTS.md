@@ -11,7 +11,7 @@ Workflow version: 3.8
 - Image producer: Generates or composes visual assets programmatically (e.g., Python rendering).
 - PDF assembler: Builds print-ready PDFs from assets and layout specifications.
 - Reviewer: Checks for correctness, gaps, and risks; ensures outputs are ready.
-- Delivery packager: Assembles final assets and export notes, ensuring the final deliverables include a small Toot Toot Engineering logo appropriate for the media.
+- Delivery packager: Assembles final assets and export notes.
 - Retrospective: Summarizes what to change next time to prevent issues or improve outcomes.
 
 ## Role outputs (expected assets)
@@ -28,8 +28,15 @@ Workflow version: 3.8
 
 ## Rules
 - If you haven't read the readme then read the readme.
+- Do not read or reference anything under `HUMANS/` unless the human explicitly requests it.
 - One step, one agent, one role.
 - Each step produces named assets and updates [`PLAN.md`](PLAN.md).
+- Treat TTAI specs as primary inputs for agent behavior and defaults:
+  - `standards/ttai/TTAI_SPEC.md`
+  - `standards/ttai/DEFAULT_NETWORK.md`
+  - `standards/ttai/BEHAVIOR_SPEC.md`
+  - `standards/umwelt/TTE_Agent_Umwelt_v1.yaml`
+- When producing protocol, file-format, or network behavior details, consult the relevant RFCs in `RFCs/` and align outputs to them (cite any deviations or open questions in `LOG.md`).
 - The Bootstrap role must propose 3 next-cycle prompts grounded in the previous cycle and require the human to select one.
 - Deliverable outputs are always written under `deliverables/cycle-XX/`, where `XX` is the cycle number.
 - Cycle folders track state; filenames remain stable within the cycle (e.g., `BOOTSTRAP.md`, `SOLUTION.md`).
@@ -38,12 +45,11 @@ Workflow version: 3.8
 - Promoted artifacts intended for reuse are copied into `library/` or `standards/` with an updated name/version.
 - [`PLAN.md`](PLAN.md) includes an "Inputs for this cycle" list of allowed references.
 - Cycle-only files use a `-draft` or `-cycle` suffix to discourage cross-cycle reuse without promotion.
-- Cycle 01 uses the prompt in [`README.md`](README.md); subsequent cycles define their prompt in that cycle's `BOOTSTRAP.md`.
+- cycle-01 uses [`TTE_PROMPT.md`](TTE_PROMPT.md); later cycles use the prompt specified in the previous cycle's `deliverables/cycle-XX/BOOTSTRAP.md`.
 - The bootstrap role proposes team composition and plan adjustments; the orchestrator finalizes them in [`PLAN.md`](PLAN.md).
 - A step may not be marked complete in [`PLAN.md`](PLAN.md) if its output contains placeholders (e.g., `<to verify>`, `<source>`, `ƒ?`).
 - Placeholder files are created at the step they are needed, not upfront.
 - Final delivery requires review complete and all placeholders resolved.
-- Final deliverables include a small Toot Toot Engineering logo appropriate for the media (embedded or as a companion asset based on `toot-toot-logo.png` or `toot-toot-logo.svg`).
 - In revision cycles, each role updates existing assets in place rather than creating new versions.
 - Use [`LOG.md`](LOG.md) to record decisions, changes, and open questions.
 - Update `RELEASES.md` with cycle deliverables when they are produced (at least during Delivery packager).
